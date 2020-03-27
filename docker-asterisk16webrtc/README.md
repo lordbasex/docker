@@ -1,6 +1,6 @@
 # Docker Asterisk 16 WebRTC
 
-Lord BaseX (c) 2014-2019
+Lord BaseX (c) 2014-2020
  Federico Pereira <fpereira@cnsoluciones.com>
 
 # Install
