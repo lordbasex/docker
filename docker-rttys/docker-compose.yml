@@ -1,0 +1,29 @@
+version: '2'
+services:
+  rttys:
+    container_name: rttys
+    image: cnsoluciones/rttys:2.10.3
+    #build: .
+    ports:
+      - 5912:5912
+    environment:
+      RTTYS_USERNAME: admin
+      RTTYS_PASSWORD: admin
+      RTTYS_TOKEN: a98150a573fb88837b7ea3147c1b9fd0
+      RTTYS_CERT_CRT: /etc/letsencrypt/archive/example.com/cert1.pem
+      RTTYS_CERT_KEY: /etc/letsencrypt/archive/example.com/privkey1.pem 
+    volumes:
+      - ./user-data/certbot/conf:/etc/letsencrypt
+      - /etc/localtime:/etc/localtime:ro
+
+  certbot:
+    container_name: certbot
+    image: certbot/certbot
+    restart: unless-stopped
+    ports:
+      - 8313:80
+      - 4588:443 
+    volumes:
+      - ./user-data/certbot/conf:/etc/letsencrypt
+      - ./user-data/certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"

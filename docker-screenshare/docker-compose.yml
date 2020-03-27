@@ -1,0 +1,25 @@
+version: '3.3'
+services:
+
+    certbot:
+        container_name: certbot
+        image: cnsoluciones/certbot:latest
+        restart: always
+        volumes:
+            - ./user-data/etc/letsencrypt:/etc/letsencrypt
+        entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+        network_mode: host
+
+    screenshare:
+        container_name: screenshare
+        image: cnsoluciones/screenshare:latest
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - ./user-data/etc/letsencrypt:/etc/letsencrypt
+        environment:
+            - "LINK=http://www.cnsoluciones.com"
+            - "PORT=9559"
+        depends_on:
+            - certbot
+        restart: always
+        network_mode: host

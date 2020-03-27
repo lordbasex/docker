@@ -1,0 +1,43 @@
+USE asteriskcdrdb;
+
+DROP TABLE IF EXISTS `cdr`;
+
+CREATE TABLE `cdr` (
+  `calldate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `clid` varchar(80) NOT NULL DEFAULT '',
+  `src` varchar(80) NOT NULL DEFAULT '',
+  `dst` varchar(80) NOT NULL DEFAULT '',
+  `dcontext` varchar(80) NOT NULL DEFAULT '',
+  `channel` varchar(80) NOT NULL DEFAULT '',
+  `dstchannel` varchar(80) NOT NULL DEFAULT '',
+  `lastapp` varchar(80) NOT NULL DEFAULT '',
+  `lastdata` varchar(80) NOT NULL DEFAULT '',
+  `duration` int(11) NOT NULL DEFAULT 0,
+  `billsec` int(11) NOT NULL DEFAULT 0,
+  `disposition` varchar(45) NOT NULL DEFAULT '',
+  `amaflags` int(11) NOT NULL DEFAULT 0,
+  `accountcode` varchar(255) NOT NULL DEFAULT '',
+  `uniqueid` varchar(32) NOT NULL DEFAULT '',
+  `userfield` varchar(255) NOT NULL DEFAULT '',
+  `did` varchar(50) NOT NULL DEFAULT '',
+  `cnum` varchar(40) NOT NULL DEFAULT '',
+  `cnam` varchar(40) NOT NULL DEFAULT '',
+  `outbound_cnum` varchar(40) NOT NULL DEFAULT '',
+  `outbound_cnam` varchar(40) NOT NULL DEFAULT '',
+  `dst_cnam` varchar(40) NOT NULL DEFAULT '',
+  `recording_id` int(12) NOT NULL AUTO_INCREMENT,
+  `campaing_id` varchar(40) DEFAULT NULL,
+  `custom1` varchar(40) DEFAULT NULL,
+  `custom2` varchar(40) DEFAULT NULL,
+  `custom3` varchar(40) DEFAULT NULL,
+  `custom4` varchar(40) DEFAULT NULL,
+  `custom5` varchar(40) DEFAULT NULL,
+  `custom6` varchar(40) DEFAULT NULL,
+  `custom7` varchar(40) DEFAULT NULL,
+  `custom8` varchar(40) DEFAULT NULL,
+  PRIMARY KEY (`recording_id`),
+  KEY `calldate` (`calldate`),
+  KEY `dst` (`dst`),
+  KEY `accountcode` (`accountcode`),
+  KEY `recording_id` (`recording_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;

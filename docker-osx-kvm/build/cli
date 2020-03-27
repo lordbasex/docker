@@ -1,0 +1,33 @@
+#!/bin/bash
+
+if [ $# -lt 1 ]
+then
+        echo "Usage : $0 { changepassword  | qemu-cli | randompasswordgenerator }"
+	echo "	Example: $0 changepassword mypassword"
+	echo "	Example: $0 qemu-cli"
+	echo "	Example: $0 randompasswordgenerator"
+        exit
+fi
+
+TYPE=$1
+
+case ${TYPE} in
+	changepassword)
+	if [ -z "$2" ];then
+    		echo "Requires password argument."
+	else
+		echo -e "change vnc password $2 \n" | nc 127.0.0.1 4444 1>/dev/null 2>/dev/null
+		echo "Password changed correctly. The password you entered is: $2"
+	fi
+	;;
+	qemu-cli)
+	nc 127.0.0.1 4444
+	;;
+	randompasswordgenerator)
+	RANDOM_PASSWORD_QEMU_VNC=`head -c 200 /dev/urandom | tr -cd 'A-Za-z0-9' | head -c 20`
+	echo -e "change vnc password $RANDOM_PASSWORD_QEMU_VNC \n" | nc 127.0.0.1 4444 1>/dev/null 2>/dev/null
+	echo "Generated password is: $RANDOM_PASSWORD_QEMU_VNC"
+	;;
+	*) echo >&2 "Invalid option: $@"; exit 1;;
+esac
+exit 0

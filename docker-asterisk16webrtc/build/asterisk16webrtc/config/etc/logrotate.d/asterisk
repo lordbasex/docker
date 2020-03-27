@@ -1,0 +1,10 @@
+/var/log/asterisk/full {
+    daily
+    ifempty
+    rotate 7
+    missingok
+    su asterisk asterisk
+    compress
+    dateext
+    copytruncate
+}

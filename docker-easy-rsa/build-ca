@@ -1,0 +1,12 @@
+#!/usr/bin/expect
+
+set timeout 20
+
+spawn /usr/share/easy-rsa/easyrsa build-ca nopass
+
+while 1 { 
+  expect { 
+    "Easy-RSA CA]:" { send "server\r" }
+    eof { break } 
+  } 
+}

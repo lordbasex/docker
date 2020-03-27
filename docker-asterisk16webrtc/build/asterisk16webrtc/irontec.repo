@@ -1,0 +1,5 @@
+[irontec]
+name=Irontec RPMs repository
+baseurl=http://packages.irontec.com/centos/$releasever/$basearch/
+enabled=1
+gpgcheck=0

@@ -1,0 +1,61 @@
+version: '3.1'
+
+services:
+
+  wp:
+   container_name: wp
+   image: cnsoluciones/wordpress:7.3
+   volumes:
+     - /etc/localtime:/etc/localtime:ro
+     - ./user-data/etc/letsencrypt:/etc/letsencrypt
+     - ./user-data/http:/var/www/html
+     - ./user-data/cron:/opt/cron
+   ports:
+     - "80:80"
+     - "443:443"
+   environment:
+     - "MSMTP=${MSMTP}"
+     - "MSMTP_AUTH=${MSMTP_AUTH}"
+     - "MSMTP_TTS=${MSMTP_TTS}"
+     - "MSMTP_TTS_TRUST_FILE=${MSMTP_TTS_TRUST_FILE}"
+     - "MSMTP_SYSLOG=${MSMTP_SYSLOG}"
+     - "MSMTP_ACCOUNT=${MSMTP_ACCOUNT}"
+     - "MSMTP_HOST=${MSMTP_HOST}"
+     - "MSMTP_PORT=${MSMTP_PORT}"
+     - "MSMTP_ACCOUNT_AUTH=${MSMTP_ACCOUNT_AUTH}"
+     - "MSMTP_FROM=${MSMTP_FROM}"
+     - "MSMTP_USER=${MSMTP_USER}"
+     - "MSMTP_PASSWORD=${MSMTP_PASSWORD}"
+     - "TIMEZONE=${TIMEZONE}"
+   depends_on:
+     - db
+   links:
+     - db
+   restart: always
+   network_mode: bridge
+
+  db:
+   container_name: db
+   image: mariadb:10.4.12-bionic
+   volumes:
+     #- ./db.sql:/docker-entrypoint-initdb.d/1-init.sql
+     - ./user-data/database:/var/lib/mysql
+     - /etc/localtime:/etc/localtime:ro
+   environment:
+    - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}"
+    - "MYSQL_DATABASE=${MYSQL_DATABASE}"
+    - "MYSQL_USER=${MYSQL_USER}"
+    - "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
+   restart: always
+   network_mode: bridge
+
+  certbot:
+    container_name: certbot
+    image: cnsoluciones/certbot:latest
+    network_mode: host
+    restart: always
+    volumes:
+      - ./user-data/etc/letsencrypt:/etc/letsencrypt
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    network_mode: host
+

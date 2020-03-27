@@ -1,0 +1,13 @@
+#!/usr/bin/expect
+
+set timeout 20
+set arg1 [lindex $argv 0]
+
+spawn /usr/share/easy-rsa/easyrsa gen-req $arg1 nopass
+
+while 1 {
+  expect {
+    "]:" { send "\r" }
+    eof { break }
+  }
+}

@@ -1,0 +1,73 @@
+version: '3.3'
+services:
+
+  mariadb:
+    container_name: mariadb
+    image: mariadb:10.3.18-bionic
+    volumes:
+       - ./user-data/database:/var/lib/mysql
+       - /etc/localtime:/etc/localtime:ro
+       - ./db/asteriskcdr.sql:/docker-entrypoint-initdb.d/1-init.sql
+       - ./db/asteriskdb.sql:/docker-entrypoint-initdb.d/2-init.sql
+       - ./db/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh
+    environment:
+        - "MYSQL_USER=${MYSQL_USER}"
+        - "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
+        - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}"
+        - "MYSQL_DATABASES=${MYSQL_DATABASE_DB} ${MYSQL_DATABASE_CDR}"
+    restart: always
+    network_mode: host
+
+
+  voip:
+    environment:
+        - "SSMTP=${SSMTP}"
+        - "MAILHUB=${MAILHUB}"
+        - "REWRITEDOMAIN=${REWRITEDOMAIN}"
+        - "TLS_CA_File=${TLS_CA_File}"
+        - "USETLS=${USETLS}"
+        - "USESTARTTLS=${USESTARTTLS}"
+        - "AUTHUSER=${AUTHUSER}"
+        - "AUTHPASS=${AUTHPASS}"
+        - "AUTHMETHOD=${AUTHMETHOD}"
+        - "FROMLINEOVERRIDE=${FROMLINEOVERRIDE}"
+        - "MYSQL_USER=${MYSQL_USER}"
+        - "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
+        - "MYSQL_DATABASE_DB=${MYSQL_DATABASE_DB}"
+        - "MYSQL_DATABASE_CDR=${MYSQL_DATABASE_CDR}"
+        - "MYSQL_HOST=${MYSQL_HOST}"
+        - "MYSQL_PORT=${MYSQL_PORT}"
+        - "ASTERISK_USER_AGENT=${ASTERISK_USER_AGENT}"
+        - "ASTERISK_PJSIP_EXTERNAL_MEDIA_ADDRESS=${ASTERISK_PJSIP_EXTERNAL_MEDIA_ADDRESS}"
+        - "ASTERISK_PJSIP_EXTERNAL_SIGNALING_ADDRESS=${ASTERISK_PJSIP_EXTERNAL_SIGNALING_ADDRESS}"
+        - "ASTERISK_PJSIP_LOCAL_NET=${ASTERISK_PJSIP_LOCAL_NET}"
+        - "ASTERISK_SIP_EXTERN_ADDR=${ASTERISK_SIP_EXTERN_ADDR}"
+        - "ASTERISK_SIP_LOCAL_NET=${ASTERISK_SIP_LOCAL_NET}"
+        - "ASTERISK_MANAGER_USER=${ASTERISK_MANAGER_USER}"
+        - "ASTERISK_MANAGER_SECRET=${ASTERISK_MANAGER_SECRET}"
+    privileged: true
+    container_name: voip
+    image: cnsoluciones/asterisk16webrtc:16.6.0-rc2
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./user-data/etc/asterisk:/etc/asterisk
+      - ./user-data/var/lib/asterisk/sounds:/var/lib/asterisk/sounds
+      - ./user-data/backup:/backup
+      - ./user-data/etc/letsencrypt:/etc/letsencrypt
+    depends_on:
+      - mariadb
+      - certbot
+    restart: always
+    network_mode: host
+
+  certbot:
+    container_name: certbot
+    image: cnsoluciones/certbot:latest
+    restart: always
+    volumes:
+      - ./user-data/etc/letsencrypt:/etc/letsencrypt
+    environment:
+      - "domains=${DOMAINS}"
+      - "email=${EMAIL}"
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    network_mode: host

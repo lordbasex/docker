@@ -1,0 +1,14 @@
+#!/usr/bin/expect
+
+set timeout 20
+set arg1 [lindex $argv 0]
+set arg2 [lindex $argv 1]
+
+spawn /usr/share/easy-rsa/easyrsa sign-req $arg1 $arg2
+
+while 1 {
+  expect {
+    "details:" { send "yes\r" }
+    eof { break }
+  }
+}

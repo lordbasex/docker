@@ -1,0 +1,12 @@
+## Info
+### BootScript Changes
+
+|DO|WHAT|DEFAULT|TO|
+|:--|:--|:--|:--|
+|CHANGE|machine|pc-q35-2.11| pc-q35-2.10|
+|CHANGE|netdev|tap......  | user,id=net0 -device e1000-82545em,netdev=net0,id=net0,mac=52:54:00:c9:18:27|
+|CHANGE|drive|./'Mojave/Clover.qcow2' | Clover.qcow2|
+|CHANGE|drive|./mac_hdd.img | /data/mac_hdd.img|
+|CHANGE|drive|./'Mojave.iso' | /data/macOS.iso|
+|CHANGE|monitor|monitor stdin| vnc 0.0.0.0:0|
+|ADD   |k|en-us||

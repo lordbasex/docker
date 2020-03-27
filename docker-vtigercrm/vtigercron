@@ -1,0 +1,1 @@
+*/5 * * * * root bash /var/www/html/vtigercrm/cron/vtigercron.sh >/dev/null 2>&1

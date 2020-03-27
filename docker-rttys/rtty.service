@@ -1,0 +1,16 @@
+[Unit]
+Description=RTTY Client
+After=network.target
+
+[Service]
+Environment="IFNAME=enp2s0"
+Environment="HOST=172.16.0.11"
+Environment="PORT=5912"
+Environment="DESCRIPTION=demo 1"
+Environment="TOKEN=a98150a573fb88837b7ea3147c1b9fd0"
+WorkingDirectory=/usr/local/bin
+ExecStart=/usr/local/bin/rtty -i $IFNAME -h $HOST -p $PORT -a -s -d $DESCRIPTION -t $TOKEN -D
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target

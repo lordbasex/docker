@@ -1,0 +1,29 @@
+/system clock
+set time-zone-name=America/Argentina/Buenos_Aires
+
+#create certificate https://github.com/lordbasex/Docker/tree/master/docker-easy-rsa
+
+certificate import file-name=ca.crt
+certificate set name=ca numbers=ca.crt_0
+
+certificate import file-name=server.crt
+certificate import file-name=server.key
+certificate set name=server numbers=server.crt_0
+
+
+/ip pool
+add name=OpenVPN ranges=10.10.10.2-10.10.10.50
+
+/ppp profile
+add dns-server=10.10.10.1 local-address=10.10.10.1 name=openvpn only-one=yes \
+    remote-address=OpenVPN use-compression=no use-encryption=yes
+    
+/ppp secret
+add name=client password=plokij profile=openvpn
+
+
+/interface ovpn-server server
+set auth=sha1,md5,null certificate=server cipher=\
+    blowfish128,aes128,aes192,aes256,null default-profile=openvpn enabled=yes \
+    port=443 require-client-certificate=yes
+

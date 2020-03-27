@@ -1,0 +1,12 @@
+macOS:
+  container_name: macOS
+  image: lordbasex/docker-osx-kvm
+  ports:
+    - 5900:8080
+    - 9922:2222
+  devices:
+    - /dev/kvm:/dev/kvm
+  volumes:
+    - ./:/data
+    - /etc/localtime:/etc/localtime:ro
+  restart: always
