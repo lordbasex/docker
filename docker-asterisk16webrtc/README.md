@@ -5,7 +5,7 @@ Lord BaseX (c) 2014-2019
 
 # Install
 
-* [Deploy Amazon AWS - EC2 - Install Docker - Amazon Linux 2 AMI]
+* [Deploy Amazon AWS - EC2 - Install Docker - Amazon Linux 2 AMI](https://github.com/lordbasex/docker/blob/master/deploy_amazon_aws.md)
 
 
 ### Deploy APP 
