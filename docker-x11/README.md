@@ -20,12 +20,12 @@ IP=$(ifconfig en0 | grep inet | awk '$1=="inet" {print $2}')
 xhost + $IP
 ```
 
-![ScreenShot](https://raw.githubusercontent.com/lordbasex/Docker/master/X11Docker/xquartz_preferences.png)
+![ScreenShot](https://raw.githubusercontent.com/lordbasex/docker/master/docker-x11/xquartz_preferences.png)
 
 
 ## CONTAINER
 
 ### Winbox
 ```bash
-curl -fsSL https://raw.githubusercontent.com/lordbasex/Docker/master/X11Docker/winbox/winbox.sh | bash
+curl -fsSL https://raw.githubusercontent.com/lordbasex/docker/master/docker-x11/winbox/winbox.sh | bash
 ```
