@@ -7,7 +7,7 @@ This project docker-easy-rsa allows you to generate private keys and certificate
 
 https://cnsoluciones.com/blog/crear-certificado-cliente-y-servidor-para-openvpn/
 
-[![VIDEO](https://raw.githubusercontent.com/lordbasex/Docker/master/docker-easy-rsa/docker-easy-rsa.png)](https://www.youtube.com/embed/8pFaPVYikys)
+[![VIDEO](https://raw.githubusercontent.com/lordbasex/Docker/master/docker-easy-rsa/docker-easy-rsa.png)](https://youtu.be/0dSfInC6m7M)
 
 ## Run option 1
 
