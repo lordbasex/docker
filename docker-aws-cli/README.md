@@ -12,6 +12,7 @@ The environment variable timezone. By default America/Argentina/Buenos_Aires
 ### EXAMPLE: TIMEZONE URUGUAY MONTEVIDEO
 ```bash
 docker run --rm --name=aws-cli -ti -e TZ="America/Montevideo" --volume=`pwd`/aws:/root/.aws cnsoluciones/aws-cli:1.18.36 aws --version
+```
 
 ## VOLUME (OPTIONAL)
 
