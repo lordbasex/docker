@@ -10,6 +10,7 @@ The environment variable timezone. By default America/Argentina/Buenos_Aires
 * More information about timezone: https://wiki.alpinelinux.org/wiki/Setting_the_timezone
 
 ### EXAMPLE: TIMEZONE URUGUAY MONTEVIDEO
+
 ```bash
 docker run --rm --name=aws-cli -ti -e TZ="America/Montevideo" --volume=`pwd`/aws:/root/.aws cnsoluciones/aws-cli:1.18.36 aws --version
 ```
@@ -18,20 +19,20 @@ docker run --rm --name=aws-cli -ti -e TZ="America/Montevideo" --volume=`pwd`/aws
 
 | VOLUME LOCAL | VOLUME DOCKER |
 | ------------- | ------------- |
-| `pwd`/.aws:/root/.aws  | /root/.aws |
-| `pwd`/Downloads | /download |
-| `pwd`/Upload | /upload |
+| $HOME/.aws  | /root/.aws |
+| $HOME/Downloads | /Downloads |
+| $HOME/Upload | /Upload |
 
-## ALIAS (OPTIONAL)
+## ALIAS (OPTIONAL) GNU/Linux and macOS
 
 ```bash
-echo "alias aws='docker run --rm --name=aws-cli -ti --volume=$HOME/.aws:/root/.aws --volume=$HOME/Downloads:/download  --volume=$HOME/Upload:/upload cnsoluciones/aws-cli:1.18.36 aws'" > ~/.bash_profile
+echo "alias aws='docker run --rm --name=aws-cli -ti --volume=$HOME/.aws:/root/.aws --volume=$HOME/Downloads:/Download  --volume=$HOME/Upload:/Upload cnsoluciones/aws-cli:1.18.36 aws'" > ~/.bash_profile
 source ~/.bash_profile
 ```
 
 ### EXAMPLE: VOLUME .aws (To maintain persistence of settings)
 ```bash
-docker run --rm --name=aws-cli -ti -e TZ="America/Montevideo" --volume=`pwd`/aws:/root/.aws cnsoluciones/aws-cli:1.18.36 aws --version
+docker run --rm --name=aws-cli -ti -e TZ="America/Montevideo" --volume=$HOME/.aws:/root/.aws --volume=$HOME/Downloads:/Download  --volume=$HOME/Upload:/Upload cnsoluciones/aws-cli:1.18.36 aws
 ```
 
 # AWS CLI
@@ -40,15 +41,23 @@ docker run --rm --name=aws-cli -ti -e TZ="America/Montevideo" --volume=`pwd`/aws
 ```bash
 aws --version
 ```
+Or
+```bash
+docker run --rm --name=aws-cli -ti --volume=$HOME/.aws:/root/.aws --volume=$HOME/Downloads:/Download  --volume=$HOME/Upload:/Upload cnsoluciones/aws-cli:1.18.36 aws --version
+```
 ## CONFIGURE
 ```bash
-docker run --rm --name=aws-cli -ti --volume=`pwd`/aws:/root/.aws cnsoluciones/aws-cli:1.18.36 aws configure
+aws configure
+```
+Or
+```bash
+docker run --rm --name=aws-cli -ti --volume=$HOME/.aws:/root/.aws --volume=$HOME/Downloads:/Download  --volume=$HOME/Upload:/Upload cnsoluciones/aws-cli:1.18.36 aws configure
 ```
 
 ## ECR - Amazon Elastic Container Service
 ### Login
 ```bash 
-docker run --rm --name=aws-cli -ti -e TZ="America/Argentina/Buenos_Aires" --volume=`pwd`/aws:/root/.aws cnsoluciones/aws-cli:1.18.36 aws ecr get-login --no-include-email --region us-east-1
+docker run --rm --name=aws-cli -ti --volume=$HOME/.aws:/root/.aws --volume=$HOME/Downloads:/download  --volume=$HOME/Upload:/upload cnsoluciones/aws-cli:1.18.36 aws ecr get-login --no-include-email --region us-east-1
 ```
 ### Create repository
 ```bash
