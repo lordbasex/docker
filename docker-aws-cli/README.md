@@ -38,3 +38,36 @@ docker run --rm --name=aws-cli -ti --volume=`pwd`/aws:/root/.aws cnsoluciones/aw
 docker run --rm --name=aws-cli -ti --volume=`pwd`/aws:/root/.aws cnsoluciones/aws-cli:1.18.36 aws configure
 ```
 
+## ECR - Amazon Elastic Container Service
+```bash 
+docker run --rm --name=aws-cli -ti -e TZ="America/Argentina/Buenos_Aires" --volume=`pwd`/aws:/root/.aws cnsoluciones/aws-cli:1.18.36 aws ecr get-login --no-include-email --region us-east-1
+```
+## ECR - Create repository
+```bash
+docker run --rm --name=aws-cli -ti -e TZ="America/Argentina/Buenos_Aires" --volume=`pwd`/aws:/root/.aws cnsoluciones/aws-cli:1.18.36 aws ecr create-repository --repository-name aws/cli
+```
+
+### OUT
+```bash
+{
+    "repository": {
+        "repositoryUri": "52012720584722.dkr.ecr.us-east-1.amazonaws.com/aws/cli",
+        "imageScanningConfiguration": {
+            "scanOnPush": false
+        },
+        "registryId": "52012720584722",
+        "imageTagMutability": "MUTABLE",
+        "repositoryArn": "arn:aws:ecr:us-east-1:52012720584722:repository/aws/cli",
+        "repositoryName": "aws/cli",
+        "createdAt": 1586206267.0
+    }
+}
+```
+## ECR PUSH
+
+```bash
+docker tag cnsoluciones/aws-cli:1.18.36t 52012720584722.dkr.ecr.us-east-1.amazonaws.com/aws/cli:latest
+docker push 52012720584722.dkr.ecr.us-east-1.amazonaws.com/aws/cli/pbx:latest
+
+
+
