@@ -30,7 +30,7 @@ docker run --rm -it cnsoluciones/docker-super-mario-run jp2a --width=200 --color
 docker run --rm -it cnsoluciones/docker-super-mario-run bash
 convert http://www.google.com/intl/en/images/logo.gif jpg:- | jp2a --color -
 ```
-![Logo Google](https://raw.githubusercontent.com/lordbasex/docker/master/docker-super-mario-run/images/coca-cola-color.png)
+![Logo Google](https://raw.githubusercontent.com/lordbasex/docker/master/docker-super-mario-run/images/google_color.png)
 
 
 ## DOC:
