@@ -65,7 +65,11 @@ docker run --rm --name=aws-cli -ti --volume=$HOME/.aws:/root/.aws --volume=$HOME
 ```
 ### Create repository
 ```bash
-docker run --rm --name=aws-cli -ti -e TZ="America/Argentina/Buenos_Aires" --volume=`pwd`/aws:/root/.aws cnsoluciones/aws-cli:1.18.36 aws ecr create-repository --repository-name aws/cli
+aws ecr create-repository --repository-name aws/cli
+```
+Or
+```bash
+docker run --rm --name=aws-cli -ti --volume=$HOME/.aws:/root/.aws --volume=$HOME/Downloads:/Download  --volume=$HOME/Upload:/Upload cnsoluciones/aws-cli:1.18.36 aws ecr create-repository --repository-name aws/cli
 ```
 
 #### OUT
@@ -87,7 +91,7 @@ docker run --rm --name=aws-cli -ti -e TZ="America/Argentina/Buenos_Aires" --volu
 ### Push
 
 ```bash
-docker tag cnsoluciones/aws-cli:1.18.36t 52012720584722.dkr.ecr.us-east-1.amazonaws.com/aws/cli:latest
+docker tag cnsoluciones/aws-cli:1.18.36t 52012720584722.dkr.ecr.us-east-1.amazonaws.com/aws/cli
 docker push 52012720584722.dkr.ecr.us-east-1.amazonaws.com/aws/cli
 ```
 ### Pull
