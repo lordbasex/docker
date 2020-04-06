@@ -18,9 +18,16 @@ docker run --rm --name=aws-cli -ti -e TZ="America/Montevideo" --volume=`pwd`/aws
 
 | VOLUME LOCAL | VOLUME DOCKER |
 | ------------- | ------------- |
-| `pwd`/aws:/root/.aws  | /root/.aws |
-| `pwd`/download | /download |
-| `pwd`/upload | /upload |
+| `pwd`/.aws:/root/.aws  | /root/.aws |
+| `pwd`/Downloads | /download |
+| `pwd`/Upload | /upload |
+
+## ALIAS (OPTIONAL)
+
+```bash
+echo "alias aws='docker run --rm --name=aws-cli -ti --volume=$HOME/.aws:/root/.aws --volume=$HOME/Downloads:/download  --volume=$HOME/Upload:/upload cnsoluciones/aws-cli:1.18.36 aws'" > ~/.bash_profile
+source ~/.bash_profile
+```
 
 ### EXAMPLE: VOLUME .aws (To maintain persistence of settings)
 ```bash
@@ -31,7 +38,7 @@ docker run --rm --name=aws-cli -ti -e TZ="America/Montevideo" --volume=`pwd`/aws
 
 ## VERSION
 ```bash
-docker run --rm --name=aws-cli -ti --volume=`pwd`/aws:/root/.aws cnsoluciones/aws-cli:1.18.36 aws --version
+aws --version
 ```
 ## CONFIGURE
 ```bash
