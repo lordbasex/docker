@@ -10,3 +10,8 @@ docker run --rm docker-super-mario-run
 ```bash
 docker run --rm lordbasex/docker-super-mario-run
 ```
+
+* Coca Cola
+````
+ docker run --rm -it lordbasex/docker-super-mario-run jp2a --width=200 https://www.marketingregistrado.com/img/noticias/coca-cola.jpg
+ ```
