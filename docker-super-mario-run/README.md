@@ -16,6 +16,8 @@ docker run --rm cnsoluciones/docker-super-mario-run
 ```
 docker run --rm -it cnsoluciones/docker-super-mario-run jp2a --width=200  https://www.marketingregistrado.com/img/noticias/coca-cola.jpg
 ```
+![Logo Coca Cola](https://raw.githubusercontent.com/lordbasex/docker/master/docker-super-mario-run/images/coca-cola_white.png)
+
 Or
 ```
 docker run --rm -it cnsoluciones/docker-super-mario-run jp2a --width=200 --color https://www.marketingregistrado.com/img/noticias/coca-cola.jpg
