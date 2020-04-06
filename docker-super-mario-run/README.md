@@ -12,7 +12,11 @@ docker run --rm cnsoluciones/docker-super-mario-run
 
 ## Logo Coca Cola
 ```
- docker run --rm -it cnsoluciones/docker-super-mario-run jp2a --width=200 https://www.marketingregistrado.com/img/noticias/coca-cola.jpg
+docker run --rm -it cnsoluciones/docker-super-mario-run jp2a --width=200  https://www.marketingregistrado.com/img/noticias/coca-cola.jpg
+```
+Or
+```
+docker run --rm -it cnsoluciones/docker-super-mario-run jp2a --width=200 --color https://www.marketingregistrado.com/img/noticias/coca-cola.jpg
 ```
 
 ## Logo Google
