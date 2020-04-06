@@ -21,7 +21,8 @@ docker run --rm -it cnsoluciones/docker-super-mario-run jp2a --width=200 --color
 
 ## Logo Google
 ```
-docker run --rm -it cnsoluciones/docker-super-mario-run convert http://www.google.com/intl/en/images/logo.gif jpg:- | jp2a -
+docker run --rm -it cnsoluciones/docker-super-mario-run bash
+convert http://www.google.com/intl/en/images/logo.gif jpg:- | jp2a --color -
 ```
 
 ## Logo Google
