@@ -7,6 +7,14 @@ The environment variable timezone. By default America/Argentina/Buenos_Aires
 | ------------- | ------------- |
 | TZ  | America/Argentina/Buenos_Aires  |
 
+## VOLUME (OPTIONAL)
+
+| VOLUME LOCAL | VOLUME DOCKER |
+| ------------- | ------------- |
+| `pwd`/aws:/root/.aws  | /root/.aws |
+| `pwd`/download | /download |
+| `pwd`/upload | /upload |
+
 * More information about timezone: https://wiki.alpinelinux.org/wiki/Setting_the_timezone
 
 ### EXAMPLE: TIMEZONE URUGUAY MONTEVIDEO
