@@ -56,8 +56,12 @@ docker run --rm --name=aws-cli -ti --volume=$HOME/.aws:/root/.aws --volume=$HOME
 
 ## ECR - Amazon Elastic Container Service
 ### Login
+```bash
+aws ecr get-login --no-include-email --region us-east-1
+```
+Or
 ```bash 
-docker run --rm --name=aws-cli -ti --volume=$HOME/.aws:/root/.aws --volume=$HOME/Downloads:/download  --volume=$HOME/Upload:/upload cnsoluciones/aws-cli:1.18.36 aws ecr get-login --no-include-email --region us-east-1
+docker run --rm --name=aws-cli -ti --volume=$HOME/.aws:/root/.aws --volume=$HOME/Downloads:/Download  --volume=$HOME/Upload:/Upload cnsoluciones/aws-cli:1.18.36 aws ecr get-login --no-include-email --region us-east-1
 ```
 ### Create repository
 ```bash
