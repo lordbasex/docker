@@ -1,6 +1,8 @@
 # Docker Super Mario Run
 Hola Mundo
 
+![Docker Super Mario Run](https://raw.githubusercontent.com/lordbasex/docker/master/docker-super-mario-run/images/docker-super-mario-run-ascii.png)
+
 ## Build
 ```bash
 make all
