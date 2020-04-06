@@ -3,22 +3,21 @@ Hola Mundo
 
 ## Build
 ```bash
-docker build --no-cache -t docker-super-mario-run https://raw.githubusercontent.com/lordbasex/Docker/master/docker-super-mario-run/Dockerfile
-docker run --rm docker-super-mario-run
+make all
 ```
-## Run 
+## Run Super Mario Run
 ```
-docker run --rm lordbasex/docker-super-mario-run
+docker run --rm cnsoluciones/docker-super-mario-run
 ```
 
 ## Logo Coca Cola
 ```
- docker run --rm -it lordbasex/docker-super-mario-run jp2a --width=200 https://www.marketingregistrado.com/img/noticias/coca-cola.jpg
+ docker run --rm -it cnsoluciones/docker-super-mario-run jp2a --width=200 https://www.marketingregistrado.com/img/noticias/coca-cola.jpg
 ```
 
 ## Logo Google
 ```
-docker run --rm -it lordbasex/docker-super-mario-run convert http://www.google.com/intl/en/images/logo.gif jpg:- | jp2a -
+docker run --rm -it cnsoluciones/docker-super-mario-run convert http://www.google.com/intl/en/images/logo.gif jpg:- | jp2a -
 ```
 
 ## Logo Google
