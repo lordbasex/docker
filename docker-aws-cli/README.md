@@ -1,6 +1,6 @@
 # Docker AWS Cli
 
-##ENV (Environmental variable)
+## ENV (Environmental variable)
 The environment variable timezone. By default America/Argentina/Buenos_Aires
 
 | Variable | Zone |
@@ -14,11 +14,11 @@ The environment variable timezone. By default America/Argentina/Buenos_Aires
 docker run --rm --name=aws-cli -ti -e TZ="America/Montevideo" --volume=`pwd`/aws:/root/.aws cnsoluciones/aws-cli:1.18.36 aws --version
 ```
 
-##VERSION
+## VERSION
 ```bash
 docker run --rm --name=aws-cli -ti --volume=`pwd`/aws:/root/.aws cnsoluciones/aws-cli:1.18.36 aws --version
 ```
-##CONFIGURE
+## CONFIGURE
 ```bash
 docker run --rm --name=aws-cli -ti --volume=`pwd`/aws:/root/.aws cnsoluciones/aws-cli:1.18.36 aws configure
 ```
