@@ -13,4 +13,4 @@ RUN apk add --update \
     && apk --purge -v del py-pip \
     && rm -rf /var/cache/apk/*
 
-VOLUME [ "/root/.aws", "/download", "/upload" ]
+VOLUME [ "/root/.aws", "/Download", "/Upload" ]
