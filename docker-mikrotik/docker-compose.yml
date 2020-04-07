@@ -5,7 +5,7 @@ services:
   mkt01:
     image: cnsoluciones/mikrotik:6.46.4
     container_name: mkt01
-    restart: unless-stopped
+    restart: always
     ports:
       - "121:21"
       - "122:22"
@@ -14,6 +14,7 @@ services:
       - "151:51"
       - "180:80"
       - "1443:443"
+      - "18080:8080"
       - "1500:500"
       - "11194:1194"
       - "11701:1701"
@@ -24,3 +25,4 @@ services:
       - "18728:8728"
       - "18729:8729"
     network_mode: bridge
+    privileged: true
