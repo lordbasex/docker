@@ -4,10 +4,13 @@ ARG VERSON
 ENV ROUTEROS_VERSON=$VERSON
 ENV ROUTEROS_IMAGE="chr-$ROUTEROS_VERSON.vdi"
 
-RUN apk add --no-cache --update netcat-openbsd busybox-extras openssh-client qemu-x86_64 qemu-system-x86_64
+RUN apk add --no-cache --update netcat-openbsd busybox-extras openssh-client python git bash qemu-x86_64 qemu-system-x86_64 
 
 # For access via VNC
 EXPOSE 5900
+
+# For access via noVNC
+EXPOSE 8080
 
 # Default ports of RouterOS
 EXPOSE 21
