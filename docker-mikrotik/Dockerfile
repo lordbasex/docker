@@ -1,5 +1,7 @@
 FROM alpine:latest
 
+MAINTAINER Federico Pereira <fpereira@cnsoluciones.com>
+
 ARG VERSON
 ENV ROUTEROS_VERSON=$VERSON \
   ROUTEROS_IMAGE="chr-$ROUTEROS_VERSON.vdi" \
@@ -48,9 +50,8 @@ EXPOSE 1723
 
 # Run
 RUN mkdir /routeros
-WORKDIR /routeros
 
-COPY $ROUTEROS_IMAGE .
+COPY $ROUTEROS_IMAGE /routeros
 COPY entrypoint.sh /entrypoint.sh
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
