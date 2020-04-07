@@ -4,7 +4,7 @@ ARG VERSON
 ENV ROUTEROS_VERSON=$VERSON
 ENV ROUTEROS_IMAGE="chr-$ROUTEROS_VERSON.vdi"
 
-RUN apk add --no-cache --update netcat-openbsd busybox-extras openssh-client python git bash qemu-x86_64 qemu-system-x86_64 
+RUN apk add --no-cache --update netcat-openbsd busybox-extras openssh-client python git bash qemu-system-x86_64 supervisor 
 
 # For access via VNC
 EXPOSE 5900
@@ -46,4 +46,4 @@ COPY entrypoint.sh .
 
 RUN chmod 777 -R /routeros
 
-ENTRYPOINT ["/routeros/entrypoint.sh"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
