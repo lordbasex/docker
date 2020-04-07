@@ -4,7 +4,15 @@ ARG VERSON
 ENV ROUTEROS_VERSON=$VERSON
 ENV ROUTEROS_IMAGE="chr-$ROUTEROS_VERSON.vdi"
 
-RUN apk add --no-cache --update netcat-openbsd busybox-extras openssh-client python git bash qemu-system-x86_64 supervisor 
+RUN apk add --no-cache --update netcat-openbsd busybox-extras python git bash qemu-system-x86_64 supervisor 
+
+RUN git clone https://github.com/novnc/noVNC.git /opt/noVNC \
+  && git clone https://github.com/kanaka/websockify /opt/noVNC/utils/websockify \
+  && ln -s /opt/noVNC/vnc.html /opt/noVNC/index.html \
+  && rm -rf /opt/noVNC/.git \
+  && rm -rf /opt/noVNC/utils/websockify/.git \
+  && rm -fr /opt/noVNC/vnc_lite.html \
+  && apk del git
 
 # For access via VNC
 EXPOSE 5900
@@ -42,8 +50,9 @@ RUN mkdir /routeros
 WORKDIR /routeros
 
 COPY $ROUTEROS_IMAGE .
-COPY entrypoint.sh .
+COPY entrypoint.sh /entrypoint.sh
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-RUN chmod 777 -R /routeros
+RUN chmod 777 -R /entrypoint.sh
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
