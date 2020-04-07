@@ -2,6 +2,7 @@
 
 qemu-system-x86_64 \
     -vnc 0.0.0.0:0 \
+    -monitor telnet:127.0.0.1:4444,server,nowait \
     -serial telnet:0.0.0.0:5000,server,nowait \
     -m 256 \
     -hda $ROUTEROS_IMAGE \
