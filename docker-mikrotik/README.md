@@ -72,7 +72,7 @@ PPTP: 1723
 # noVNC Password
 
 * Change variable VNCPASSWORD=true*
-* docker exec mkt01 cli changepassword mypassword Or docker-compose exec mkt01 cli changepassword mypassword
+* docker exec mkt01 cli changepassword mypassword
 
 ## Github
 Visit my github where I have several projects with Docker [CNSoluciones] (https://github.com/lordbasex/Docker)
