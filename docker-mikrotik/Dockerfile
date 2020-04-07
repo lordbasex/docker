@@ -3,11 +3,12 @@ FROM alpine:latest
 MAINTAINER Federico Pereira <fpereira@cnsoluciones.com>
 
 ARG VERSON
-ENV ROUTEROS_VERSON=$VERSON \
-  ROUTEROS_IMAGE="chr-$ROUTEROS_VERSON.vdi" \
-  KEYBOARD=es
+ENV ROUTEROS_VERSON=$VERSON
+ENV ROUTEROS_IMAGE="chr-$ROUTEROS_VERSON.vdi"
+ENV KEYBOARD=en-us
+ENV VNC_PASSWOD=true
 
-RUN apk add --no-cache --update netcat-openbsd busybox-extras python git bash qemu-system-x86_64 supervisor 
+RUN apk add --no-cache --update netcat-openbsd busybox-extras python git bash qemu-system-x86_64 supervisor
 
 RUN git clone https://github.com/novnc/noVNC.git /opt/noVNC \
   && git clone https://github.com/kanaka/websockify /opt/noVNC/utils/websockify \
