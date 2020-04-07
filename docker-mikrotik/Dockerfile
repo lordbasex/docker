@@ -53,6 +53,7 @@ EXPOSE 1723
 RUN mkdir /routeros
 
 COPY $ROUTEROS_IMAGE /routeros
+WORKDIR /routeros
 
 COPY cli /usr/local/sbin/cli
 RUN chmod 775 /usr/local/sbin/cli
