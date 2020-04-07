@@ -24,5 +24,7 @@ services:
       - "18291:8291"
       - "18728:8728"
       - "18729:8729"
+    environment:
+      - "VNCPASSWORD=false"
     network_mode: bridge
     privileged: true
