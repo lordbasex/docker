@@ -2,7 +2,7 @@
 
 This docker image is made for laboratory use and testing only. We are not responsible if you use it for commercial purposes or if you use it in production.
 
-Image based on [docker-routeros] (https://github.com/EvilFreelancer/docker-routeros)
+Image based on [docker-routeros](https://github.com/EvilFreelancer/docker-routeros)
 
 ## How to use
 
@@ -57,7 +57,7 @@ services:
 
 ## List of exposed ports
 
-For access via VNC: 5900 Or [noVNC](http://localhost:18080/)
+For access via VNC: 5900 Or [noVNC http://localhost:18080/](http://localhost:18080/)
 
 Default ports of RouterOS: 21, 22, 23, 80, 443, 8291, 8728, 8729
 
