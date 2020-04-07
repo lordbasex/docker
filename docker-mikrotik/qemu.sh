@@ -2,7 +2,6 @@
 
 if [ $VNCPASSWORD = "true" ]; then
     PASSWORD=',password'
-    echo 1 > /opt/vncpassword
 fi
 
 qemu-system-x86_64 \
