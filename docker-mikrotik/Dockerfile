@@ -6,7 +6,7 @@ ARG VERSON
 ENV ROUTEROS_VERSON=$VERSON
 ENV ROUTEROS_IMAGE="chr-$ROUTEROS_VERSON.vdi"
 ENV KEYBOARD=en-us
-ENV VNC_PASSWOD=true
+ENV VNCPASSWORD='true'
 
 RUN apk add --no-cache --update netcat-openbsd busybox-extras python git bash qemu-system-x86_64 supervisor
 
