@@ -2,7 +2,8 @@
 
 if [ $# -lt 1 ]
 then
-        echo "Usage : $0 { changepassword  | qemu-cli | randompasswordgenerator }"
+        echo "Usage : $0 { defaultpassword | changepassword  | qemu-cli | randompasswordgenerator }"
+	echo "  Example: $0 defaultpassword"
 	echo "	Example: $0 changepassword mypassword"
 	echo "	Example: $0 qemu-cli"
 	echo "	Example: $0 randompasswordgenerator"
@@ -12,6 +13,9 @@ fi
 TYPE=$1
 
 case ${TYPE} in
+	defaultpassword)
+	echo -e "change vnc password plokij \n" | nc 127.0.0.1 4444 1>/dev/null 2>/dev/null
+	;;
 	changepassword)
 	if [ -z "$2" ];then
     		echo "Requires password argument."
