@@ -52,9 +52,13 @@ EXPOSE 1723
 RUN mkdir /routeros
 
 COPY $ROUTEROS_IMAGE /routeros
-COPY entrypoint.sh /entrypoint.sh
+
+COPY cli /usr/local/sbin/cli
+RUN chmod 775 /usr/local/sbin/cli
+
+COPY entrypoint.sh /usr/local/sbin/entrypoint.sh
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-RUN chmod 777 -R /entrypoint.sh
+RUN chmod 777 /usr/local/sbin/entrypoint.sh /usr/local/sbin/cli
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
