@@ -2,8 +2,6 @@
 
 This docker image is made for laboratory use and testing only. We are not responsible if you use it for commercial purposes or if you use it in production.
 
-Image based on [docker-routeros](https://github.com/EvilFreelancer/docker-routeros)
-
 ## How to use
 
 
