@@ -3,9 +3,7 @@
 Lord BaseX (c) 2014-2020
  Federico Pereira <fpereira@cnsoluciones.com>
 
-<img src="https://raw.githubusercontent.com/lordbasex/docker/master/docker-winbox/screenshot/novnc-winbox-01.png" width="200" />
-
-<img src="https://raw.githubusercontent.com/lordbasex/docker/master/docker-winbox/screenshot/novnc-winbox-02.png" width="200" />
+<img src="https://raw.githubusercontent.com/lordbasex/docker/master/docker-winbox/screenshot/novnc-winbox-01.png" width="300" /><img src="https://raw.githubusercontent.com/lordbasex/docker/master/docker-winbox/screenshot/novnc-winbox-02.png" width="300" />
 
 This docker image is made for laboratory use and testing only. We are not responsible if you use it for commercial purposes or if you use it in production.
 
