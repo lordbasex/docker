@@ -12,7 +12,6 @@ RUN apk add --no-cache --update netcat-openbsd busybox-extras python git bash qe
 
 RUN git clone https://github.com/novnc/noVNC.git /opt/noVNC \
   && git clone https://github.com/kanaka/websockify /opt/noVNC/utils/websockify \
-  && ln -s /opt/noVNC/vnc.html /opt/noVNC/index.html \
   && rm -rf /opt/noVNC/.git \
   && rm -rf /opt/noVNC/utils/websockify/.git \
   && rm -fr /opt/noVNC/vnc_lite.html \
@@ -62,5 +61,10 @@ COPY qemu.sh /usr/local/sbin/qemu.sh
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 RUN chmod 777 /usr/local/sbin/qemu.sh /usr/local/sbin/cli
+
+COPY routeros.png /opt/noVNC 
+COPY winbox.png /opt/noVNC 
+COPY index.html /opt/noVNC
+COPY vnc.html /opt/noVNC
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
