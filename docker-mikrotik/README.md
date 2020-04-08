@@ -2,6 +2,8 @@
 
 This docker image is made for laboratory use and testing only. We are not responsible if you use it for commercial purposes or if you use it in production.
 
+<img src="https://raw.githubusercontent.com/lordbasex/docker/master/docker-mikrotik/docker-mikrotik-index.png" width="600" />
+
 ## How to use
 
 
