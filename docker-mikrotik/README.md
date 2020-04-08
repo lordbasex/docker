@@ -51,6 +51,21 @@ services:
       - "VNCPASSWORD=false"
     network_mode: bridge
     privileged: true
+
+
+  winbox:
+    image: cnsoluciones/novnc-winbox:latest
+    container_name: winbox
+    hostname: winbox
+    restart: always
+    #volumes:
+    #  - ./user-data/.wine:/home/alpine/.wine
+    links:
+      - "mkt01"
+    ports:
+      - "5901:5900"
+      - "18081:8080"
+    network_mode: bridge
 ```
 
 ## List of exposed ports
