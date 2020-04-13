@@ -3,7 +3,7 @@ version: "3.3"
 services:
 
   mkt01:
-    image: cnsoluciones/mikrotik:6.46.4
+    image: cnsoluciones/mikrotik:latest
     container_name: mkt01
     restart: always
     ports:
