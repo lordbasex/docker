@@ -1,8 +1,11 @@
 # Mikrotik RouterOS in Docker
 
+Lord BaseX (c) 2014-2020
+ Federico Pereira <fpereira@cnsoluciones.com>
+
 This docker image is made for laboratory use and testing only. We are not responsible if you use it for commercial purposes or if you use it in production.
 
-<img src="https://raw.githubusercontent.com/lordbasex/docker/master/docker-mikrotik/docker-mikrotik-index.png" width="600" />
+[![VIDEO](https://raw.githubusercontent.com/lordbasex/docker/master/docker-mikrotik/docker-mikrotik-index.png)](https://www.youtube.com/watch?v=Nx5BJHA-F-M)
 
 ## How to use
 
