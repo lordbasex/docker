@@ -14,7 +14,6 @@ RUN apk add --update \
     supervisor \
     p7zip \
     msmtp \
-    mailx \
     bash \
     && pip install awscli==$AWSCLI_VERSION \
     && apk --purge -v del py-pip \
