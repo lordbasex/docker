@@ -1,2 +1,2 @@
 #!/bin/bash
-aws s3 ls s3://${AWS_S3_PATH}
+aws s3 ls s3://${AWS_S3_SQL}
