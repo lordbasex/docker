@@ -4,12 +4,13 @@ services:
 
   wp:
    container_name: wp
-   image: cnsoluciones/wordpress:7.3
+   image: cnsoluciones/wordpress:5.4.1
    volumes:
      - /etc/localtime:/etc/localtime:ro
-     - ./user-data/etc/letsencrypt:/etc/letsencrypt
      - ./user-data/http:/var/www/html
-     - ./user-data/cron:/opt/cron
+     - ./user-data/backups:/var/www/backups
+     - ./user-data/cron:/opt/cron:ro
+     - ./user-data/htpasswd:/htpasswd:ro
    ports:
      - "80:80"
      - "443:443"
@@ -27,35 +28,48 @@ services:
      - "MSMTP_USER=${MSMTP_USER}"
      - "MSMTP_PASSWORD=${MSMTP_PASSWORD}"
      - "TIMEZONE=${TIMEZONE}"
+     - "WPPROTECTADMIN=${WPPROTECTADMIN}"
+     - "HTPASSWD_USER=${HTPASSWD_USER}"
+     - "HTPASSWD_PASS=${HTPASSWD_PASS}"
+   restart: always
    depends_on:
      - db
    links:
      - db
-   restart: always
-   network_mode: bridge
 
   db:
-   container_name: db
-   image: mariadb:10.4.12-bionic
-   volumes:
-     #- ./db.sql:/docker-entrypoint-initdb.d/1-init.sql
-     - ./user-data/database:/var/lib/mysql
-     - /etc/localtime:/etc/localtime:ro
-   environment:
-    - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}"
-    - "MYSQL_DATABASE=${MYSQL_DATABASE}"
-    - "MYSQL_USER=${MYSQL_USER}"
-    - "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
-   restart: always
-   network_mode: bridge
-
-  certbot:
-    container_name: certbot
-    image: cnsoluciones/certbot:latest
-    network_mode: host
+    container_name: db
+    image: mariadb:10.4.12-bionic
     restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}"
+      - "MYSQL_DATABASE=${MYSQL_DATABASE}"
+      - "MYSQL_USER=${MYSQL_USER}"
+      - "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
     volumes:
-      - ./user-data/etc/letsencrypt:/etc/letsencrypt
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
-    network_mode: host
+      - /etc/localtime:/etc/localtime:ro
+      - ./user-data/var/lib/mysql:/var/lib/mysql
 
+  autobackup:
+    container_name: autobackup
+    image: cnsoluciones/aws-cli:1.18.36
+    restart: always
+    environment:
+      - "TZ=America/Argentina/Buenos_Aires"
+      - "MYSQL_HOST=$MYSQL_HOST"
+      - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}"
+      - "MYSQL_DATABASE=${MYSQL_DATABASE}"
+      - "MYSQL_USER=${MYSQL_USER}"
+      - "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
+      - "AWS_S3_PATH=${AWS_S3_PATH}"
+      - "AWS_S3_SQL=${AWS_S3_SQL}"
+      - "AWS_S3_FILE=${AWS_S3_FILE}"
+    volumes:
+      - ./user-data/autobackup/aws:/root/.aws
+      - ./user-data:/user-data
+      - ./user-data/autobackup/crontabs:/var/spool/cron/crontabs
+      - ./user-data/autobackup/scripts:/scripts
+    depends_on:
+      - db
