@@ -2,7 +2,8 @@ FROM alpine:3.11
 LABEL maintainer="Federico Pereira <fpereira@cnsoluciones.com>"
 ARG VERSION
 ENV AWSCLI_VERSION=$VERSION \
-    TZ='America/Argentina/Buenos_Aires' 
+    TZ='America/Argentina/Buenos_Aires' \
+    MAIL_NOTIFICATION='lord.basex@gmail.com'
 
 RUN apk add --update \
     python \
@@ -14,13 +15,13 @@ RUN apk add --update \
     supervisor \
     p7zip \
     msmtp \
+    mailx \
     bash \
     && pip install awscli==$AWSCLI_VERSION \
     && apk --purge -v del py-pip \
     && rm -rf /var/cache/apk/* \
     && rm -rf /var/spool/cron/crontabs \
     && rm -fr /etc/crontabs/root
-
 
 VOLUME [ "/root/.aws", "/Download", "/Upload" ]
 
