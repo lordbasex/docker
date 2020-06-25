@@ -1,0 +1,37 @@
+version: '3.1'
+
+services:
+
+  autobackup:
+    container_name: autobackup
+    image: cnsoluciones/aws-cli:1.18.36
+    restart: always
+    environment:
+      - "TZ=America/Argentina/Buenos_Aires"
+      - "MYSQL_HOST=$MYSQL_HOST"
+      - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}"
+      - "MYSQL_DATABASE=${MYSQL_DATABASE}"
+      - "MYSQL_USER=${MYSQL_USER}"
+      - "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
+      - "AWS_S3_SQL=${AWS_S3_SQL}"
+      - "AWS_S3_FILE=${AWS_S3_FILE}"
+      - "MSMTP=${MSMTP}"
+      - "MSMTP_AUTH=${MSMTP_AUTH}"
+      - "MSMTP_TTS=${MSMTP_TTS}"
+      - "MSMTP_TTS_TRUST_FILE=/etc/ssl/cert.pem"
+      - "MSMTP_SYSLOG=${MSMTP_SYSLOG}"
+      - "MSMTP_ACCOUNT=${MSMTP_ACCOUNT}"
+      - "MSMTP_HOST=${MSMTP_HOST}"
+      - "MSMTP_PORT=${MSMTP_PORT}"
+      - "MSMTP_ACCOUNT_AUTH=${MSMTP_ACCOUNT_AUTH}"
+      - "MSMTP_FROM=${MSMTP_FROM}"
+      - "MSMTP_USER=${MSMTP_USER}"
+      - "MSMTP_PASSWORD=${MSMTP_PASSWORD}"
+      - "MAIL_NOTIFICATION=${MAIL_NOTIFICATION}"
+    volumes:
+      - ./user-data/autobackup/aws:/root/.aws
+      - ./user-data:/user-data
+      - ./user-data/autobackup/crontabs:/var/spool/cron/crontabs
+      - ./user-data/autobackup/scripts:/scripts
+    depends_on:
+      - db
