@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.11
 LABEL maintainer="Federico Pereira <fpereira@cnsoluciones.com>"
 ARG VERSION
 ENV AWSCLI_VERSION=$VERSION \
@@ -13,6 +13,7 @@ RUN apk add --update \
     dcron \
     supervisor \
     p7zip \
+    msmtp \
     bash \
     && pip install awscli==$AWSCLI_VERSION \
     && apk --purge -v del py-pip \
