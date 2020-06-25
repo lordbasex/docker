@@ -14,7 +14,9 @@ for z in *.7z.*; do
 	aws s3api put-object --bucket ${AWS_S3_FILE} --key ${z} --tagging 's3=fileall' --body ${z} >> /var/log/backupfileuserdata.log
 done
 
-echo -e "Subject: Auto Backup Crontab backupfileuserdata `date +'%m-%d-%Y %H:%M:%S'`\n`cat /var/log/backupfileuserdata.log `" | msmtp -a default ${MAIL_NOTIFICATION}
+if [ $MSMTP = "true" ]; then
+	echo -e "Subject: Auto Backup Crontab backupfileuserdata `date +'%m-%d-%Y %H:%M:%S'`\n`cat /var/log/backupfileuserdata.log `" | msmtp -a default ${MAIL_NOTIFICATION}
+fi
 
 rm -fr *.tar.gz.7z.*
 rm -fr ${FILE_USER_DATA}
