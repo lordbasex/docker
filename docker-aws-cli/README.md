@@ -6,6 +6,26 @@ The environment variable timezone. By default America/Argentina/Buenos_Aires
 | Variable | Zone |
 | ------------- | ------------- |
 | TZ  | America/Argentina/Buenos_Aires  |
+| MYSQL_HOST | $MYSQL_HOST  |
+| MYSQL_ROOT_PASSWORD | ${MYSQL_ROOT_PASSWORD}  |
+| MYSQL_DATABASE | ${MYSQL_DATABASE}  |
+| MYSQL_USER | ${MYSQL_USER}  |
+| MYSQL_PASSWORD | ${MYSQL_PASSWORD}  |
+| AWS_S3_SQL | ${AWS_S3_SQL}  |
+| AWS_S3_FILE | ${AWS_S3_FILE}  |
+| MSMTP | ${MSMTP}  |
+| MSMTP_AUTH | ${MSMTP_AUTH}  |
+| MSMTP_TTS | ${MSMTP_TTS}  |
+| MSMTP_TTS_TRUST_FILE | /etc/ssl/cert.pem  |
+| MSMTP_SYSLOG | ${MSMTP_SYSLOG}  |
+| MSMTP_ACCOUNT | ${MSMTP_ACCOUNT}  |
+| MSMTP_HOST | ${MSMTP_HOST}  |
+| MSMTP_PORT | ${MSMTP_PORT}  |
+| MSMTP_ACCOUNT_AUTH | ${MSMTP_ACCOUNT_AUTH}  |
+| MSMTP_FROM | ${MSMTP_FROM}  |
+| MSMTP_USER | ${MSMTP_USER}  |
+| MSMTP_PASSWORD | ${MSMTP_PASSWORD}  |
+| MAIL_NOTIFICATION | ${MAIL_NOTIFICATION}  |
 
 * More information about timezone: https://wiki.alpinelinux.org/wiki/Setting_the_timezone
 
