@@ -34,6 +34,46 @@ if [ -z "$(ls -A /var/www/html )" ]; then
 fi
 
 
+if [ $WPPROTECTADMIN = "true" ]; then
+CHECK_PROTECT_ADMIN=`cat /var/www/html/.htaccess | grep '# Password Protect Your WordPress Admin' |cut -d '(' -f2 | head -1 | cut -d ')' -f1 | head -1`
+
+if [ "$CHECK_PROTECT_ADMIN" != 'wp-admin' ];then
+cat >> /var/www/html/.htaccess <<ENDLINE
+
+# Password Protect Your WordPress Admin (wp-admin)
+ErrorDocument 401 "Unauthorized Access"
+ErrorDocument 403 "Forbidden"
+<FilesMatch "wp-login.php">
+    AuthName "Authorized Only"
+    AuthType Basic
+    AuthUserFile /htpasswd/.htpasswd
+    Require valid-user
+</FilesMatch>
+
+<Files admin-ajax.php>
+    Order allow,deny
+    Allow from all
+    Satisfy any
+</Files>
+
+<files wp-config.php>
+    order allow,deny
+    deny from all
+</files>
+ENDLINE
+
+
+/usr/bin/htpasswd -bc /htpasswd/.htpasswd ${HTPASSWD_USER} ${HTPASSWD_PASS}
+chown apache:apache /htpasswd/.htpasswd
+chmod 0660 /htpasswd/.htpasswd
+fi
+
+fi
+
+#FILES DELETE
+rm -fr /var/www/html/readme.html /var/www/html/license.txt /var/www/html/licencia.txt  /var/www/html/wp-admin/install.php /var/www/html/wp-admin/install-helper.php
+
 chown apache:apache -R /var/www/html
+chown apache:apache -R /var/www/images
 
 exec "$@"

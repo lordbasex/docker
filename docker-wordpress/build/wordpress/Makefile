@@ -1,5 +1,5 @@
 DOCKER ?= docker
-TARGET ?= cnsoluciones/wordpress:7.3
+TARGET ?= cnsoluciones/wordpress:5.4.2
 
 all:
 	@echo "Building ${TARGET}"
