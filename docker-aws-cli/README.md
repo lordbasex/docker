@@ -3,7 +3,7 @@
 ## ENV (Environmental variable)
 The environment variable timezone. By default America/Argentina/Buenos_Aires
 
-| Variable | Zone |
+| Name | Variable |
 | ------------- | ------------- |
 | TZ  | America/Argentina/Buenos_Aires  |
 | MYSQL_HOST | $MYSQL_HOST  |
