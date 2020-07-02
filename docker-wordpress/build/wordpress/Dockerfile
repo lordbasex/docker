@@ -2,10 +2,11 @@ FROM centos:7
 LABEL maintainer="Federico Pereira <fpereira@cnsoluciones.com>"
 
 ENV MSMTP='false' \
-    WPPROTECTADMIN='false'
+    WPPROTECTADMIN='false' \
+    TIMEZONE='America/Argentina/Buenos_Aires'
 
 ADD https://wordpress.org/latest.tar.gz /usr/src
-    
+
 RUN yum -y update \
     && yum -y install -y epel-release \
     && rpm -i https://rpms.remirepo.net/enterprise/remi-release-7.rpm \
