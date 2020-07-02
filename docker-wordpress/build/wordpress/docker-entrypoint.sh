@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+TZ=$TIMEZONE; export TZ
+
 if [ ! -f /etc/php.d/timezone.ini ]; then
   echo "date.timezone = $TIMEZONE" > /etc/php.d/timezone.ini
 fi
