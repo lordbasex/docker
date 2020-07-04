@@ -4,9 +4,10 @@ services:
 
   wp:
    container_name: wp
-   image: cnsoluciones/wordpress:5.4.1
+   image: cnsoluciones/wordpress:5.4.2
    volumes:
      - /etc/localtime:/etc/localtime:ro
+     - /etc/timezone:/etc/timezone:ro
      - ./user-data/http:/var/www/html
      - ./user-data/backups:/var/www/backups
      - ./user-data/cron:/opt/cron:ro
@@ -28,10 +29,12 @@ services:
      - "MSMTP_USER=${MSMTP_USER}"
      - "MSMTP_PASSWORD=${MSMTP_PASSWORD}"
      - "TIMEZONE=${TIMEZONE}"
+     - "TZ=${TIMEZONE}"
      - "WPPROTECTADMIN=${WPPROTECTADMIN}"
      - "HTPASSWD_USER=${HTPASSWD_USER}"
      - "HTPASSWD_PASS=${HTPASSWD_PASS}"
    restart: always
+   network_mode: host
    depends_on:
      - db
    links:
@@ -41,6 +44,7 @@ services:
     container_name: db
     image: mariadb:10.4.12-bionic
     restart: always
+    network_mode: host
     ports:
       - "3306:3306"
     environment:
@@ -56,16 +60,29 @@ services:
     container_name: autobackup
     image: cnsoluciones/aws-cli:1.18.36
     restart: always
+    network_mode: host
     environment:
-      - "TZ=America/Argentina/Buenos_Aires"
+      - "TZ=${TIMEZONE}"
       - "MYSQL_HOST=$MYSQL_HOST"
       - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}"
       - "MYSQL_DATABASE=${MYSQL_DATABASE}"
       - "MYSQL_USER=${MYSQL_USER}"
       - "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
-      - "AWS_S3_PATH=${AWS_S3_PATH}"
       - "AWS_S3_SQL=${AWS_S3_SQL}"
       - "AWS_S3_FILE=${AWS_S3_FILE}"
+      - "MSMTP=${MSMTP}"
+      - "MSMTP_AUTH=${MSMTP_AUTH}"
+      - "MSMTP_TTS=${MSMTP_TTS}"
+      - "MSMTP_TTS_TRUST_FILE=/etc/ssl/cert.pem"
+      - "MSMTP_SYSLOG=${MSMTP_SYSLOG}"
+      - "MSMTP_ACCOUNT=${MSMTP_ACCOUNT}"
+      - "MSMTP_HOST=${MSMTP_HOST}"
+      - "MSMTP_PORT=${MSMTP_PORT}"
+      - "MSMTP_ACCOUNT_AUTH=${MSMTP_ACCOUNT_AUTH}"
+      - "MSMTP_FROM=${MSMTP_FROM}"
+      - "MSMTP_USER=${MSMTP_USER}"
+      - "MSMTP_PASSWORD=${MSMTP_PASSWORD}"
+      - "MAIL_NOTIFICATION=${MAIL_NOTIFICATION}"
     volumes:
       - ./user-data/autobackup/aws:/root/.aws
       - ./user-data:/user-data
