@@ -3,7 +3,8 @@ LABEL maintainer="Federico Pereira <fpereira@cnsoluciones.com>"
 
 ENV MSMTP='false' \
     WPPROTECTADMIN='false' \
-    TIMEZONE='America/Argentina/Buenos_Aires'
+    TIMEZONE='America/Argentina/Buenos_Aires' \
+    TZ='America/Argentina/Buenos_Aires'
 
 ADD https://wordpress.org/latest.tar.gz /usr/src
 
