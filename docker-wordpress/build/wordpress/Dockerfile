@@ -20,6 +20,7 @@ RUN yum -y update \
 
 RUN yum -y install php php-cli php-common php-devel php-gd php-imap php-mcrypt php-mbstring php-mysql php-pdo php-pear php-pear-DB php-process php-soap php-xml php-pecl-zip\
     && yum -y install php-curl php-sqlite3 php-fpm php-devel \
+    && yum -y install php-pecl-imagick php-pecl-imagick-devel \
     && echo "[mail function]" > /etc/php.d/msmtprc.ini \
     && echo "sendmail_path = \"/usr/bin/msmtp -t\"" >> /etc/php.d/msmtprc.ini \
     && yum clean all
