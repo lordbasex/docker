@@ -86,6 +86,49 @@ route 192.168.0.0 255.255.255.0
 route 172.17.0.0 255.255.255.0
 ENDLINE
 
+CA=`cat /keystore/ovpn/ca.crt`
+CERT=`cat /keystore/ovpn/client.crt`
+KEY=`cat /keystore/ovpn/client.key`
+
+cat > /keystore/ovpn/client_one_file.ovpn <<ENDLINE
+client
+dev tun
+proto tcp-client
+remote ${DOMAIN_OVPN}
+port 1443
+nobind
+persist-key
+persist-tun
+tls-client
+remote-cert-tls server
+
+<ca>
+$CA
+</ca>
+
+<cert>
+$CERT
+</cert>
+
+<key>
+$KEY
+</key>
+
+verb 3
+mute 10
+cipher AES-256-CBC
+auth SHA1
+auth-user-pass secret
+auth-nocache
+#vpn
+route 10.10.10.0 255.255.255.0
+#example1
+route 192.168.0.0 255.255.255.0
+#example2
+route 172.17.0.0 255.255.255.0
+ENDLINE
+
+
 cat > /keystore/ovpn/secret <<ENDLINE
 client
 plokij
