@@ -27,3 +27,28 @@ set auth=sha1,md5,null certificate=server cipher=\
     blowfish128,aes128,aes192,aes256,null default-profile=openvpn enabled=yes \
     port=443 require-client-certificate=yes
 
+
+/ip firewall filter
+add action=accept chain=forward connection-state=established,related
+add action=drop chain=forward connection-state=invalid
+add action=accept chain=input comment="INPUT WINBOX" connection-state=established,related dst-port=8291 protocol=tcp
+add action=accept chain=input comment="INPUT OVPNSERVER MKT02" dst-port=1443 protocol=tcp
+add action=drop chain=input connection-state=invalid
+add action=accept chain=output connection-state=established,related
+add action=drop chain=output connection-state=invalid
+
+
+/system logging action
+set 0 memory-lines=1
+add disk-file-count=5 disk-file-name=Warning-Disk disk-lines-per-file=10000 name=WarningDisk target=disk
+add disk-file-count=5 disk-file-name=Info disk-lines-per-file=10000 name=InfoDisk target=disk
+add disk-file-count=5 disk-file-name=Error disk-lines-per-file=10000 name=ErrorDisk target=disk
+add disk-file-count=5 disk-file-name=Critical disk-lines-per-file=10000 name=Critical target=disk
+add disk-file-count=5 disk-file-name=OpenVPNServer disk-lines-per-file=10000 name=OpenVPNServerDisk target=disk
+
+/system logging
+set 0 action=InfoDisk
+set 1 action=ErrorDisk
+set 2 action=WarningDisk
+set 3 action=Critical
+add action=OpenVPNServerDisk topics=ovpn
