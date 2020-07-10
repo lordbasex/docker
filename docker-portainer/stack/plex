@@ -1,0 +1,19 @@
+---
+version: "2.1"
+services:
+  plex:
+    image: linuxserver/plex
+    container_name: plex
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - VERSION=docker
+      - UMASK_SET=022 #optional
+      - PLEX_CLAIM= #optional
+    volumes:
+      - /srv/dev-disk-by-id-ata-ST2000LM005_HN-M201AAD_H1853H462A3PMS-part1/DOCKERCONF/plex:/config
+      - /srv/dev-disk-by-id-ata-ST2000LM005_HN-M201AAD_H1853H462A3PMS-part1/SHARE/TORREENT:/torrent
+      - /srv/dev-disk-by-id-ata-ST2000LM005_HN-M201AAD_H1853H462A3PMS-part1/SHARE/Videos/Series:/tv
+      - /srv/dev-disk-by-id-ata-ST2000LM005_HN-M201AAD_H1853H462A3PMS-part1/SHARE/Videos/Movies:/movies
+    restart: unless-stopped
