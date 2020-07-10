@@ -1,0 +1,20 @@
+---
+version: "2"
+services:
+  qbittorrent:
+    image: linuxserver/qbittorrent
+    container_name: qbittorrent
+    environment:
+      - PUID=998
+      - PGID=100
+      - TZ=America/Argentina/Buenos_Aires
+      - UMASK_SET=022
+      - WEBUI_PORT=8080
+    volumes:
+      - /srv/dev-disk-by-id-ata-ST2000LM005_HN-M201AAD_H1853H462A3PMS-part1/DOCKERCONF/qbittorrent:/config
+      - /srv/dev-disk-by-id-ata-ST2000LM005_HN-M201AAD_H1853H462A3PMS-part1/SHARE/TORREENT:/downloads
+    ports:
+      - 6881:6881
+      - 6881:6881/udp
+      - 8080:8080
+    restart: unless-stopped
