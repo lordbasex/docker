@@ -118,3 +118,18 @@ docker push 52012720584722.dkr.ecr.us-east-1.amazonaws.com/aws/cli
 ```bash
 docker pull 52012720584722.dkr.ecr.us-east-1.amazonaws.com/aws/cli
 ```
+
+## S3
+
+### Donload 
+
+```
+docker-compose down
+mv user-data user-data.backup
+aws s3 cp s3://XXXXXXX/user-data_07-10-2020_05_00_01.tar.gz.7z.001 .
+aws s3 cp s3://XXXXXXX/user-data_07-10-2020_05_00_01.tar.gz.7z.002 .
+7za e  user-data_07-10-2020_05_00_01.tar.gz.7z.001
+tar -xzvf user-data_07-10-2020_05_00_01.tar.gz
+docker-compose up -d
+rm -fr user-data_*
+```
