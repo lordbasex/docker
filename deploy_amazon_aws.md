@@ -15,6 +15,12 @@ yum -y install docker
 yum -y install git wget mc screen htop
 ```
 
+## Install Repo
+```
+amazon-linux-extras install epel
+yum -y install p7zip
+```
+
 * Custom Docker
 ```
 mkdir -p /etc/docker
