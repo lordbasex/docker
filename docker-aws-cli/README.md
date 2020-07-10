@@ -121,7 +121,7 @@ docker pull 52012720584722.dkr.ecr.us-east-1.amazonaws.com/aws/cli
 
 ## S3
 
-### Donload 
+### Download
 
 ```
 docker-compose down
