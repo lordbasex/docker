@@ -1,0 +1,23 @@
+version: '2'
+services:
+  
+
+  httpd:
+    container_name: httpd
+    image: cnsoluciones/httpd:latest
+
+    environment:
+      TIMEZONE: America/Argentina/Buenos_Aires
+      VIRTUAL_HOST: test.cnsoluciones.com
+      LETSENCRYPT_HOST: test.cnsoluciones.com
+      LETSENCRYPT_EMAIL: lord.basex@gmail.com
+      
+    restart: always
+    networks:
+      default:
+
+
+networks:
+  default:
+    external:
+      name: NGINX_PROXY
