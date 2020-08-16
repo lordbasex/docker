@@ -4,7 +4,7 @@ services:
 
   httpd:
     container_name: httpd
-    image: cnsoluciones/httpd:latest
+    image: cnsoluciones/httpd-ssl:latest
 
     environment:
       TIMEZONE: America/Argentina/Buenos_Aires
