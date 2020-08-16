@@ -34,8 +34,8 @@ services:
     volumes:
       - ./www:/usr/share/nginx/html:ro
     environment:
-      - VIRTUAL_HOST=cloud.siarq.com.ar,www.cloud.siarq.com.ar
-      - LETSENCRYPT_HOST=cloud.siarq.com.ar,www.cloud.siarq.com.ar
+      - VIRTUAL_HOST=cloud.cnsoluciones.com,www.cloud.cnsoluciones.com
+      - LETSENCRYPT_HOST=cloud.cnsoluciones.com,www.cloud.cnsoluciones.com
       - LETSENCRYPT_EMAIL=lord.basex@gmail.com
 volumes:
   certs:
