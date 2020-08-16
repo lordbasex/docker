@@ -2,8 +2,8 @@ version: '2'
 services:
   
 
-  httpd:
-    container_name: httpd
+  httpd-ssl:
+    container_name: httpd-ssl
     image: cnsoluciones/httpd-ssl:latest
 
     environment:
