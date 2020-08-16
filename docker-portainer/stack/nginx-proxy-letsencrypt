@@ -1,5 +1,7 @@
 version: '2'
 
+#docker network create NGINX_PROXY
+
 services:
   nginx-proxy:
     image: jwilder/nginx-proxy
@@ -9,9 +11,9 @@ services:
       - "443:443"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - /home/iperfex/services-iperfex/nginx-proxy/certs:/etc/nginx/certs:ro
-      - /home/iperfex/services-iperfex/nginx-proxy/vhostd:/etc/nginx/vhost.d
-      - /home/iperfex/services-iperfex/nginx-proxy/html:/usr/share/nginx/html
+      - /home/cnsoluciones/nginx-proxy/certs:/etc/nginx/certs:ro
+      - /home/cnsoluciones/nginx-proxy/vhostd:/etc/nginx/vhost.d
+      - /home/cnsoluciones/nginx-proxy/html:/usr/share/nginx/html
     labels:
       - com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy
     networks:
@@ -23,9 +25,9 @@ services:
     environment:
       - NGINX_PROXY_CONTAINER=nginx-proxy
     volumes:
-      - /home/iperfex/services-iperfex/nginx-proxy/certs:/etc/nginx/certs:rw
-      - /home/iperfex/services-iperfex/nginx-proxy/vhostd:/etc/nginx/vhost.d
-      - /home/iperfex/services-iperfex/nginx-proxy/html:/usr/share/nginx/html
+      - /home/cnsoluciones/nginx-proxy/certs:/etc/nginx/certs:rw
+      - /home/cnsoluciones/nginx-proxy/vhostd:/etc/nginx/vhost.d
+      - /home/cnsoluciones/nginx-proxy/html:/usr/share/nginx/html
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       default:
