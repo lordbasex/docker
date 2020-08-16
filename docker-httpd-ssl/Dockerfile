@@ -1,8 +1,8 @@
 FROM centos:7
 
 LABEL \
-	name="httpd" \
-	image="cnsoluciones/httpd" \
+	name="httpd-ssl" \
+	image="cnsoluciones/httpd-ssl" \
 	vendor="cnsoluciones" \
 	license="GNU GPL V3" \
 	build-date="2020-08-16"
