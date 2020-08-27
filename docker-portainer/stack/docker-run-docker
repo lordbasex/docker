@@ -1,0 +1,9 @@
+version: '2'
+
+services:
+  nginx-proxy:
+    image: cnsoluciones/docker-run-docker:latest
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do docker ps; sleep 10s & wait $${!}; done;'"
