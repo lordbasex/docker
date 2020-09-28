@@ -1,0 +1,10 @@
+#! /bin/bash
+
+if [ "$DEBUG" == "1" ]; then
+  set -x
+fi
+
+set -e
+
+cat $OPENVPN/pki/index.txt
+ 

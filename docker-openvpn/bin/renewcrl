@@ -1,0 +1,23 @@
+#!/bin/bash
+
+#
+# Renew the OpenVPN client revocation list
+#
+# author: Martin van Beurden <chadoe@gmail.com>
+
+if [ "$DEBUG" == "1" ]; then
+  set -x
+fi
+
+set -e
+
+source "$OPENVPN/ovpn_env.sh"
+
+if [ ! -f "$OPENVPN/crl.pem" ]; then
+    echo "Unable to find CRL '$OPENVPN/crl.pem', unable to renew."
+    exit 1
+fi
+
+easyrsa gen-crl
+# set correct permissions openvpn can read the crl after permissions have been dropped
+cp $OPENVPN/pki/crl.pem $OPENVPN/crl.pem && chmod 644 $OPENVPN/crl.pem

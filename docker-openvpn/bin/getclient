@@ -1,0 +1,104 @@
+#!/bin/bash
+
+#
+# Get an OpenVPN client configuration file
+#
+
+
+usage() {
+    echo "usage: $0 [-M] clientname"
+    echo "                 [-M MSSFIX_VALUE]"
+    echo
+    echo "optional arguments:"
+    echo " -M    Set mssfix value"
+}
+
+if [ "$DEBUG" == "1" ]; then
+  set -x
+fi
+
+set -e
+
+source "$OPENVPN/ovpn_env.sh"
+
+# Parse arguments
+while getopts ":M:" opt; do
+    case $opt in
+        M)
+            OVPN_MSSFIX=$OPTARG
+            ;;
+        \?)
+            set +x
+            echo "Invalid option: -$OPTARG" >&2
+            usage
+            exit 1
+            ;;
+        :)
+            set +x
+            echo "Option -$OPTARG requires an argument." >&2
+            usage
+            exit 1
+            ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+cn=$1
+
+if [ ! -f "$EASYRSA_PKI/private/${cn}.key" ]; then
+    echo "Unable to find ${cn}, please try again or generate the key first"
+    exit 1
+fi
+
+cat <<EOF
+client
+tls-client
+nobind
+dev tun
+remote-cert-tls server
+comp-lzo
+mute 20
+float
+resolv-retry infinite
+remote-cert-eku "TLS Web Server Authentication"
+remote-cert-ku a0 88
+persist-tun
+cipher AES-256-CBC
+auth SHA256
+tls-cipher TLS-ECDHE-RSA-WITH-AES-128-GCM-SHA256:TLS-ECDHE-ECDSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256
+tls-version-min 1.2
+verify-x509-name '$(openssl x509 -in $EASYRSA_PKI/issued/${OVPN_CN}.crt -noout -subject | sed 's/subject= \///')'
+
+<key>
+$(cat $EASYRSA_PKI/private/${cn}.key)
+</key>
+<cert>
+$(openssl x509 -in $EASYRSA_PKI/issued/${cn}.crt)
+</cert>
+<ca>
+$(cat $EASYRSA_PKI/ca.crt)
+</ca>
+<tls-auth>
+$(cat $EASYRSA_PKI/ta.key)
+</tls-auth>
+key-direction 1
+
+remote $OVPN_CN $OVPN_PORT $OVPN_PROTO
+
+#be friendly to windows clients
+route-delay 2
+
+EOF
+
+if [ "$OVPN_DEFROUTE" != "0" ];then
+    echo "redirect-gateway def1"
+fi
+
+if [ -n "$OVPN_MTU" ]; then
+    echo "tun-mtu $OVPN_MTU"
+fi
+
+if [ -n "$OVPN_MSSFIX" ]; then
+    echo "mssfix $OVPN_MSSFIX"
+fi
+
