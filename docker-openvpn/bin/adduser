@@ -1,0 +1,22 @@
+#!/bin/bash
+
+#
+# EasyRSA ADD USER
+#
+
+if [ "$DEBUG" == "1" ]; then
+  set -x
+fi
+
+set -e
+
+source "$OPENVPN/ovpn_env.sh"
+
+
+clientname=$1
+nopass=$2
+
+rm -fr /etc/openvpn/pki/reqs/$clientname.req
+rm -fr /etc/openvpn/pki/private/$clientname.key
+rm -fr /etc/openvpn/pki/issued/$clientname.crt
+easyrsa build-client-full $clientname $nopass
