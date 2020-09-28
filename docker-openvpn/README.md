@@ -41,16 +41,15 @@ docker run -v /root/openvpn/user-data:/etc/openvpn --rm -it rlesouef/alpine-open
 docker run -v /root/openvpn/user-data:/etc/openvpn --rm rlesouef/alpine-openvpn getclient $CLIENTNAME > $CLIENTNAME.ovpn
 ```
 ## REVOKE CLIENT
-```
 
-Revoca el certificado de un cliente
-# Dejando los archivos crt, key y req.
+
 ```
 docker run -v /root/openvpn/user-data:/etc/openvpn --rm cnsoluciones/openvpn-alpine ovpn_revokeclient $CLIENTNAME
 ```
+Or
 
-# Borrando los correspondientes archivos crt, key y req.
 ```
 docker run -v /root/openvpn/user-data:/etc/openvpn --rm cnsoluciones/openvpn-alpine ovpn_revokeclient $CLIENTNAME remove
 ```
+
 #based on https://github.com/rlesouef/alpine-openvpn
