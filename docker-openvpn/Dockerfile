@@ -5,7 +5,8 @@ MAINTAINER Federico Pereira <cnsolucions.com>
 COPY ./bin /usr/local/bin
 
 RUN apk add --no-cache bash openvpn openssl easy-rsa && \
-    ln -s /usr/local/share/easy-rsa/easyrsa3/easyrsa /usr/local/bin && \
+    ln -s /usr/share/easy-rsa/easyrsa /usr/local/bin && \
+    cp /usr/share/easy-rsa/vars.example /etc/openvpn/vars && \
     chmod 774 /usr/local/bin/*
 
 # Needed by scripts
