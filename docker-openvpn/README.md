@@ -31,3 +31,26 @@ services:
      - ./user-data:/etc/openvpn
      - /etc/localtime:/etc/localtime:ro
 ```
+
+
+## CLIENT
+
+```
+export CLIENTNAME="fpereira"
+docker run -v /root/openvpn/user-data:/etc/openvpn --rm -it rlesouef/alpine-openvpn easyrsa build-client-full $CLIENTNAME nopass
+docker run -v /root/openvpn/user-data:/etc/openvpn --rm rlesouef/alpine-openvpn getclient $CLIENTNAME > $CLIENTNAME.ovpn
+```
+## REVOKE CLIENT
+```
+
+Revoca el certificado de un cliente
+# Dejando los archivos crt, key y req.
+```
+docker run -v /root/openvpn/user-data:/etc/openvpn --rm cnsoluciones/openvpn-alpine ovpn_revokeclient $CLIENTNAME
+```
+
+# Borrando los correspondientes archivos crt, key y req.
+```
+docker run -v /root/openvpn/user-data:/etc/openvpn --rm cnsoluciones/openvpn-alpine ovpn_revokeclient $CLIENTNAME remove
+```
+#based on https://github.com/rlesouef/alpine-openvpn
