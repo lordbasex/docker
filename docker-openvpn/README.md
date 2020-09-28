@@ -37,8 +37,8 @@ services:
 
 ```
 export CLIENTNAME="fpereira"
-docker run -v /root/openvpn/user-data:/etc/openvpn --rm -it rlesouef/alpine-openvpn easyrsa build-client-full $CLIENTNAME nopass
-docker run -v /root/openvpn/user-data:/etc/openvpn --rm rlesouef/alpine-openvpn getclient $CLIENTNAME > $CLIENTNAME.ovpn
+docker run -v /root/openvpn/user-data:/etc/openvpn --rm -it cnsoluciones/openvpn-alpine easyrsa build-client-full $CLIENTNAME nopass
+docker run -v /root/openvpn/user-data:/etc/openvpn --rm cnsoluciones/openvpn-alpine getclient $CLIENTNAME > $CLIENTNAME.ovpn
 ```
 ## REVOKE CLIENT
 
