@@ -8,8 +8,11 @@ OpenVPN server in a Docker container complete with an EasyRSA PKI CA.
 
 ```
 yum install -y vim screen mc net-tools git 
+curl -fsSL get.docker.com -o get-docker.sh
+sh get-docker.sh
 
-systemctl stop firewalld
+systemctl enable docker
+systemctl start docker
 systemctl start firewalld
 
 firewall-cmd --zone=public --add-port=22/tcp --permanent
