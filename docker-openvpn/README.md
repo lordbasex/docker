@@ -1,9 +1,5 @@
 # OpenVPN for Docker
 
-¡[![Docker Stars](https://img.shields.io/docker/stars/kylemanna/openvpn.svg)](https://hub.docker.com/r/cnsoluciones/openvpn-alpine)
-[![Docker Pulls](https://img.shields.io/docker/pulls/kylemanna/openvpn.svg)](https://hub.docker.com/r/cnsoluciones/openvpn-alpine)
-
-
 OpenVPN server in a Docker container complete with an EasyRSA PKI CA.
 
 
