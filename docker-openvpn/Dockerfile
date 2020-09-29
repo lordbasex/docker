@@ -2,31 +2,29 @@ FROM alpine
 
 MAINTAINER Federico Pereira <cnsolucions.com>
 
-COPY ./bin /usr/local/bin
+LABEL maintainer="Federico Pereira <fpereira@cnsoluciones.com>"
 
-
-RUN apk add --no-cache bash openvpn git openssl && \
-# Get easy-rsa
-    git clone https://github.com/OpenVPN/easy-rsa.git /tmp/easy-rsa && \
-    cd && \
-# Cleanup
-    apk del git && \
-    rm -rf /tmp/easy-rsa/.git && cp -a /tmp/easy-rsa /usr/local/share/ && \
-    rm -rf /tmp/easy-rsa/ && \
-    ln -s /usr/local/share/easy-rsa/easyrsa3/easyrsa /usr/local/bin && \
-    cp /usr/local/share/easy-rsa/easyrsa3/vars.example /usr/local/share/easy-rsa/easyrsa3/vars && \
-    chmod 774 /usr/local/bin/*
+# Testing: pamtester
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing/" >> /etc/apk/repositories && \
+    apk add --update openvpn iptables bash easy-rsa openvpn-auth-pam google-authenticator pamtester && \
+    ln -s /usr/share/easy-rsa/easyrsa /usr/local/bin && \
+    rm -rf /tmp/* /var/tmp/* /var/cache/apk/* /var/cache/distfiles/*
 
 # Needed by scripts
-ENV OPENVPN=/etc/openvpn \
-    EASYRSA=/usr/local/share/easy-rsa/easyrsa3 \
-    EASYRSA_PKI=/etc/openvpn/pki \
-    EASYRSA_VARS_FILE=/usr/local/share/easy-rsa/easyrsa3/vars
-
+ENV OPENVPN /etc/openvpn
+ENV EASYRSA /usr/share/easy-rsa
+ENV EASYRSA_PKI $OPENVPN/pki
+ENV EASYRSA_VARS_FILE $OPENVPN/vars
+ENV EASYRSA_VARS_FILE /usr/share/easy-rsa/vars.example
+ENV EASYRSA_CRL_DAYS 3650
 
 VOLUME ["/etc/openvpn"]
 
 EXPOSE 1194/udp
 
-WORKDIR /etc/openvpn
-CMD ["startopenvpn"]
+CMD ["ovpn_run"]
+
+ADD ./bin /usr/local/bin
+RUN chmod a+x /usr/local/bin/*
+
+ADD ./otp/openvpn /etc/pam.d/
