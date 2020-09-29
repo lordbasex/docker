@@ -11,11 +11,13 @@ firewall-cmd --list-all
 ```
 
 ```
-mkdir -p /root/openvpn && cd /root/openvpn
-docker run -v /root/openvpn/user-data:/etc/openvpn --rm cnsoluciones/openvpn-alpine initopenvpn -u udp://IP_DEL_SERVIDOR:3000
-docker run -v /root/openvpn/user-data:/etc/openvpn --rm -it cnsoluciones/openvpn-alpine initpki #define una clave para el CA #importante guardarla con 7 llaves.
+rm -fr /root/openvpn && mkdir -p /root/openvpn
+docker run -v /root/openvpn/user-data:/etc/openvpn --rm cnsoluciones/openvpn-alpine ovpn_genconfig -u udp://IP_SERVER:3000
+docker run -v /root/openvpn/user-data:/etc/openvpn --rm -it cnsoluciones/openvpn-alpine ovpn_initpki
 ```
 
+# docker-compose.yml
+vim /root/openvpn/docker-compose.yml
 ```
 version: '2'
 services:
@@ -31,25 +33,27 @@ services:
      - ./user-data:/etc/openvpn
      - /etc/localtime:/etc/localtime:ro
 ```
-
+```
+docker-compose up -d
+```
 
 ## CLIENT
 
 ```
 export CLIENTNAME="fpereira"
-docker run -v /root/openvpn/user-data:/etc/openvpn --rm -it cnsoluciones/openvpn-alpine adduser $CLIENTNAME nopass
-docker run -v /root/openvpn/user-data:/etc/openvpn --rm cnsoluciones/openvpn-alpine getclient $CLIENTNAME > $CLIENTNAME.ovpn
+docker run -v /root/openvpn/user-data:/etc/openvpn --rm -it cnsoluciones/openvpn-alpine easyrsa build-client-full $CLIENTNAME nopass
+docker run -v /root/openvpn/user-data:/etc/openvpn --rm -it cnsoluciones/openvpn-alpine ovpn_getclient $CLIENTNAME > $CLIENTNAME.ovpn
 ```
 ## REVOKE CLIENT
 
 
 ```
-docker run -v /root/openvpn/user-data:/etc/openvpn --rm cnsoluciones/openvpn-alpine ovpn_revokeclient $CLIENTNAME
+docker run -v /root/openvpn/user-data:/etc/openvpn --rm -it cnsoluciones/openvpn-alpine ovpn_revokeclient $CLIENTNAME
 ```
 Or
 
 ```
-docker run -v /root/openvpn/user-data:/etc/openvpn --rm cnsoluciones/openvpn-alpine ovpn_revokeclient $CLIENTNAME remove
+docker run -v /root/openvpn/user-data:/etc/openvpn --rm -it cnsoluciones/openvpn-alpine ovpn_revokeclient $CLIENTNAME remove
 ```
 
 #based on https://github.com/rlesouef/alpine-openvpn
