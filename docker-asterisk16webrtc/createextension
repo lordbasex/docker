@@ -1,0 +1,242 @@
+#!/bin/bash
+# Ask the user for their name
+clear
+
+menu_1 () {
+  clear
+  echo Do you want to create a webjc pjsip extension or several?
+  echo "1) One extension"
+  echo "2) More than two extension"
+  read var
+
+  case $var in
+       	  1)
+            one
+            ;;
+     	  2)
+            two
+            ;;
+     	  *)
+	    #loop
+            menu_1
+            ;;
+  esac
+
+
+}
+
+one () {
+  clear
+  echo "Enter a 5-digit extension number example: 99000"
+  read extension
+  newextension=`echo -n $extension | wc -c`
+
+  if [ "$newextension" != "5" ]
+  then
+     #loop
+     one
+  fi
+
+  checkextension=`cat user-data/etc/asterisk/pjsip_template_aor.conf | grep $extension | head -1 | cut -f2 -d"[" | cut -f1 -d"]"`
+  if [ "$extension" == "$checkextension" ]
+  then
+    echo "The extension already exists, enter a new one."
+    sleep 3
+     #loop
+     one
+  fi
+
+  EXTENSION=$extension
+  autopass
+}
+
+two () {
+  clear
+  echo "Start enter the first extension, Example 99000 of 5 digits."
+  read start
+  newstarextension=`echo -n $start | wc -c`
+
+  if [ "$newstarextension" != "5" ]
+  then
+     #loop
+     two
+  fi
+  echo ""
+  echo "Stop - enter the last extension, Example 99100 of 5 digits."
+  read stopextension
+  newstopextension=`echo -n $stopextension | wc -c`
+
+  if [ "$newstopextension" != "5" ]
+  then
+     #loop
+     two
+  fi
+
+    echo ""
+    echo "Start: $start"
+    echo "Stop: $stopextension"
+    echo ""
+    echo ""
+
+INTERFACE="ens5"
+IPADDRESS=`ip addr show ${INTERFACE} | grep "inet\b" | awk '{print $2}' | cut -d/ -f1`
+
+for (( i=$start; i<=$stopextension; i++ ))
+do
+	EXTENSION_PW=`head -c 200 /dev/urandom | tr -cd 'A-Za-z0-9' | head -c 30`
+	EXTENSION=$i
+
+#start###############
+cat >> user-data/etc/asterisk/pjsip_template_aor.conf <<ENDLINE
+
+[${EXTENSION}](template-aor)
+ENDLINE
+
+cat >> user-data/etc/asterisk/pjsip_template_auth.conf <<ENDLINE
+
+[${EXTENSION}-auth](template-auth)
+username=${EXTENSION}
+password=${EXTENSION_PW}
+ENDLINE
+
+cat >> user-data/etc/asterisk/pjsip_template_endpoint.conf <<ENDLINE
+
+[${EXTENSION}](template-endpoint)
+aors=${EXTENSION}
+auth=${EXTENSION}-auth
+callerid=${EXTENSION} <${EXTENSION}>
+
+ENDLINE
+
+echo "exten => ${EXTENSION},hint,PJSIP/${EXTENSION}" >>  user-data/etc/asterisk/extensions_hints.conf
+
+
+#fop2
+cat >> user-data/fop2/server/fop2.cfg <<ENDLINE
+user=${EXTENSION}:0${EXTENSION}:all::phone,configonreload
+ENDLINE
+
+cat >> buttons_custom.cfg <<ENDLINE
+
+[PJSIP/${EXTENSION}]
+server=172.20.196.114
+type=extension
+extension=${EXTENSION}
+label=${EXTENSION}
+context=from-internal
+customastdb=CF/${EXTENSION}
+autoanswerheader=__SIPADDHEADER51=Call-Info: answer-after=0.001
+sip_username=${EXTENSION}
+sip_password=${EXTENSION_PW}
+
+ENDLINE
+
+echo " Extension: $EXTENSION"
+echo " Password $pass_type: $EXTENSION_PW"
+#end###############
+done
+
+docker-compose exec voip asterisk -rx "core reload"
+docker-compose exec voip asterisk -rx "pjsip show auths"
+docker-compose restart fop2-frontend
+exit
+
+}
+
+autopass () {
+  clear
+  echo Do you want to create a password for your extension?
+  echo "1) Yes"
+  echo "2) No - random"
+  read yesno
+
+  case $yesno in
+          1)
+            pass
+            ;;
+          2)
+	    pass_type="Random"
+            EXTENSION_PW=`head -c 200 /dev/urandom | tr -cd 'A-Za-z0-9' | head -c 30`
+            ;;
+          *)
+            #loop
+            autopass
+            ;;
+  esac
+}
+
+pass () {
+  clear
+  echo "Enter a password with a minimum of 4 characters and a maximum of 30."
+  read pass
+  newpass=`echo -n $pass | wc -c`
+
+  if [ "$newextension" != "4" ]
+  then
+     #loop
+     pass
+  fi
+
+  pass_type="Manual"
+  EXTENSION_PW=$pass
+}
+
+create_extension () {
+
+cat >> user-data/etc/asterisk/pjsip_template_aor.conf <<ENDLINE
+
+[${EXTENSION}](template-aor)
+ENDLINE
+
+cat >> user-data/etc/asterisk/pjsip_template_auth.conf <<ENDLINE
+
+[${EXTENSION}-auth](template-auth)
+username=${EXTENSION}
+password=${EXTENSION_PW}
+ENDLINE
+
+cat >> user-data/etc/asterisk/pjsip_template_endpoint.conf <<ENDLINE
+
+[${EXTENSION}](template-endpoint)
+aors=${EXTENSION}
+auth=${EXTENSION}-auth
+callerid=${EXTENSION} <${EXTENSION}>
+
+ENDLINE
+
+echo "exten => ${EXTENSION},hint,PJSIP/${EXTENSION}" >>  user-data/etc/asterisk/extensions_hints.conf
+
+
+#fop2
+cat >> user-data/fop2/server/fop2.cfg <<ENDLINE
+user=${EXTENSION}:0${EXTENSION}:all::phone,configonreload
+ENDLINE
+
+cat >> user-data/fop2/server/buttons_custom.cfg <<ENDLINE
+
+[PJSIP/${EXTENSION}]
+type=extension
+extension=${EXTENSION}
+label=Device ${EXTENSION}
+context=from-internal
+channel=PJSIP/90${EXTENSION}
+queuechannel=Local/${EXTENSION}@from-queue/n|Penalty=0|MemberName=Device ${EXTENSION}|StateInterface=PJSIP/${EXTENSION}
+customastdb=CF/${EXTENSION}
+queuecontext=from-queue
+autoanswerheader=__SIPADDHEADER51=Call-Info: answer-after=0.001
+sip_username=${EXTENSION}
+sip_password=${EXTENSION_PW}
+
+ENDLINE
+
+
+docker-compose exec voip asterisk -rx "core reload"
+docker-compose exec voip asterisk -rx "pjsip show auths"
+#docker-compose restart fop2-frontend
+}
+
+menu_1
+clear
+echo " Extension: $EXTENSION"
+echo " Password $pass_type: $EXTENSION_PW"
+create_extension
