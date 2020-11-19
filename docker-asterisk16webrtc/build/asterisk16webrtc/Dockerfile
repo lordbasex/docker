@@ -12,16 +12,13 @@ RUN yum -y update
 
 RUN cd /usr/src \
         && rpm -Uvh /usr/src/epel-release-latest-7.noarch.rpm \
-        && rpm -Uvh /usr/src/webtatic-release.rpm 
+        && rpm -Uvh /usr/src/webtatic-release.rpm
 
 RUN yum -y groupinstall core base "Development Tools" \
 	&& yum -y install unixODBC unixODBC-devel libtool-ltdl libtool-ltdl-devel mysql-connector-odbc \
         && yum clean all
 
 RUN yum -y install ncurses-devel sendmail ssmtp sox lame newt-devel libxml2-devel libtiff-devel audiofile-devel gtk2-devel subversion kernel-devel git crontabs cronie cronie-anacron wget vim uuid-devel sqlite-devel net-tools gnutls-devel python-devel texinfo libuuid-devel mc fail2ban wget htop screen sudo nfs-utils sngrep && yum clean all
-
-
-RUN curl -sL https://rpm.nodesource.com/setup_11.x | bash - && sudo yum install -y nodejs
 
 
 RUN cd /usr/src \
@@ -36,9 +33,9 @@ RUN cd /usr/src \
         && rm -r /usr/src/jansson*
 
 RUN cd /usr/src \
-	&& wget http://downloads.asterisk.org/pub/telephony/asterisk/releases/asterisk-16.6.0-rc2.tar.gz \
-        && tar xfz asterisk-16.6.0-rc2.tar.gz \
-        && rm -f asterisk-16.6.0-rc2.tar.gz \
+        && wget http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-16-current.tar.gz \
+        && tar xfz asterisk-* \
+        && rm -f asterisk-*.tar.gz \
         && cd asterisk-* \
         && contrib/scripts/get_mp3_source.sh \
         && contrib/scripts/install_prereq install \
@@ -55,7 +52,7 @@ RUN cd /usr/src \
         && ldconfig \
         && rm -r /usr/src/asterisk* \
 	&& rm -fr /etc/asterisk/res_odbc.conf \
-	&& rm -fr /etc/asterisk/manager.conf 
+	&& rm -fr /etc/asterisk/manager.conf
 
 #### Add G729 Codecs
 RUN     git clone https://github.com/BelledonneCommunications/bcg729 /usr/src/bcg729 ; \
@@ -85,15 +82,15 @@ RUN cd /usr/src \
         && cp codec_opus.so /usr/lib64/asterisk/modules \
         && cp format_ogg_opus.so /usr/lib64/asterisk/modules \
         && cp codec_opus_config-en_US.xml /var/lib/asterisk/documentation/thirdparty \
-        && rm -fr /usr/src/codec_opus*  
+        && rm -fr /usr/src/codec_opus*
 
-### Fail2ban 
+### Fail2ban
 RUN mkdir -p /var/log/asterisk/ \
         && mkdir -p /var/log/fail2ban/ \
         && touch /var/log/asterisk/full
 
 
-EXPOSE 5038 4445 3306 5060 5061 5160 5161 4569 8088 8089 10000-20000/udp 10000-20000/tcp 
+EXPOSE 5038 4445 3306 5060 5061 5160 5161 4569 8088 8089 10000-20000/udp 10000-20000/tcp
 
 #automatic backup
 VOLUME [ "/backup" ]
@@ -107,7 +104,7 @@ VOLUME [ "/var/spool/asterisk/voicemail" ]
 #asterisk monitor
 VOLUME [ "/var/spool/asterisk/monitor" ]
 
-#RUN DOCKER SCRIPT 
+#RUN DOCKER SCRIPT
 COPY docker-entrypoint.sh /
 RUN chmod +x /docker-entrypoint.sh
 
