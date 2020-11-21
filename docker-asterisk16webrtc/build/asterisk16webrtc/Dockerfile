@@ -1,6 +1,6 @@
 FROM centos:7
 
-MAINTAINER Federico Pereira <fpereira@iperfex.com>
+MAINTAINER Federico Pereira <fpereira@cnsoluciones.com>
 
 ENV MSMTP='false'
 
@@ -20,9 +20,8 @@ RUN yum -y groupinstall core base "Development Tools" \
 
 RUN yum -y install ncurses-devel sendmail ssmtp sox lame newt-devel libxml2-devel libtiff-devel audiofile-devel gtk2-devel subversion kernel-devel git crontabs cronie cronie-anacron wget vim uuid-devel sqlite-devel net-tools gnutls-devel python-devel texinfo libuuid-devel mc fail2ban wget htop screen sudo nfs-utils sngrep && yum clean all
 
-
 RUN cd /usr/src \
-        && wget -O jansson.tar.gz https://github.com/akheron/jansson/archive/v2.7.tar.gz \
+        && wget -O jansson.tar.gz https://github.com/akheron/jansson/archive/v2.13.1.tar.gz \
         && tar xfz jansson.tar.gz \
         && rm -f jansson.tar.gz \
         && cd jansson-* \
