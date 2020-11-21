@@ -47,7 +47,7 @@ services:
         - "ASTERISK_MANAGER_SECRET=${ASTERISK_MANAGER_SECRET}"
     privileged: true
     container_name: voip
-    image: cnsoluciones/asterisk16webrtc:16.6.0-rc2
+    image: cnsoluciones/asterisk16webrtc:16.15.0
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./user-data/etc/asterisk:/etc/asterisk
