@@ -17,7 +17,8 @@ wget https://raw.githubusercontent.com/lordbasex/docker/master/docker-asterisk16
 wget https://raw.githubusercontent.com/lordbasex/docker/master/docker-asterisk16webrtc/db/asteriskcdr.sql -O /home/ec2-user/asterisk16webrtc/db/asteriskcdr.sql
 wget https://raw.githubusercontent.com/lordbasex/docker/master/docker-asterisk16webrtc/db/asteriskdb.sql -O /home/ec2-user/asterisk16webrtc/db/asteriskdb.sql
 wget https://raw.githubusercontent.com/lordbasex/docker/master/docker-asterisk16webrtc/db/docker-entrypoint.sh -O /home/ec2-user/asterisk16webrtc/db/docker-entrypoint.sh
-chmod 777 /home/ec2-user/asterisk16webrtc/db/docker-entrypoint.sh
+wget https://raw.githubusercontent.com/lordbasex/docker/master/docker-asterisk16webrtc/createextension -O /home/ec2-user/asterisk16webrtc/createextension
+chmod 777 /home/ec2-user/asterisk16webrtc/db/docker-entrypoint.sh /home/ec2-user/asterisk16webrtc/createextension
 cd /home/ec2-user/asterisk16webrtc
 ```
 
@@ -51,3 +52,38 @@ firewall-cmd --zone=public --add-port=10000-20000/udp --permanent
 firewall-cmd --reload
 firewall-cmd --list-all
 ```
+
+### Create Extension Manual
+
+**pjsip_template_aor.conf**
+
+```bash
+vim /home/ec2-user/asterisk16webrtc/user-data/etc/asterisk/pjsip_template_aor.conf
+[2324](template-aor)
+````
+**pjsip_template_auth.conf**
+
+```bash
+vim /home/ec2-user/asterisk16webrtc/user-data/etc/asterisk/pjsip_template_auth.conf 
+[2324-auth](template-auth)
+username=2324
+password=mi_clave
+```
+
+**pjsip_template_endpoint.conf**
+
+```bash
+vim /home/ec2-user/asterisk16webrtc/user-data/etc/asterisk/pjsip_template_endpoint.conf
+[2324](template-endpoint)
+aors=2324
+auth=2324-auth
+callerid=2324 <2324>
+```
+
+### Create Extension Script
+
+```bash
+cd /home/ec2-user/asterisk16webrtc/
+./createextension
+```
+
