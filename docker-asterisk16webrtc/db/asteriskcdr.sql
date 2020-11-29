@@ -26,6 +26,7 @@ CREATE TABLE `cdr` (
   `outbound_cnam` varchar(40) NOT NULL DEFAULT '',
   `dst_cnam` varchar(40) NOT NULL DEFAULT '',
   `recording_id` int(12) NOT NULL AUTO_INCREMENT,
+  `recordingfile` varchar(255) NOT NULL DEFAULT '',
   `campaing_id` varchar(40) DEFAULT NULL,
   `custom1` varchar(40) DEFAULT NULL,
   `custom2` varchar(40) DEFAULT NULL,
