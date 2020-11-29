@@ -54,9 +54,29 @@ services:
       - ./user-data/var/lib/asterisk/sounds:/var/lib/asterisk/sounds
       - ./user-data/backup:/backup
       - ./user-data/etc/letsencrypt:/etc/letsencrypt
+      - ./user-data/rec:/var/spool/asterisk/monitor
     depends_on:
       - mariadb
       - certbot
+    restart: always
+    network_mode: host
+
+  sipban:
+    environment:
+        - "TZ=${TIMEZONE}"
+        - "AMI_PORT=5038"
+        - "AMI_USER=sipban"
+        - "AMI_PASS=${ASTERISK_MANAGER_SECRET}"
+        - "AMI_HOST=localhost"
+        - "SIPBANPORT=4451"
+    privileged: true
+    container_name: sipban
+    image: cnsoluciones/sipban:latest
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./user-data/logs/sipban:/var/log/sipban
+    depends_on:
+      - voip
     restart: always
     network_mode: host
 
