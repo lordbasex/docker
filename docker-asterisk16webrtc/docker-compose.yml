@@ -62,18 +62,25 @@ services:
     network_mode: host
 
   sipban:
-    environment:
-        - "TZ=${TIMEZONE}"
+    environment:        
         - "AMI_PORT=5038"
         - "AMI_USER=sipban"
         - "AMI_PASS=${ASTERISK_MANAGER_SECRET}"
         - "AMI_HOST=localhost"
-        - "SIPBANPORT=4451"
+        #optional
+        - "TZ=${TIMEZONE}"
+        - "SIPBAN_PORT=4451"
+        - "AMI_PING=600"
+        - "TIMER_BAN=86400"
+        - "IPTABLES_LEGACY=true"
+        - "IPTABLES_CHAIN=sipban-udp"
+        - "IPTABLES_RULE=REJECT"
     privileged: true
     container_name: sipban
-    image: cnsoluciones/sipban:latest
+    image: sipban/sipban:latest
     volumes:
       - /etc/localtime:/etc/localtime:ro
+      - ./user-data/etc/sipban:/etc/sipban
       - ./user-data/logs/sipban:/var/log/sipban
     depends_on:
       - voip
