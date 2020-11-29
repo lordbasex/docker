@@ -108,6 +108,5 @@ RUN cp -fra /etc/asterisk /etc/asterisk.org \
         && cp -fra /var/lib/asterisk/sounds /var/lib/asterisk/sounds.org \
         && cp -fra /var/spool/asterisk/voicemail /var/spool/asterisk/voicemail.org
 
-ENV MSMTP false
 WORKDIR /etc/asterisk
 ENTRYPOINT ["/docker-entrypoint.sh"]
