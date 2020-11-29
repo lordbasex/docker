@@ -80,6 +80,11 @@ auth=2324-auth
 callerid=2324 <2324>
 ```
 
+```bash
+cd /home/ec2-user/asterisk16webrtc/
+docker-compose exec voip asterisk -rx "core reload"
+```
+
 ### Create Extension Script
 
 ```bash
