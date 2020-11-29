@@ -102,6 +102,14 @@ port = 5038
 bindaddr = 127.0.0.1
 displayconnects=no ;only effects 1.6+
 
+[sipban]
+secret = ${ASTERISK_MANAGER_SECRET}
+deny = 0.0.0.0/0.0.0.0
+permit = 127.0.0.1/255.255.255.0
+read = all
+write = all
+writetimeout = 100000
+
 [${ASTERISK_MANAGER_USER}]
 secret = ${ASTERISK_MANAGER_SECRET}
 deny = 0.0.0.0/0.0.0.0
@@ -154,10 +162,6 @@ if [ "$SIP_USER_AGENT" = '_USER_AGENT_' ] && [ "$ASTERISK_USER_AGENT" != '' ] &&
   ASTERISK_SIP_LOCAL_NET01=`echo ${ASTERISK_SIP_LOCAL_NET} | tr "/" "\n" | head -1`
   ASTERISK_SIP_LOCAL_NET02=`echo ${ASTERISK_SIP_LOCAL_NET} | tr "/" "\n" | tail  -1`
   sed -i "s/_SIP_LOCAL_NET_/${ASTERISK_SIP_LOCAL_NET01}\/${ASTERISK_SIP_LOCAL_NET02}/g"  "/etc/asterisk/sip.conf"
-fi
-
-if [ $FAIL2BAN = "true" ]; then
-  /usr/bin/python /usr/bin/fail2ban-server -b -s /var/run/fail2ban/fail2ban.sock -p /var/run/fail2ban/fail2ban.pid -x
 fi
 
 /usr/sbin/asterisk -f -U root -G root

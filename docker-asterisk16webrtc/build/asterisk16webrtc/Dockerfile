@@ -1,6 +1,6 @@
 FROM centos:7
 
-MAINTAINER Federico Pereira <fpereira@cnsoluciones.com>
+LABEL maintainer="Federico Pereira <fpereira@cnsoluciones.com>"
 
 ENV MSMTP='false'
 
@@ -18,7 +18,7 @@ RUN yum -y groupinstall core base "Development Tools" \
 	&& yum -y install unixODBC unixODBC-devel libtool-ltdl libtool-ltdl-devel mysql-connector-odbc \
         && yum clean all
 
-RUN yum -y install ncurses-devel sendmail ssmtp sox lame newt-devel libxml2-devel libtiff-devel audiofile-devel gtk2-devel subversion kernel-devel git crontabs cronie cronie-anacron wget vim uuid-devel sqlite-devel net-tools gnutls-devel python-devel texinfo libuuid-devel mc fail2ban wget htop screen sudo nfs-utils sngrep && yum clean all
+RUN yum -y install ncurses-devel sendmail ssmtp sox lame newt-devel libxml2-devel libtiff-devel audiofile-devel gtk2-devel subversion kernel-devel git crontabs cronie cronie-anacron wget vim uuid-devel sqlite-devel net-tools gnutls-devel python-devel texinfo libuuid-devel mc wget htop screen sudo nfs-utils sngrep && yum clean all
 
 RUN cd /usr/src \
         && wget -O jansson.tar.gz https://github.com/akheron/jansson/archive/v2.13.1.tar.gz \
@@ -83,12 +83,6 @@ RUN cd /usr/src \
         && cp codec_opus_config-en_US.xml /var/lib/asterisk/documentation/thirdparty \
         && rm -fr /usr/src/codec_opus*
 
-### Fail2ban
-RUN mkdir -p /var/log/asterisk/ \
-        && mkdir -p /var/log/fail2ban/ \
-        && touch /var/log/asterisk/full
-
-
 EXPOSE 5038 4445 3306 5060 5061 5160 5161 4569 8088 8089 10000-20000/udp 10000-20000/tcp
 
 #automatic backup
@@ -114,7 +108,6 @@ RUN cp -fra /etc/asterisk /etc/asterisk.org \
         && cp -fra /var/lib/asterisk/sounds /var/lib/asterisk/sounds.org \
         && cp -fra /var/spool/asterisk/voicemail /var/spool/asterisk/voicemail.org
 
-ENV FAIL2BAN false
 ENV MSMTP false
 WORKDIR /etc/asterisk
 ENTRYPOINT ["/docker-entrypoint.sh"]
