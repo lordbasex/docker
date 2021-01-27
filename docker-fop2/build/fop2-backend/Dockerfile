@@ -3,9 +3,9 @@ LABEL maintainer="Federico Pereira <fpereira@cnsoluciones.com>"
 
 ENV MSMTP='false'
 
-ADD http://download2.fop2.com/fop2-2.31.27-centos-x86_64.tgz /usr/src/fop2.tarz
+ADD http://download2.fop2.com/fop2-2.31.29-centos-x86_64.tgz /usr/src/fop2.tarz
 ADD http://download.fop2.com/plugins/phone-1.0.1.tgz /usr/src/phone.tgz
-    
+
 RUN yum -y update \
     && yum -y install -y epel-release \
     && rpm -i https://rpms.remirepo.net/enterprise/remi-release-7.rpm \
@@ -31,8 +31,8 @@ COPY supervisord.conf /etc/supervisord.conf
 
 WORKDIR /usr/src
 
-RUN tar -xzf /usr/src/fop2.tarz \ 
-    && tar -xzf /usr/src/phone.tgz 
+RUN tar -xzf /usr/src/fop2.tarz \
+    && tar -xzf /usr/src/phone.tgz
 
 WORKDIR /var/www
 
