@@ -2,8 +2,8 @@ version: '3.3'
 services:
 
 
-  fop2-backend:
-   container_name: fop2-backend
+  fop2:
+   container_name: fop2
    image: cnsoluciones/fop2:2.31.29
    volumes:
      - /etc/localtime:/etc/localtime:ro
@@ -41,9 +41,9 @@ services:
    network_mode: host
 
 
-  fop2-frontend:
-   container_name: fop2-frontend
-   image: cnsoluciones/fop2frontend:2.31.29
+  fop2_server:
+   container_name: fop2_server
+   image: cnsoluciones/fop2_server:2.31.29
    volumes:
      - /etc/localtime:/etc/localtime:ro
      - ./user-data/etc/letsencrypt:/etc/letsencrypt
@@ -51,12 +51,13 @@ services:
      - ./user-data/fop2/http:/var/www/html
    environment:
       - "FOP2_INTERFACE_REGISTER=${FOP2_INTERFACE_REGISTER}"
-      - "FOP2_AMI_HOST=localhost"
-      - "FOP2_AMI_PORT=5038"
-      - "FOP2_AMI_USER=${ASTERISK_MANAGER_USER}"
-      - "FOP2_AMI_SECRET=${ASTERISK_MANAGER_SECRET}"
+      - "FOP2_AMI_HOST=${FOP2_AMI_HOST}"
+      - "FOP2_AMI_PORT=${FOP2_AMI_PORT}"
+      - "FOP2_AMI_USER=${FOP2_AMI_USER}"
+      - "FOP2_AMI_SECRET=${FOP2_AMI_SECRET}"
    depends_on:
-     - fop2-backend
+     - fop2
+     - voip
    restart: always
    network_mode: host
 
