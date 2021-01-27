@@ -1,5 +1,5 @@
 DOCKER ?= docker
-TARGET ?= cnsoluciones/fop2:2.31.27
+TARGET ?= cnsoluciones/fop2:2.31.29
 
 all:
 	@echo "Building ${TARGET}"
