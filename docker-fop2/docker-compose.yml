@@ -4,7 +4,7 @@ services:
 
   fop2-backend:
    container_name: fop2-backend
-   image: cnsoluciones/fop2:2.31.27
+   image: cnsoluciones/fop2:2.31.29
    volumes:
      - /etc/localtime:/etc/localtime:ro
      - ./user-data/etc/letsencrypt:/etc/letsencrypt
@@ -43,7 +43,7 @@ services:
 
   fop2-frontend:
    container_name: fop2-frontend
-   image: cnsoluciones/fop2frontend:2.31.27
+   image: cnsoluciones/fop2frontend:2.31.29
    volumes:
      - /etc/localtime:/etc/localtime:ro
      - ./user-data/etc/letsencrypt:/etc/letsencrypt
