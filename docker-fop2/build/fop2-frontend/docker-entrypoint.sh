@@ -28,8 +28,9 @@ ENDLINE
 fi
 
 echo "buttonfile=buttons_custom.cfg" >> /usr/local/fop2/fop2.cfg
+echo "buttonfile=buttons_custom_trunk.cfg" >> /usr/local/fop2/fop2.cfg
 
-cat > /usr/local/fop2/buttons_custom.cfg  <<ENDLINE
+cat > /usr/local/fop2/buttons_custom_trunk.cfg  <<ENDLINE
 [SIP/PBX-OUT]
 type=trunk
 label=PBX-OUT
