@@ -16,17 +16,6 @@ cat /tmp/fop2.cfg > /usr/local/fop2/fop2.cfg
 sed 's|ssl_certificate_key_file=/etc/pki/tls/private/localhost.key|ssl_certificate_key_file=/etc/letsencrypt/live/certificate/privkey.pem|'  "/usr/local/fop2/fop2.cfg" > /tmp/fop2.cfg
 cat /tmp/fop2.cfg > /usr/local/fop2/fop2.cfg
 echo "plugin=phone:/var/www/html/admin/plugins/phone" >> /usr/local/fop2/fop2.cfg
-
-
-if [ ! -f /var/www/html/.htaccess ]; then
-cat >> /var/www/html/.htaccess <<ENDLINE
-AuthType Basic
-AuthName "Restricted Content"
-AuthUserFile /htpasswd/.htpasswd
-Require valid-user
-ENDLINE
-fi
-
 echo "buttonfile=buttons_custom.cfg" >> /usr/local/fop2/fop2.cfg
 echo "buttonfile=buttons_custom_webrtc.cfg" >> /usr/local/fop2/fop2.cfg
 echo "buttonfile=buttons_custom_trunk.cfg" >> /usr/local/fop2/fop2.cfg
@@ -47,4 +36,5 @@ ENDLINE
 rm -fr /tmp/fop2.cfg
 
 fi
-exec "$@"
+
+/usr/bin/supervisord
