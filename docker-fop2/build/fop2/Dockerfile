@@ -2,6 +2,8 @@ FROM centos:7
 LABEL maintainer="Federico Pereira <fpereira@cnsoluciones.com>"
 
 ENV MSMTP='false'
+ENV HTACCESS='false'
+
 
 ADD http://download2.fop2.com/fop2-2.31.29-centos-x86_64.tgz /usr/src/fop2.tarz
 ADD http://download.fop2.com/plugins/phone-1.0.1.tgz /usr/src/phone.tgz
@@ -34,7 +36,7 @@ WORKDIR /usr/src
 RUN tar -xzf /usr/src/fop2.tarz \
     && tar -xzf /usr/src/phone.tgz
 
-WORKDIR /var/www
+WORKDIR /var/www/html/fop2
 
 EXPOSE 80 443
 
