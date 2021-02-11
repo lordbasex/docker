@@ -1,5 +1,5 @@
 FROM debian:10
-LABEL maintainer="Federico Pereira <fpereira@cnsoluciones.com>"
+LABEL maintainer="Nicolás Gudi� <ngudino@asternic.net> AND Federico Pereira <fpereira@iperfex.com>"
 
 ENV FOP2_STARTUP_OPTIONS='--licdir=/usr/share/fop2  --dbdir=/var/lib/fop2' \
     FOP2_AMI_HOST=localhost \
