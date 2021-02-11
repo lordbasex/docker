@@ -7,6 +7,7 @@ menu_1 () {
   echo Do you want to create a webjc pjsip extension or several?
   echo "1) One extension"
   echo "2) More than two extension"
+  echo "3) Clear all extension"
   read var
 
   case $var in
@@ -16,8 +17,17 @@ menu_1 () {
      	  2)
             two
             ;;
+          3)
+	        > user-data/etc/asterisk/pjsip_template_aor.conf
+	        > user-data/etc/asterisk/pjsip_template_auth.conf
+	        > user-data/etc/asterisk/pjsip_template_endpoint.conf
+	        echo "[hints]" > user-data/etc/asterisk/extensions_hints.conf
+            docker-compose exec voip asterisk -rx "core reload"
+            docker-compose restart fop2_server
+	        exit
+            ;;
      	  *)
-	    #loop
+	        #loop
             menu_1
             ;;
   esac
@@ -78,7 +88,7 @@ two () {
     echo ""
     echo ""
 
-INTERFACE="ens5"
+INTERFACE="eth0"
 IPADDRESS=`ip addr show ${INTERFACE} | grep "inet\b" | awk '{print $2}' | cut -d/ -f1`
 
 for (( i=$start; i<=$stopextension; i++ ))
@@ -112,14 +122,13 @@ echo "exten => ${EXTENSION},hint,PJSIP/${EXTENSION}" >>  user-data/etc/asterisk/
 
 
 #fop2
-cat >> user-data/fop2/server/fop2.cfg <<ENDLINE
-user=${EXTENSION}:0${EXTENSION}:all::phone,configonreload
+cat >> fop2.cfg <<ENDLINE
+user=${EXTENSION}:0${EXTENSION}:all::configonreload
 ENDLINE
 
-cat >> buttons_custom.cfg <<ENDLINE
+cat >> buttons_custom_webrtc.cfg <<ENDLINE
 
 [PJSIP/${EXTENSION}]
-server=172.20.196.114
 type=extension
 extension=${EXTENSION}
 label=${EXTENSION}
@@ -138,7 +147,7 @@ done
 
 docker-compose exec voip asterisk -rx "core reload"
 docker-compose exec voip asterisk -rx "pjsip show auths"
-docker-compose restart fop2-frontend
+docker-compose restart fop2_server
 exit
 
 }
@@ -208,18 +217,18 @@ echo "exten => ${EXTENSION},hint,PJSIP/${EXTENSION}" >>  user-data/etc/asterisk/
 
 
 #fop2
-cat >> user-data/fop2/server/fop2.cfg <<ENDLINE
-user=${EXTENSION}:0${EXTENSION}:all::phone,configonreload
+cat >> fop2.cfg <<ENDLINE
+user=${EXTENSION}:0${EXTENSION}:all::configonreload
 ENDLINE
 
-cat >> user-data/fop2/server/buttons_custom.cfg <<ENDLINE
+cat >> buttons_custom_webrtc.cfg <<ENDLINE
 
 [PJSIP/${EXTENSION}]
 type=extension
 extension=${EXTENSION}
 label=Device ${EXTENSION}
 context=from-internal
-channel=PJSIP/90${EXTENSION}
+channel=PJSIP/${EXTENSION}
 queuechannel=Local/${EXTENSION}@from-queue/n|Penalty=0|MemberName=Device ${EXTENSION}|StateInterface=PJSIP/${EXTENSION}
 customastdb=CF/${EXTENSION}
 queuecontext=from-queue
@@ -232,7 +241,7 @@ ENDLINE
 
 docker-compose exec voip asterisk -rx "core reload"
 docker-compose exec voip asterisk -rx "pjsip show auths"
-#docker-compose restart fop2-frontend
+docker-compose restart fop2_server
 }
 
 menu_1
@@ -240,3 +249,4 @@ clear
 echo " Extension: $EXTENSION"
 echo " Password $pass_type: $EXTENSION_PW"
 create_extension
+
