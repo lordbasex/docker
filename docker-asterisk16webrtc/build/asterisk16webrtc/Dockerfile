@@ -49,7 +49,7 @@ RUN cd /usr/src \
         && echo "asterisk -rvvvvvvvvvv" > /usr/local/sbin/a \
 	&& chmod 777 -R /usr/local/sbin/ \
         && ldconfig \
-        && rm -r /usr/src/asterisk* \
+        #&& rm -r /usr/src/asterisk* \
 	&& rm -fr /etc/asterisk/res_odbc.conf \
 	&& rm -fr /etc/asterisk/manager.conf
 
@@ -82,6 +82,20 @@ RUN cd /usr/src \
         && cp format_ogg_opus.so /usr/lib64/asterisk/modules \
         && cp codec_opus_config-en_US.xml /var/lib/asterisk/documentation/thirdparty \
         && rm -fr /usr/src/codec_opus*
+
+### CLIENT VOSK SERVER ASR
+RUN cd /usr/src \ 
+        && wget -O vosk-asterisk.tar.gz  https://github.com/iperfex-team/vosk-asterisk/archive/vosk-asterisk.tar.gz \
+        && tar -xvzf vosk-asterisk.tar.gz \
+        && rm -f vosk-asterisk.tar.gz \
+        && cd vosk-asterisk-vosk-asterisk \
+        && ./bootstrap \
+        && ./configure --with-asterisk=`cd /usr/src/asterisk* && pwd` --prefix=/usr/lib64 \
+        && make \
+        && make install \
+        && rm -fr vosk-asterisk-vosk-asterisk \
+        && && rm -r /usr/src/asterisk* 
+
 
 EXPOSE 5038 4445 3306 5060 5061 5160 5161 4569 8088 8089 10000-20000/udp 10000-20000/tcp
 
