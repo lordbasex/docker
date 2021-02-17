@@ -35,7 +35,8 @@ RUN cd /usr/src \
         && wget http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-16-current.tar.gz \
         && tar xfz asterisk-* \
         && rm -f asterisk-*.tar.gz \
-        && cd asterisk-* \
+	&& mv asterisk-* asterisk \
+        && cd asterisk \
         && contrib/scripts/get_mp3_source.sh \
         && contrib/scripts/install_prereq install \
         && ./configure --libdir=/usr/lib64 --prefix=/usr --with-pjproject-bundled --with-jansson-bundled --with-ssl=ssl --with-srtp CFLAGS='-O2 -DNDEBUG' \
@@ -49,7 +50,6 @@ RUN cd /usr/src \
         && echo "asterisk -rvvvvvvvvvv" > /usr/local/sbin/a \
 	&& chmod 777 -R /usr/local/sbin/ \
         && ldconfig \
-        #&& rm -r /usr/src/asterisk* \
 	&& rm -fr /etc/asterisk/res_odbc.conf \
 	&& rm -fr /etc/asterisk/manager.conf
 
@@ -84,17 +84,17 @@ RUN cd /usr/src \
         && rm -fr /usr/src/codec_opus*
 
 ### CLIENT VOSK SERVER ASR
-RUN cd /usr/src \ 
-        && wget -O vosk-asterisk.tar.gz  https://github.com/iperfex-team/vosk-asterisk/archive/vosk-asterisk.tar.gz \
+RUN cd /usr/src \
+        && wget -O vosk-asterisk.tar.gz https://github.com/iperfex-team/vosk-asterisk/archive/vosk-asterisk.tar.gz \
         && tar -xvzf vosk-asterisk.tar.gz \
         && rm -f vosk-asterisk.tar.gz \
         && cd vosk-asterisk-vosk-asterisk \
         && ./bootstrap \
-        && ./configure --with-asterisk=`cd /usr/src/asterisk* && pwd` --prefix=/usr/lib64 \
+        && ./configure --with-asterisk=/usr/src/asterisk --prefix=/usr/lib64 \
         && make \
         && make install \
         && rm -fr vosk-asterisk-vosk-asterisk \
-        && && rm -r /usr/src/asterisk* 
+        && rm -r /usr/src/asterisk
 
 
 EXPOSE 5038 4445 3306 5060 5061 5160 5161 4569 8088 8089 10000-20000/udp 10000-20000/tcp
