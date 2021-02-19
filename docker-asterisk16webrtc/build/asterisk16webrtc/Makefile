@@ -1,5 +1,5 @@
 DOCKER ?= docker
-TARGET ?= cnsoluciones/asterisk16webrtc:16.15.0
+TARGET ?= cnsoluciones/asterisk16webrtc:16.16.1
 
 all:
 	@echo "Building ${TARGET}"
