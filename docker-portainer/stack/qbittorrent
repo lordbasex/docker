@@ -2,7 +2,7 @@
 version: "2"
 services:
   qbittorrent:
-    image: linuxserver/qbittorrent
+    image: ghcr.io/linuxserver/qbittorrent
     container_name: qbittorrent
     environment:
       - PUID=998
