@@ -124,7 +124,6 @@ cd /root/asterisk16webrtc
 NOTA: Modifique el archivo **.env ** antes de hacer **docker-compose -f certbot.yml up**
 
 ```
-systemctl stop firewalld
 docker-compose -f certbot.yml up
 docker-compose -f certbot.yml down
 ```
