@@ -120,7 +120,7 @@ cd /root/asterisk16webrtc
 ```
 
 ### Docker Creación certificado SSL Let's Encrypt
-NOTA: Modifique el archivo **.env ** antes de hacer **docker-compose -f certbot.yml up**
+NOTA: Modifique el archivo **.env** antes de hacer **docker-compose -f certbot.yml up**
 
 ```
 docker-compose -f certbot.yml up
