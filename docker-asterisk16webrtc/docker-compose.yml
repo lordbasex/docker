@@ -14,10 +14,9 @@ services:
         - "MYSQL_USER=${MYSQL_USER}"
         - "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
         - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}"
-        - "MYSQL_DATABASES=${MYSQL_DATABASE_DB} ${MYSQL_DATABASE_CDR}"
+        - "MYSQL_DATABASES=${MYSQL_DATABASE_DB} ${MYSQL_DATABASE_CDR} ${MYSQL_DATABASE_FOP2}"
     restart: always
     network_mode: host
-
 
   voip:
     environment:
@@ -61,31 +60,68 @@ services:
     restart: always
     network_mode: host
 
-  sipban:
-    environment:        
-        - "AMI_PORT=5038"
-        - "AMI_USER=sipban"
-        - "AMI_PASS=${ASTERISK_MANAGER_SECRET}"
-        - "AMI_HOST=localhost"
-        #optional
-        - "TZ=${TIMEZONE}"
-        - "SIPBAN_PORT=4451"
-        - "AMI_PING=600"
-        - "TIMER_BAN=86400"
-        - "IPTABLES_LEGACY=true"
-        - "IPTABLES_CHAIN=sipban-udp"
-        - "IPTABLES_RULE=REJECT"
-    privileged: true
-    container_name: sipban
-    image: sipban/sipban:latest
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ./user-data/etc/sipban:/etc/sipban
-      - ./user-data/logs/sipban:/var/log/sipban
-    depends_on:
-      - voip
-    restart: always
-    network_mode: host
+  fop2:
+   container_name: fop2
+   image: fop2/web:2.31.30
+   volumes:
+     - /etc/localtime:/etc/localtime:ro
+     - ./user-data/etc/letsencrypt:/etc/letsencrypt
+     - ./user-data/var/lib/fop2:/var/lib/fop2
+     - ./user-data/var/www/html/fop2/admin/plugins:/var/www/html/fop2/admin/plugins
+     - ./buttons_custom_webrtc.cfg:/usr/local/fop2/buttons_custom.cfg
+   environment:
+     - TIMEZONE=${TIMEZONE}
+     - FOP2_ADMIN_USER=${FOP2_ADMIN_USER}
+     - FOP2_ADMIN_PWD=${FOP2_ADMIN_PWD}
+     - FOP2_WEB_DBDIR=${FOP2_WEB_DBDIR}
+     - FOP2_AMI_HOST=${FOP2_AMI_HOST}
+     - FOP2_AMI_PORT=${FOP2_AMI_PORT}
+     - FOP2_AMI_USER=${FOP2_AMI_USER}
+     - FOP2_AMI_SECRET=${FOP2_AMI_SECRET}
+     - HTACCESS=${HTACCESS}
+     - HTPASSWD_USER=${HTPASSWD_USER}
+     - HTPASSWD_PASS=${HTPASSWD_PASS}
+     - MYSQL_DATABASE_FOP2=${MYSQL_DATABASE_FOP2}
+     - MYSQL_USER=${MYSQL_USER}
+     - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+     - MYSQL_HOST=${MYSQL_HOST}
+     - MYSQL_PORT=${MYSQL_PORT}
+   depends_on:
+     - mariadb
+   restart: always
+   network_mode: host
+
+
+  fop2_server:
+   container_name: fop2_server
+   image: fop2/server:2.31.30
+   volumes:
+     - /etc/localtime:/etc/localtime:ro
+     - ./user-data/etc/letsencrypt:/etc/letsencrypt
+     - ./user-data/usr/share/fop2:/usr/share/fop2
+     - ./user-data/var/lib/fop2:/var/lib/fop2
+     - ./buttons_custom_webrtc.cfg:/usr/local/fop2/buttons_custom.cfg
+     - ./user-data/var/www/html/fop2/admin/plugins:/var/www/html/fop2/admin/plugins
+   environment:
+     - TIMEZONE
+     - FOP2_STARTUP_OPTIONS=${FOP2_STARTUP_OPTIONS}
+     - FOP2_AMI_HOST=${FOP2_AMI_HOST}
+     - FOP2_AMI_PORT=${FOP2_AMI_PORT}
+     - FOP2_AMI_USER=${FOP2_AMI_USER}
+     - FOP2_AMI_SECRET=${FOP2_AMI_SECRET}
+     - FOP2_SSL_CERTIFICATE_FILE=${FOP2_SSL_CERTIFICATE_FILE}
+     - FOP2_SSL_CERTIFICATE_KEY_FILE=${FOP2_SSL_CERTIFICATE_KEY_FILE}
+     - MYSQL_DATABASE_FOP2=${MYSQL_DATABASE_FOP2}
+     - MYSQL_USER=${MYSQL_USER}
+     - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+     - MYSQL_HOST=${MYSQL_HOST}
+     - MYSQL_PORT=${MYSQL_PORT}
+   depends_on:
+     - fop2
+     - voip
+   restart: always
+   network_mode: host
+
 
   certbot:
     container_name: certbot
