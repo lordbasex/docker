@@ -4,7 +4,7 @@ Lord BaseX (c) 2014-2021
  Federico Pereira <fpereira@cnsoluciones.com>
 
 
-### Instalación Paquetes Debian 10
+### Instalación Paquetes para Debian 10
 
 Nos conectamos al servidor utilizando algún cliente SSH e instalamos los siguientes paquetes.
 
