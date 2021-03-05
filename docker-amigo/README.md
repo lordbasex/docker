@@ -20,3 +20,28 @@ services:
     restart: always
     network_mode: host
 ```
+
+
+````
+[admin]
+secret = 1234
+deny = 0.0.0.0/0.0.0.0
+permit = 127.0.0.1/255.255.255.0
+read = all
+write = all
+writetimeout = 1000
+eventfilter=!Event: RTCP*
+eventfilter=!Event: VarSet
+eventfilter=!Event: Cdr
+eventfilter=!Event: DTMF
+eventfilter=!Event: AGIExec
+eventfilter=!Event: ExtensionStatus
+eventfilter=!Event: ChannelUpdate
+eventfilter=!Event: ChallengeSent
+eventfilter=!Event: SuccessfulAuth
+eventfilter=!Event: DeviceStateChange
+eventfilter=!Event: RequestBadFormat
+eventfilter=!Event: MusicOnHoldStart
+eventfilter=!Event: MusicOnHoldStop
+eventfilter=!Event: NewAccountCode
+eventfilter=!Event: DeviceStateChange
