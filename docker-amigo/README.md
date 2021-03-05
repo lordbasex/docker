@@ -21,7 +21,7 @@ services:
     network_mode: host
 ```
 
-
+# manager.conf
 ````
 [admin]
 secret = 1234
