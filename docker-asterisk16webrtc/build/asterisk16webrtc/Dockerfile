@@ -96,7 +96,7 @@ RUN cd /usr/src \
         && cp conf/res-speech-vosk.conf /etc/asterisk/res-speech-vosk.conf \
 	&& cp /usr/lib64/lib/asterisk/modules/res_speech_vosk.so /usr/lib64/asterisk/modules \ 
 	&& rm -fr /usr/lib64/etc/asterisk/res-speech-vosk.conf 	\
-        && rm -fr /usr/src vosk-asterisk-vosk-asterisk \
+        && rm -fr /usr/src/vosk-asterisk-vosk-asterisk \
 	&& rm -fr /usr/lib64/lib/asterisk/modules \
         && rm -r /usr/src/asterisk
 
