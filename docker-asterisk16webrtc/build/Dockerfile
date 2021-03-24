@@ -1,6 +1,6 @@
-##################################
-# STEP 1 build executable binary #
-##################################
+#####################################
+# STEP 1 build executable binary    #
+#####################################
 FROM debian:buster-slim AS builder
 
 LABEL maintainer="Federico Pereira <fpereira@cnsoluciones.com>"
@@ -138,9 +138,9 @@ RUN cd /usr/src \
 	&& rm -fr /usr/lib/lib/asterisk/modules \
         && rm -r /usr/src/asterisk
 
-##################################
-# STEP 1 build executable binary #
-##################################
+#####################################
+# STEP 2 build a buster slim image  #
+#####################################
 FROM debian:buster-slim as asteriskwebrtc
 
 LABEL maintainer="Federico Pereira <fpereira@cnsoluciones.com>"
