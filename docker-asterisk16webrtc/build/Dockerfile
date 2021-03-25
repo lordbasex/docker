@@ -130,12 +130,12 @@ RUN cd /usr/src \
         && ./bootstrap \
         && ./configure --with-asterisk=/usr/src/asterisk --prefix=/usr/lib \
         && make \
-	&& make install \
+        && make install \
         && cp conf/res-speech-vosk.conf /etc/asterisk/res-speech-vosk.conf \
-	&& cp /usr/lib/lib/asterisk/modules/res_speech_vosk.so /usr/lib/asterisk/modules \ 
-	&& rm -fr /usr/lib/etc/asterisk/res-speech-vosk.conf 	\
+        && cp /usr/lib/lib/asterisk/modules/res_speech_vosk.so /usr/lib/asterisk/modules \ 
+        && rm -fr /usr/lib/etc/asterisk/res-speech-vosk.conf 	\
         && rm -fr /usr/src/vosk-asterisk-vosk-asterisk \
-	&& rm -fr /usr/lib/lib/asterisk/modules \
+        && rm -fr /usr/lib/lib/asterisk/modules \
         && rm -r /usr/src/asterisk
 
 #####################################
@@ -152,22 +152,38 @@ ENV MSMTP='false' \
 RUN apt update
 
 RUN apt install -y --no-install-recommends --no-install-suggests \
-        libcap2 \
-        libedit-dev \
+        freetds-dev \
         libbinutils \
+        libcap2 \
+        libcodec2-dev \
+        libcurl4 \
+        libedit-dev \
+        libgmime-3.0-dev \
+        libgsm1-dev \
+        libical-dev \
+        libiksemel-dev \
         libjansson-dev \
         libldap2-dev \
         libncurses5-dev \
+        libneon27-dev \
+        libosptk4 \
+        libportaudio-ocaml-dev \
+        libresample1-dev \
+        libsnmp30 \
+        libspandsp-dev \
+        libspeexdsp-dev \
         libsqlite3-dev \
         libsrtp2-dev \
-        liburiparser-dev \ 
         libssl-dev \
+        libunbound-dev \
+        liburiparser-dev \ 
         libuuid1 \
+        libvorbis-dev \
         libxml2-dev \
         libxslt-dev \
+        net-tools \
         odbc-postgresql \
         openssl \
-        net-tools \
         postgresql-client \
         procps \
         supervisor \
@@ -191,6 +207,7 @@ COPY --from=builder --chown=asterisk:asterisk /usr/sbin/asterisk /usr/sbin/aster
 COPY --from=builder --chown=asterisk:asterisk /etc/asterisk/ /etc/asterisk/
 COPY --from=builder --chown=asterisk:asterisk /etc/init.d/asterisk /etc/init.d/
 COPY --from=builder --chown=asterisk:asterisk /var/lib/asterisk/ /var/lib/asterisk/
+COPY --from=builder /usr/local/sbin/a /usr/local/sbin/a
 
 EXPOSE 5038 5060 5061 5160 5161 4569 8080 8089 10000-20000/udp 10000-20000/tcp
 
