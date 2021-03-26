@@ -202,6 +202,7 @@ COPY ./config/etc /etc
 
 COPY --from=builder --chown=asterisk:asterisk /usr/lib/libasterisk* /usr/lib/
 COPY --from=builder --chown=asterisk:asterisk /usr/lib/asterisk/ /usr/lib/asterisk/
+COPY --from=builder --chown=asterisk:asterisk /usr/lib/libbcg729* /usr/lib/
 COPY --from=builder --chown=asterisk:asterisk /var/spool/asterisk/ /var/spool/asterisk/
 COPY --from=builder --chown=asterisk:asterisk /var/log/asterisk/ /var/log/asterisk/
 COPY --from=builder --chown=asterisk:asterisk /usr/sbin/asterisk /usr/sbin/asterisk
