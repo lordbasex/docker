@@ -195,7 +195,8 @@ RUN apt install -y --no-install-recommends --no-install-suggests \
 
 ### Add users
 RUN addgroup --gid 500 asterisk \
-        && adduser --uid 500 --gid 500 --gecos "Asterisk User" --disabled-password asterisk 
+        && adduser --uid 500 --gid 500 --gecos "Asterisk User" --disabled-password asterisk \
+	&& rm -fr /etc/odbcinst.ini /etc/odbc.ini
 
 COPY ./config/etc /etc
 
