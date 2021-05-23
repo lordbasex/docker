@@ -41,19 +41,21 @@ services:
 
 Go to http://your-host-ip:5572 to access the Rclone GUI.
 
-Environment Variables
+## Environment Variables
 To customize some properties of the container, the following environment variables can be passed via the -e parameter (one for each variable). Value of this parameter has the format <VARIABLE_NAME>=<VALUE>.
 
 ## Variable	Description	Default
 * RCUSER =	Username to be used to authenticate into the web interface.	
 * RCPASS =	Password to be used to authenticate into the web interface.	
 
-## Data Volumes
+## Data Volumes
+    
 The following table describes data volumes used by the container. The mappings are set via the -v parameter. Each mapping is specified with the following format: <HOST_DIR>:<CONTAINER_DIR>[:PERMISSIONS].
 
 ## Container path	Permissions	Description
   
 /config	rw	This is where the application stores its configuration. Expects rclone.conf to be present.
+    
 /media	rw	This is where downloaded files are stored, or where you put files in your host for uploading.
 
 ## Ports
