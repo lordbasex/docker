@@ -1,0 +1,23 @@
+version: '3.2'
+
+services:
+
+    rclone:
+        image: lordbasex/rclone-gui
+        container_name: rclone-gui
+        restart: always
+        volumes:
+          - /Users/basex/.config/rclone:/config
+          - ./user-data:/media
+          - /etc/passwd:/etc/passwd:ro
+          - /etc/group:/etc/group:ro
+
+        ports:
+          - 5572:5572
+
+        environment:
+          - ROUP_ID=501
+          - USER_ID=20
+          - TZ=America/Argentina/Buenos_Aires
+          - RCUSER=admin
+          - RCPASS=XXXXXXXXX
