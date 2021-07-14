@@ -45,3 +45,10 @@ eventfilter=!Event: MusicOnHoldStart
 eventfilter=!Event: MusicOnHoldStop
 eventfilter=!Event: NewAccountCode
 eventfilter=!Event: DeviceStateChange
+
+# Go init project
+```
+ go mod init amigo
+ go test
+ go get -v
+```
