@@ -33,6 +33,4 @@ ENV AMI_HOST=localhost \
   AMI_USERNAME=admin \
   AMI_PASSWORD=123456
 
-EXPOSE 8000
-
 ENTRYPOINT ["/go/bin/amigo.go"]
