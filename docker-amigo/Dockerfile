@@ -26,7 +26,7 @@ RUN go build -o /go/bin/amigo.go
 ############################
 FROM alpine:latest
 
-COPY --from=builder /go/bin/agiserver /go/bin/amigo.go
+COPY --from=builder /go/bin/amigo.go /go/bin/amigo.go
 
 ENV AMI_HOST=localhost \
   AMI_PORT=5038 \
