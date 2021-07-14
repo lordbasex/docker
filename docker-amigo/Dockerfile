@@ -9,16 +9,11 @@ ENV GO111MODULE=on \
     GOBIN=/home/go/bin
 
 RUN apk update && apk add --no-cache git go bash ca-certificates
-
 RUN mkdir -p /home/go/src /home/go/bin /home/go/src/amigo && chmod -R 777 /home/go /home/go/src/amigo && cp -fr /usr/bin/go /home/go/bin/
-
 WORKDIR /home/go/src/amigo
-
 COPY ./amigo.go .
 COPY ./go.mod .
-
 RUN go get -v
-
 RUN go build -o /go/bin/amigo.go
 
 ############################
