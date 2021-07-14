@@ -10,9 +10,9 @@ ENV GO111MODULE=on \
 
 RUN apk update && apk add --no-cache git go bash ca-certificates
 
-RUN mkdir -p /home/go/src /home/go/bin /home/go/src/lambdafunctions/agiserver && chmod -R 777 /home/go /home/go/src/lambdafunctions/agiserver && cp -fr /usr/bin/go /home/go/bin/
+RUN mkdir -p /home/go/src /home/go/bin /home/go/src/amigo && chmod -R 777 /home/go /home/go/src/amigo && cp -fr /usr/bin/go /home/go/bin/
 
-WORKDIR /home/go/src/lambdafunctions/agiserver
+WORKDIR /home/go/src/amigo
 
 COPY ./amigo.go .
 COPY ./go.mod .
