@@ -10,6 +10,10 @@ Pakages
  * wine-stable
  * winbox64.exe
 
+```
+docker run --rm --name ubuntu -it -p6080:6080  cnsoluciones/x11vnc-desktop:18.04
+```
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/lordbasex/Docker/master/X11Docker/x11vnc-desktop/x11vnc_desktop.py -o x11vnc_desktop.py && python x11vnc_desktop.py -i cnsoluciones/x11vnc-desktop -t 18.04 -v ubuntu -v /Users/basex/x11vnc-desktop
 ```
