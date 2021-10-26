@@ -12,7 +12,6 @@ RUN yum install -y msmtp \
     mariadb \
     crontabs \
     net-tools \
-    supervisor \
     procps \
     mailx \
     unzip \
@@ -23,10 +22,9 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
 
 VOLUME [ "/root/.aws", "/Download", "/Upload" ]
 
-COPY supervisord.conf /etc/
 COPY scripts /usr/src/scripts
 COPY crontabs /usr/src/crontabs
 COPY docker-entrypoint.sh /
 RUN chmod +x /docker-entrypoint.sh
 
-ENTRYPOINT ["supervisord", "--nodaemon", "--configuration", "/etc/supervisord.conf"]
+CMD ["/docker-entrypoint.sh"]
