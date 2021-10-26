@@ -13,6 +13,8 @@ RUN yum install -y msmtp \
     crontabs \
     net-tools \
     procps \
+    which \
+    jq \
     mailx \
     unzip \
     && yum clean all \
