@@ -29,10 +29,22 @@ The environment variable timezone. By default America/Argentina/Buenos_Aires
 
 * More information about timezone: https://wiki.alpinelinux.org/wiki/Setting_the_timezone
 
-### EXAMPLE: TIMEZONE URUGUAY MONTEVIDEO
+### Deply
 
 ```bash
-docker run --rm --name=aws-cli -ti -e TZ="America/Montevideo" --volume=`pwd`/aws:/root/.aws cnsoluciones/aws-cli:1.18.36 aws --version
+docker-compose up -d
+```
+
+### shell
+
+```bash
+docker-compose awscli bash
+```
+
+### aws --version
+
+```bash
+docker-compose exec awscli aws --version
 ```
 
 ## VOLUME (OPTIONAL)
