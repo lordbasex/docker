@@ -5,7 +5,7 @@ ENV TZ='America/Argentina/Buenos_Aires' \
     MAIL_NOTIFICATION='lord.basex@gmail.com'
 
 RUN amazon-linux-extras install epel -y \
-    && install https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm
+    && yum install -y https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm
 
 RUN yum install -y msmtp \
     p7zip \
