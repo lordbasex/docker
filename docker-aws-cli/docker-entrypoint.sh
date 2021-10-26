@@ -32,3 +32,5 @@ fi
 
 chmod -R 777 /scripts/*
 chmod -R 0600 /var/spool/cron/crontabs/*
+
+/usr/sbin/crond -n
