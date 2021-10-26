@@ -1,27 +1,21 @@
-FROM alpine:3.11
+FROM amazonlinux:latest
 LABEL maintainer="Federico Pereira <fpereira@cnsoluciones.com>"
-ARG VERSION
-ENV AWSCLI_VERSION=$VERSION \
-    TZ='America/Argentina/Buenos_Aires' \
+
+ENV TZ='America/Argentina/Buenos_Aires' \
     MAIL_NOTIFICATION='lord.basex@gmail.com'
 
-RUN apk add --update \
-    python \
-    python-dev \
-    py-pip \
-    tzdata \
-    mysql-client \
-    dcron \
-    supervisor \
+RUN amazon-linux-extras install epel -y \
+    && install https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm
+
+RUN yum install -y msmtp \
     p7zip \
-    msmtp \
+    mariadb \
+    crontabs \
+    net-tools \
+    supervisor \
     mailx \
-    bash \
-    && pip install awscli==$AWSCLI_VERSION \
-    && apk --purge -v del py-pip \
-    && rm -rf /var/cache/apk/* \
-    && rm -rf /var/spool/cron/crontabs \
-    && rm -fr /etc/crontabs/root
+    && yum clean all \
+    && rm -rf /var/cache/yum
 
 VOLUME [ "/root/.aws", "/Download", "/Upload" ]
 
