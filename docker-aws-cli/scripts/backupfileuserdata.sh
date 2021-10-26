@@ -5,8 +5,8 @@ cd /tmp && tar -czf ${FILE_USER_DATA} /user-data >> /var/log/backupfileuserdata.
 
 cd /tmp
 for f in *.tar.gz; do
-	echo "7z a -v2g -mx0 $f.7z $f" >> /var/log/backupfileuserdata.log
-        7z a -v2g -mx0 $f.7z $f >> /var/log/backupfileuserdata.log
+	echo "7za -v2g -mx0 $f.7z $f" >> /var/log/backupfileuserdata.log
+        7za -v2g -mx0 $f.7z $f >> /var/log/backupfileuserdata.log
 done
 
 for z in *.7z.*; do
