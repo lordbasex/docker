@@ -13,6 +13,7 @@ RUN yum install -y msmtp \
     crontabs \
     net-tools \
     supervisor \
+    procps \    
     mailx \
     && yum clean all \
     && rm -rf /var/cache/yum
