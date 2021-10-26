@@ -38,7 +38,7 @@ docker-compose up -d
 ### shell
 
 ```bash
-docker-compose awscli bash
+docker-compose exec awscli bash
 ```
 
 ### aws --version
