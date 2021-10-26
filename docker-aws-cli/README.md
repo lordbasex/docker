@@ -130,3 +130,10 @@ tar -xzvf user-data_07-10-2020_05_00_01.tar.gz
 docker-compose up -d
 rm -fr user-data_*
 ```
+
+### ECS exec test
+```bash
+CLUSTER_NAME=cluster-name
+TASK_NAME=xxxxxxxxxxxxxxxxxxxxxxxxxxx
+bash <( curl -Ls https://raw.githubusercontent.com/aws-containers/amazon-ecs-exec-checker/main/check-ecs-exec.sh ) $CLUSTER_NAME $TASK_NAME
+```
