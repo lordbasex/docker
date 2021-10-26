@@ -2,9 +2,9 @@ version: '3.1'
 
 services:
 
-  autobackup:
-    container_name: autobackup
-    image: cnsoluciones/aws-cli:1.18.36
+  awscli:
+    container_name: awscli
+    image: cnsoluciones/aws-cli:latest
     restart: always
     environment:
       - "TZ=America/Argentina/Buenos_Aires"
@@ -33,5 +33,4 @@ services:
       - ./user-data:/user-data
       - ./user-data/autobackup/crontabs:/var/spool/cron/crontabs
       - ./user-data/autobackup/scripts:/scripts
-    depends_on:
-      - db
+
