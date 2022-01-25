@@ -103,7 +103,7 @@ owners.
 
 Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 
-ProxySQL Admin>select hostgroup_id,hostname,status from runtime_mysql_servers;
+ProxySQL Admin>select hostgroup_id, hostname, status, comment from runtime_mysql_servers;
 +--------------+----------+--------+
 | hostgroup_id | hostname | status |
 +--------------+----------+--------+
