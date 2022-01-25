@@ -85,39 +85,26 @@ mysql -h127.0.0.1 -P6032 -uradmin -pradmin --prompt "ProxySQL Admin>"
 ```
 
 ```
-select hostgroup_id,hostname,status from runtime_mysql_servers;
+SELECT hostgroup_id, hostname, status, comment FROM runtime_mysql_servers;
 ```
 
-OUT
+### QUERY ###
+
 ```
-mysql: [Warning] Using a password on the command line interface can be insecure.
-Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 10
-Server version: 8.0.0 (ProxySQL Admin Module)
-
-Copyright (c) 2000, 2021, Oracle and/or its affiliates.
-
-Oracle is a registered trademark of Oracle Corporation and/or its
-affiliates. Other names may be trademarks of their respective
-owners.
-
-Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
-
-ProxySQL Admin>select hostgroup_id, hostname, status, comment from runtime_mysql_servers;
-+--------------+----------+--------+
-| hostgroup_id | hostname | status |
-+--------------+----------+--------+
-| 0            | master   | ONLINE |
-| 5            | slave05  | ONLINE |
-| 4            | slave04  | ONLINE |
-| 3            | slave03  | ONLINE |
-| 2            | slave02  | ONLINE |
-| 1            | slave01  | ONLINE |
-+--------------+----------+--------+
-6 rows in set (0.01 sec)
-
-ProxySQL Admin>
+SELECT hostgroup_id, hostname, status, comment FROM runtime_mysql_servers;
++--------------+----------+--------+--------------+
+| hostgroup_id | hostname | status | comment      |
++--------------+----------+--------+--------------+
+| 10           | master   | ONLINE | write server |
+| 20           | slave05  | ONLINE | read server  |
+| 20           | slave04  | ONLINE | read server  |
+| 20           | slave03  | ONLINE | read server  |
+| 20           | slave02  | ONLINE | read server  |
+| 20           | slave01  | ONLINE | read server  |
++--------------+----------+--------+--------------+
+6 rows in set (0.002 sec)
 ```
+
 
 #### ProxySQL UI ####
 
