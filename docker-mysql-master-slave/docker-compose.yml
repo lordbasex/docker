@@ -1,0 +1,127 @@
+version: '3'
+services:
+
+  master:
+    image: mysql:5.7.37
+    env_file:
+      - ./conf/master/mysql_master.env
+    container_name: "master"
+    hostname: "master"
+    restart: "no"
+    ports:
+      - 5500:3306
+    volumes:
+      - ./conf/master/mysql.conf.cnf:/etc/mysql/conf.d/mysql.conf.cnf
+      - ./user-data/master:/var/lib/mysql
+    networks:
+      - overlay
+
+  slave01:
+    image: mysql:5.7.37
+    env_file:
+      - ./conf/slave01/mysql_slave.env
+    container_name: "slave01"
+    hostname: "slave01"
+    restart: "no"
+    ports:
+      - 5501:3306
+    depends_on:
+      - master
+    volumes:
+      - ./conf/slave01/mysql.conf.cnf:/etc/mysql/conf.d/mysql.conf.cnf
+      - ./user-data/slave01:/var/lib/mysql
+    networks:
+      - overlay
+
+  slave02:
+    image: mysql:5.7.37
+    env_file:
+      - ./conf/slave02/mysql_slave.env
+    container_name: "slave02"
+    hostname: "slave02"
+    restart: "no"
+    ports:
+      - 5502:3306
+    depends_on:
+      - master
+    volumes:
+      - ./conf/slave02/mysql.conf.cnf:/etc/mysql/conf.d/mysql.conf.cnf
+      - ./user-data/slave02:/var/lib/mysql
+    networks:
+      - overlay
+
+  slave03:
+    image: mysql:5.7.37
+    env_file:
+      - ./conf/slave02/mysql_slave.env
+    container_name: "slave03"
+    hostname: "slave03"
+    restart: "no"
+    ports:
+      - 5503:3306
+    depends_on:
+      - master
+    volumes:
+      - ./conf/slave03/mysql.conf.cnf:/etc/mysql/conf.d/mysql.conf.cnf
+      - ./user-data/slave03:/var/lib/mysql
+    networks:
+      - overlay
+
+  slave04:
+    image: mysql:5.7.37
+    env_file:
+      - ./conf/slave04/mysql_slave.env
+    container_name: "slave04"
+    hostname: "slave04"
+    restart: "no"
+    ports:
+      - 5504:3306
+    depends_on:
+      - master
+    volumes:
+      - ./conf/slave04/mysql.conf.cnf:/etc/mysql/conf.d/mysql.conf.cnf
+      - ./user-data/slave04:/var/lib/mysql
+    networks:
+      - overlay
+
+  slave05:
+    image: mysql:5.7.37
+    env_file:
+      - ./conf/slave05/mysql_slave.env
+    container_name: "slave05"
+    hostname: "slave05"
+    restart: "no"
+    ports:
+      - 5505:3306
+    depends_on:
+      - master
+    volumes:
+      - ./conf/slave05/mysql.conf.cnf:/etc/mysql/conf.d/mysql.conf.cnf
+      - ./user-data/slave05:/var/lib/mysql
+    networks:
+      - overlay
+
+  proxysql:
+    image: proxysql/proxysql
+    container_name: "proxysql"
+    hostname: "proxysql"
+    volumes: 
+      - ./conf/proxysql/proxysql.cnf:/etc/proxysql.cnf
+      - ./user-data/proxysql:/var/lib/proxysql
+    ports:
+      - 6033:6033
+      - 6032:6032
+      - 6080:6080
+    depends_on:
+      - master
+      - slave01
+      - slave02
+      - slave03
+      - slave04
+      - slave05
+    networks:
+      - overlay
+
+networks:
+  overlay:
+

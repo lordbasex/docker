@@ -1,0 +1,101 @@
+datadir="/var/lib/proxysql"
+errorlog="/var/lib/proxysql/proxysql.log"
+admin_variables=
+{
+    admin_credentials="admin:admin;radmin:radmin"
+    mysql_ifaces="0.0.0.0:6032"
+    admin-web_enabled=true
+    debug=true
+}
+
+mysql_variables=
+{
+    threads=4
+    mysql-auditlog_filename="mysql.log"
+    max_connections=2048
+    default_query_delay=0
+    default_query_timeout=36000000
+    have_compress=false
+    poll_timeout=2000
+    mysql-autocommit_false_is_transaction=true
+    interfaces="0.0.0.0:6033"
+    default_schema="information_schema"
+    stacksize=1048576
+    server_version="8.0.0"
+    mysql-forward_autocommit=true
+    connect_timeout_server=3000
+    monitor_username="rong"
+    monitor_password="demoapp"
+    monitor_history=600000
+    monitor_connect_interval=60000
+    monitor_ping_interval=10000
+    monitor_read_only_interval=1500
+    monitor_read_only_timeout=500
+    ping_interval_server_msec=120000
+    ping_timeout_server=500
+    commands_stats=true
+    sessions_sort=true
+    connect_retries_on_failure=10
+}
+
+ mysql_servers =
+ (
+ 	{
+ 		address="master"
+ 		port=3306
+ 		hostgroup=0
+ 		max_connections=200
+ 	},
+    {
+ 		address="slave01"
+ 		port=3306
+ 		hostgroup=1
+ 		max_connections=200
+ 	},
+    {
+ 		address="slave02"
+ 		port=3306
+ 		hostgroup=2
+ 		max_connections=200
+ 	},
+    {
+ 		address="slave03"
+ 		port=3306
+ 		hostgroup=3
+ 		max_connections=200
+ 	},
+    {
+ 		address="slave04"
+ 		port=3306
+ 		hostgroup=4
+ 		max_connections=200
+ 	},
+    {
+ 		address="slave05"
+ 		port=3306
+ 		hostgroup=5
+ 		max_connections=200
+ 	}
+
+ )
+
+mysql_users:
+ (
+ 	{
+ 		username = "root"
+ 		password = "111"
+ 		default_hostgroup = 0
+ 		max_connections=1000
+ 		default_schema="information_schema"
+ 		active = 1
+ 	},
+    {
+ 		username = "mydb_user"
+        password ="mydb_pwd"
+ 		default_hostgroup = 4
+ 		max_connections=1000
+ 		default_schema="gitbase"
+ 		active = 1
+		transaction_persistent=0
+ 	}
+ )
