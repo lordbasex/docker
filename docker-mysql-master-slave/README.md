@@ -105,6 +105,21 @@ SELECT hostgroup_id, hostname, status, comment FROM runtime_mysql_servers;
 6 rows in set (0.002 sec)
 ```
 
+```
+SELECT hostgroup, srv_host, status, ConnUsed, MaxConnUsed, Queries FROM stats.stats_mysql_connection_pool ORDER BY srv_host;
++-----------+----------+--------+----------+-------------+---------+
+| hostgroup | srv_host | status | ConnUsed | MaxConnUsed | Queries |
++-----------+----------+--------+----------+-------------+---------+
+| 10        | master   | ONLINE | 0        | 0           | 0       |
+| 20        | slave01  | ONLINE | 0        | 0           | 0       |
+| 20        | slave02  | ONLINE | 0        | 0           | 0       |
+| 20        | slave03  | ONLINE | 0        | 0           | 0       |
+| 20        | slave04  | ONLINE | 0        | 0           | 0       |
+| 20        | slave05  | ONLINE | 0        | 0           | 0       |
++-----------+----------+--------+----------+-------------+---------+
+6 rows in set (0.005 sec)
+```
+
 
 #### ProxySQL UI ####
 
