@@ -38,61 +38,31 @@ mysql_variables=
     connect_retries_on_failure=10
 }
 
- mysql_servers =
- (
- 	{
- 		address="master"
- 		port=3306
- 		hostgroup=0
- 		max_connections=200
- 	},
-    {
- 		address="slave01"
- 		port=3306
- 		hostgroup=1
- 		max_connections=200
- 	},
-    {
- 		address="slave02"
- 		port=3306
- 		hostgroup=2
- 		max_connections=200
- 	},
-    {
- 		address="slave03"
- 		port=3306
- 		hostgroup=3
- 		max_connections=200
- 	},
-    {
- 		address="slave04"
- 		port=3306
- 		hostgroup=4
- 		max_connections=200
- 	},
-    {
- 		address="slave05"
- 		port=3306
- 		hostgroup=5
- 		max_connections=200
- 	}
+mysql_servers =
+(
+    { address="master",  port=3306, hostgroup=10, max_connections=100, comment="write server" },
+    { address="slave01", port=3306, hostgroup=20, max_connections=100, comment="read server"  },
+    { address="slave02", port=3306, hostgroup=20, max_connections=100, comment="read server"  },
+    { address="slave03", port=3306, hostgroup=20, max_connections=100, comment="read server"  },
+    { address="slave04", port=3306, hostgroup=20, max_connections=100, comment="read server"  },
+    { address="slave05", port=3306, hostgroup=20, max_connections=100, comment="read server"  }
+)
 
- )
 
 mysql_users:
  (
  	{
  		username = "root"
  		password = "111"
- 		default_hostgroup = 0
+ 		default_hostgroup = 10
  		max_connections=1000
  		default_schema="information_schema"
  		active = 1
  	},
     {
  		username = "mydb_user"
-        password ="mydb_pwd"
- 		default_hostgroup = 4
+        	password ="mydb_pwd"
+ 		default_hostgroup = 10
  		max_connections=1000
  		default_schema="gitbase"
  		active = 1
