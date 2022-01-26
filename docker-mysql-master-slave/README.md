@@ -120,6 +120,17 @@ SELECT hostgroup, srv_host, status, ConnUsed, MaxConnUsed, Queries FROM stats.st
 6 rows in set (0.005 sec)
 ```
 
+```
+SELECT rule_id, active, match_pattern, destination_hostgroup, cache_ttl, apply FROM mysql_query_rules;
++---------+--------+-----------------------+-----------------------+-----------+-------+
+| rule_id | active | match_pattern         | destination_hostgroup | cache_ttl | apply |
++---------+--------+-----------------------+-----------------------+-----------+-------+
+| 100     | 1      | ^SELECT .* FOR UPDATE | 10                    | NULL      | 1     |
+| 200     | 1      | ^SELECT .*            | 30                    | NULL      | 1     |
+| 300     | 1      | .*                    | 10                    | NULL      | 1     |
++---------+--------+-----------------------+-----------------------+-----------+-------+
+3 rows in set (0.002 sec)
+```
 
 #### ProxySQL UI ####
 
