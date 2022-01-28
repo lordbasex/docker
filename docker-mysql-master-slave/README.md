@@ -65,6 +65,28 @@ docker exec master sh -c 'mysql -u root -p111 -e "SHOW MASTER STATUS \G"'
 docker exec slave01 sh -c 'mysql -u root -p111 -e "SHOW SLAVE STATUS \G"'
 ```
 
+### Check slave
+
+```
+mysql -uroot -p111 -p111 -h127.0.0.1 -P5500 mydb
+```
+
+```
+show slave hosts;
++-----------+------+------+-----------+--------------------------------------+
+| Server_id | Host | Port | Master_id | Slave_UUID                           |
++-----------+------+------+-----------+--------------------------------------+
+|        22 |      | 3306 |         1 | ed3fca51-8069-11ec-a78e-0242c0a84005 |
+|        40 |      | 3306 |         1 | ed642236-8069-11ec-8164-0242c0a84006 |
+|        11 |      | 3306 |         1 | ed5fb584-8069-11ec-a236-0242c0a84003 |
+|        50 |      | 3306 |         1 | ecd284fe-8069-11ec-a3f3-0242c0a84007 |
+|        30 |      | 3306 |         1 | eb6f6be2-8069-11ec-9dc3-0242c0a84004 |
++-----------+------+------+-----------+--------------------------------------+
+5 rows in set (0.002 sec)
+```
+
+
+
 #### Enter into "master"
 
 ```
