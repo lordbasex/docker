@@ -68,7 +68,7 @@ docker exec slave01 sh -c 'mysql -u root -p111 -e "SHOW SLAVE STATUS \G"'
 ### Check slave
 
 ```
-mysql -uroot -p111 -p111 -h127.0.0.1 -P5500 mydb
+mysql -uroot -p111 -h127.0.0.1 -P5500 mydb
 ```
 
 ```
