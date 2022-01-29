@@ -56,19 +56,19 @@ rm -rf ./user-data/*
 #### Run command inside "master"
 
 ```
-docker exec master sh -c 'mysql -u root -p111 -e "SHOW MASTER STATUS \G"'
+docker exec mysql-master sh -c 'mysql -u root -ppassword -e "SHOW MASTER STATUS \G"'
 ```
 
-#### Run command inside "slave01" to "slave04"
+#### Run command inside "mysql-slave1" to "mysql-slave5"
 
 ```
-docker exec slave01 sh -c 'mysql -u root -p111 -e "SHOW SLAVE STATUS \G"'
+docker exec mysql-slave1 sh -c 'mysql -u root -ppassword -e "SHOW SLAVE STATUS \G"'
 ```
 
 ### Check slave
 
 ```
-mysql -uroot -p111 -h127.0.0.1 -P5500 mydb
+mysql -uroot -ppassword -h127.0.0.1 -P5500 mydb
 ```
 
 ```
@@ -90,20 +90,26 @@ show slave hosts;
 #### Enter into "master"
 
 ```
-docker-compose exec master bash
+docker-compose exec mysql-master bash
 ```
 
-#### Enter into "slave01" to "slave04"
+#### Enter into "mysql-slave1" to "mysql-slave5"
 
 ```
-docker-compose exec slave01 bash
+docker-compose exec mysql-slave1 bash
 ```
 
 
 #### ProxySQL ####
 
 ```
-mysql -h127.0.0.1 -P6032 -uradmin -pradmin --prompt "ProxySQL Admin>"
+mysql -h127.0.0.1 -P6032 -uadmin -padmin --prompt "ProxySQL Admin>"
+```
+
+OR
+
+```
+mysql -h127.0.0.1 -P6032 -uadmin2 -ppass2 --prompt "ProxySQL Admin>"
 ```
 
 ```
