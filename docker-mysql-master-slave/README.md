@@ -47,7 +47,7 @@ docker-compose exec mysql-slave1 mysql -uroot -ppassword mydb -e "SHOW SLAVE STA
 ```
 
 ### Check slave
-
+```
 mysql -uroot -ppassword -h127.0.0.1 -P3306 mydb
 ```
 
