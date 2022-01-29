@@ -41,7 +41,10 @@ mysql_servers =
 (
     { address="mysql-master" , port=3306 , hostgroup=10, max_connections=100 , max_replication_lag = 5 , comment = "write and read" },
     { address="mysql-slave1" , port=3306 , hostgroup=20, max_connections=100 , max_replication_lag = 5 , comment = "read" },
-    { address="mysql-slave2" , port=3306 , hostgroup=20, max_connections=100 , max_replication_lag = 5 , comment = "read" }
+    { address="mysql-slave2" , port=3306 , hostgroup=20, max_connections=100 , max_replication_lag = 5 , comment = "read" },
+    { address="mysql-slave3" , port=3306 , hostgroup=20, max_connections=100 , max_replication_lag = 5 , comment = "read" },
+    { address="mysql-slave4" , port=3306 , hostgroup=20, max_connections=100 , max_replication_lag = 5 , comment = "read" },
+    { address="mysql-slave5" , port=3306 , hostgroup=20, max_connections=100 , max_replication_lag = 5 , comment = "read" }
 )
 
 mysql_query_rules =
