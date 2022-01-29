@@ -83,12 +83,6 @@ docker-compose exec mysql-slave1 bash
 #### ProxySQL ####
 
 ```
-mysql -h127.0.0.1 -P6032 -uadmin -padmin --prompt "ProxySQL Admin>"
-```
-
-OR
-
-```
 mysql -h127.0.0.1 -P6032 -uadmin2 -ppass2 --prompt "ProxySQL Admin>"
 ```
 
