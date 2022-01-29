@@ -1,31 +1,35 @@
 Docker MySQL master-slave replication 
 ========================
 
+## What is ProxySql?
+
+![Blank Diagram](./demo.png)
+
+
 MySQL master-slave replication with using Docker. 
 
 ## Run
 
-Run command to configure **MySQL master-slave replication**  build.sh
+Run command to configure **MySQL master-slave replication**  docker-compose up -d
 
 ```
-chmod 777 build.sh
-./build.sh. 
+docker-compose up -d
 ```
 
 #### Make changes to master
 
 ```
-docker exec master sh -c "export MYSQL_PWD=111; mysql -u root mydb -e 'create table code(code int); insert into code values (100), (200)'"
+docker exec master sh -c "export MYSQL_PWD=password; mysql -u root mydb -e 'create table code(code int); insert into code values (100), (200)'"
 ```
 
 #### Read changes from slave to "slave04"
 
 ```
-docker exec slave01 sh -c "export MYSQL_PWD=111; mysql -u root mydb -e 'select * from code \G'"
+docker exec slave01 sh -c "export MYSQL_PWD=password; mysql -u root mydb -e 'select * from code \G'"
 ```
 
 ```
-docker exec slave02 sh -c "export MYSQL_PWD=111; mysql -u root mydb -e 'select * from code \G'"
+docker exec slave02 sh -c "export MYSQL_PWD=password; mysql -u root mydb -e 'select * from code \G'"
 
 ```
 
@@ -36,10 +40,6 @@ docker exec slave02 sh -c "export MYSQL_PWD=111; mysql -u root mydb -e 'select *
 ```
 docker-compose logs
 ```
-
-#### Start containers in "normal" mode
-
-> Go through "build.sh" and run command step-by-step.
 
 #### Check running containers
 

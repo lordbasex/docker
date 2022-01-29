@@ -1,0 +1,180 @@
+version: '3'
+
+services:
+
+  mysql-master:
+    image: mysql:5.7
+    container_name: mysql-master
+    hostname: mysql-master
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: mydb
+    volumes:
+      - ./conf/master/my.cnf:/etc/mysql/my.cnf
+      - ./conf/master/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./user-data/mysql-master:/var/lib/mysql
+    ports:
+      - 3306:3306
+    restart: always
+    networks:
+      - mysql_cluster
+
+  mysql-slave1:
+    image: mysql:5.7
+    container_name: mysql-slave1
+    hostname: mysql-slave1
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: mydb
+    volumes:
+      - ./conf/slave/my-slave1.cnf:/etc/mysql/my.cnf
+      - ./conf/slave/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./user-data/mysql-slave1:/var/lib/mysql
+    ports:
+      - 3307:3306
+    depends_on:
+      - mysql-master
+    restart: always
+    networks:
+      - mysql_cluster
+
+  mysql-slave2:
+    image: mysql:5.7
+    container_name: mysql-slave2
+    hostname: mysql-slave2
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: mydb
+    volumes:
+      - ./conf/slave/my-slave2.cnf:/etc/mysql/my.cnf
+      - ./conf/slave/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./user-data/mysql-slave2:/var/lib/mysql
+    ports:
+      - 3308:3306
+    depends_on:
+      - mysql-master
+    restart: always
+    networks:
+      - mysql_cluster
+
+  mysql-slave3:
+    image: mysql:5.7
+    container_name: mysql-slave3
+    hostname: mysql-slave3
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: mydb
+    volumes:
+      - ./conf/slave/my-slave3.cnf:/etc/mysql/my.cnf
+      - ./conf/slave/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./user-data/mysql-slave3:/var/lib/mysql
+    ports:
+      - 3309:3306
+    depends_on:
+      - mysql-master
+    restart: always
+    networks:
+      - mysql_cluster
+
+  mysql-slave4:
+    image: mysql:5.7
+    container_name: mysql-slave4
+    hostname: mysql-slave4
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: mydb
+    volumes:
+      - ./conf/slave/my-slave4.cnf:/etc/mysql/my.cnf
+      - ./conf/slave/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./user-data/mysql-slave4:/var/lib/mysql
+    ports:
+      - 3310:3306
+    depends_on:
+      - mysql-master
+    restart: always
+    networks:
+      - mysql_cluster
+
+  mysql-slave5:
+    image: mysql:5.7
+    container_name: mysql-slave5
+    hostname: mysql-slave5
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: mydb
+    volumes:
+      - ./conf/slave/my-slave5.cnf:/etc/mysql/my.cnf
+      - ./conf/slave/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./user-data/mysql-slave5:/var/lib/mysql
+    ports:
+      - 3311:3306
+    depends_on:
+      - mysql-master
+    restart: always
+    networks:
+      - mysql_cluster
+
+  proxysql:
+    image: proxysql/proxysql
+    container_name: proxysql
+    hostname: proxysql
+    volumes:
+      - ./conf/proxysql/proxysql.cnf:/etc/proxysql.cnf
+      - ./user-data/proxysql:/var/lib/proxysql
+    ports:
+      - 6032:6032
+      - 6033:6033
+      - 6080:6080
+    depends_on:
+      - mysql-master
+      - mysql-slave1
+      - mysql-slave2
+      - mysql-slave3
+      - mysql-slave4
+      - mysql-slave5
+    restart: always
+    networks:
+      - mysql_cluster
+
+  wordpress:
+    image: wordpress:latest
+    container_name: wordpress
+    hostname: wordpress
+    # environment:
+    #   WORDPRESS_DB_HOST: proxysql:6033
+    #   WORDPRESS_DB_USER: proxysql:6033
+    #   WORDPRESS_DB_PASSWORD:
+    #   WORDPRESS_DB_NAME: my
+    volumes:
+      - ./user-data/wordpress:/var/www/html
+    ports:
+      - "80:80"      
+    depends_on:
+      - proxysql
+    restart: always    
+    networks:
+      - mysql_cluster
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: phpmyadmin
+    hostname: phpmyadmin
+    environment:
+      PMA_HOST: mysql-master
+      PMA_PORT: 3306
+      # MYSQL_USERNAME: ${MYSQL_USER}
+      # MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - 9191:80
+    depends_on:
+      - proxysql 
+    links:
+      - proxysql
+    restart: always
+    networks:
+      - mysql_cluster
+
+networks:
+  mysql_cluster:
+    driver: bridge
