@@ -14,16 +14,12 @@ MySQL master-slave replication with using Docker.
 docker-compose up -d
 ```
 
-#### Read changes from slave to "slave04"
+#### Read changes from mysql-slave1 to mysql-slave5
 
 ```
-docker exec slave01 sh -c "export MYSQL_PWD=password; mysql -u root mydb -e 'select * from code \G'"
+docker exec mysql-slave1 sh -c "export MYSQL_PWD=password; mysql -u root mydb -e 'select * from code \G'"
 ```
 
-```
-docker exec slave02 sh -c "export MYSQL_PWD=password; mysql -u root mydb -e 'select * from code \G'"
-
-```
 
 ## Troubleshooting
 
