@@ -16,12 +16,6 @@ Run command to configure **MySQL master-slave replication**  docker-compose up -
 docker-compose up -d
 ```
 
-#### Make changes to master
-
-```
-docker exec master sh -c "export MYSQL_PWD=password; mysql -u root mydb -e 'create table code(code int); insert into code values (100), (200)'"
-```
-
 #### Read changes from slave to "slave04"
 
 ```
