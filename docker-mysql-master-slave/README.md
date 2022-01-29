@@ -94,32 +94,34 @@ SELECT hostgroup_id, hostname, status, comment FROM runtime_mysql_servers;
 
 ```
 SELECT hostgroup_id, hostname, status, comment FROM runtime_mysql_servers;
-+--------------+----------+--------+--------------+
-| hostgroup_id | hostname | status | comment      |
-+--------------+----------+--------+--------------+
-| 10           | master   | ONLINE | write server |
-| 20           | slave05  | ONLINE | read server  |
-| 20           | slave04  | ONLINE | read server  |
-| 20           | slave03  | ONLINE | read server  |
-| 20           | slave02  | ONLINE | read server  |
-| 20           | slave01  | ONLINE | read server  |
-+--------------+----------+--------+--------------+
-6 rows in set (0.002 sec)
++--------------+--------------+--------+----------------+
+| hostgroup_id | hostname     | status | comment        |
++--------------+--------------+--------+----------------+
+| 10           | mysql-master | ONLINE | write and read |
+| 20           | mysql-master | ONLINE | write and read |
+| 20           | mysql-slave5 | ONLINE | read           |
+| 20           | mysql-slave4 | ONLINE | read           |
+| 20           | mysql-slave3 | ONLINE | read           |
+| 20           | mysql-slave2 | ONLINE | read           |
+| 20           | mysql-slave1 | ONLINE | read           |
++--------------+--------------+--------+----------------+
+7 rows in set (0.002 sec)
 ```
 
 ```
 SELECT hostgroup, srv_host, status, ConnUsed, MaxConnUsed, Queries FROM stats.stats_mysql_connection_pool ORDER BY srv_host;
-+-----------+----------+--------+----------+-------------+---------+
-| hostgroup | srv_host | status | ConnUsed | MaxConnUsed | Queries |
-+-----------+----------+--------+----------+-------------+---------+
-| 10        | master   | ONLINE | 0        | 0           | 0       |
-| 20        | slave01  | ONLINE | 0        | 0           | 0       |
-| 20        | slave02  | ONLINE | 0        | 0           | 0       |
-| 20        | slave03  | ONLINE | 0        | 0           | 0       |
-| 20        | slave04  | ONLINE | 0        | 0           | 0       |
-| 20        | slave05  | ONLINE | 0        | 0           | 0       |
-+-----------+----------+--------+----------+-------------+---------+
-6 rows in set (0.005 sec)
++-----------+--------------+--------+----------+-------------+---------+
+| hostgroup | srv_host     | status | ConnUsed | MaxConnUsed | Queries |
++-----------+--------------+--------+----------+-------------+---------+
+| 10        | mysql-master | ONLINE | 0        | 0           | 0       |
+| 20        | mysql-master | ONLINE | 0        | 0           | 0       |
+| 20        | mysql-slave1 | ONLINE | 0        | 0           | 0       |
+| 20        | mysql-slave2 | ONLINE | 0        | 0           | 0       |
+| 20        | mysql-slave3 | ONLINE | 0        | 0           | 0       |
+| 20        | mysql-slave4 | ONLINE | 0        | 0           | 0       |
+| 20        | mysql-slave5 | ONLINE | 0        | 0           | 0       |
++-----------+--------------+--------+----------+-------------+---------+
+7 rows in set (0.004 sec)
 ```
 
 ```
@@ -128,10 +130,10 @@ SELECT rule_id, active, match_pattern, destination_hostgroup, cache_ttl, apply F
 | rule_id | active | match_pattern         | destination_hostgroup | cache_ttl | apply |
 +---------+--------+-----------------------+-----------------------+-----------+-------+
 | 100     | 1      | ^SELECT .* FOR UPDATE | 10                    | NULL      | 1     |
-| 200     | 1      | ^SELECT .*            | 30                    | NULL      | 1     |
+| 200     | 1      | ^SELECT .*            | 20                    | NULL      | 1     |
 | 300     | 1      | .*                    | 10                    | NULL      | 1     |
 +---------+--------+-----------------------+-----------------------+-----------+-------+
-3 rows in set (0.002 sec)
+3 rows in set (0.003 sec)
 ```
 
 #### ProxySQL UI ####
