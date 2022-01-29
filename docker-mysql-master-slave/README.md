@@ -14,13 +14,6 @@ MySQL master-slave replication with using Docker.
 docker-compose up -d
 ```
 
-#### Read changes from mysql-slave1 to mysql-slave5
-
-```
-docker exec mysql-slave1 sh -c "export MYSQL_PWD=password; mysql -u root mydb -e 'select * from code \G'"
-```
-
-
 ## Troubleshooting
 
 #### Check Logs
@@ -44,13 +37,13 @@ rm -rf ./user-data/*
 #### Run command inside "master"
 
 ```
-docker exec mysql-master sh -c 'mysql -u root -ppassword -e "SHOW MASTER STATUS \G"'
+docker-compose exec mysql-master mysql -uroot -ppassword mydb -e "SHOW MASTER STATUS \G"
 ```
 
 #### Run command inside "mysql-slave1" to "mysql-slave5"
 
 ```
-docker exec mysql-slave1 sh -c 'mysql -u root -ppassword -e "SHOW SLAVE STATUS \G"'
+docker-compose exec mysql-slave1 mysql -uroot -ppassword mydb -e "SHOW SLAVE STATUS \G"
 ```
 
 ### Check slave
