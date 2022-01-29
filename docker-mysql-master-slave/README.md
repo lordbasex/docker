@@ -10,8 +10,6 @@ MySQL master-slave replication with using Docker.
 
 ## Run
 
-Run command to configure **MySQL master-slave replication**  docker-compose up -d
-
 ```
 docker-compose up -d
 ```
