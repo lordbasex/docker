@@ -125,7 +125,7 @@ SELECT hostgroup, srv_host, status, ConnUsed, MaxConnUsed, Queries FROM stats.st
 ```
 
 ```
-SELECT rule_id, active, match_pattern, destination_hostgroup, cache_ttl, apply FROM mysql_query_rules;
+SELECT rule_id, active, match_pattern, match_digest, destination_hostgroup, cache_ttl, apply, multiplex FROM mysql_query_rules;
 +---------+--------+-----------------------+-----------------------+-----------+-------+
 | rule_id | active | match_pattern         | destination_hostgroup | cache_ttl | apply |
 +---------+--------+-----------------------+-----------------------+-----------+-------+
@@ -135,6 +135,38 @@ SELECT rule_id, active, match_pattern, destination_hostgroup, cache_ttl, apply F
 +---------+--------+-----------------------+-----------------------+-----------+-------+
 3 rows in set (0.003 sec)
 ```
+
+### CHECK QUERY BY HOSTGROUP
+
+```
+SELECT hostgroup hg, username, sum_time, count_star, digest_text FROM stats_mysql_query_digest  WHERE  digest_text LIKE '% FROM calls%' ORDER BY sum_time DESC LIMIT 200;
++----+----------+----------+------------+--------------------------+
+| hg | username | sum_time | count_star | digest_text              |
++----+----------+----------+------------+--------------------------+
+| 2  | sysadmin | 653159   | 1          | SELECT callid FROM calls |
++----+----------+----------+------------+--------------------------+
+```
+
+```
+SELECT hostgroup hg, username, sum_time, count_star, digest_text FROM stats_mysql_query_digest  WHERE  digest_text LIKE 'UPDATE calls%' ORDER BY sum_time DESC LIMIT 200;
++----+----------+-----------+------------+--------------------------------------------+
+| hg | username | sum_time  | count_star | digest_text                                |
++----+----------+-----------+------------+--------------------------------------------+
+| 1  | sysadmin | 483655930 | 1114881    | UPDATE calls SET recalled=? WHERE callid=? |
++----+----------+-----------+------------+--------------------------------------------+
+```
+
+```
+SELECT hostgroup, count(*) AS C FROM stats_mysql_query_digest GROUP BY hostgroup;
++-----------+-----+
+| hostgroup | C   |
++-----------+-----+
+| 1         | 18  |
+| 2         | 391 |
++-----------+-----+
+2 rows in set (0.00 sec)
+```
+
 
 #### ProxySQL UI ####
 
