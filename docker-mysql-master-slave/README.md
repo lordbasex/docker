@@ -13,7 +13,7 @@ MySQL master-slave replication with using Docker.
 ```
 docker-compose up -d
 ```
-
+ 
 ## Troubleshooting
 
 #### Check Logs
@@ -171,3 +171,23 @@ SELECT hostgroup, count(*) AS C FROM stats_mysql_query_digest GROUP BY hostgroup
 #### ProxySQL UI ####
 
 We have also enabled the web stats UI with admin-web_enabled=true.To access the web UI, simply go to the Docker host in port **6080**, for example: **http://ip_server_docker:6080** and you will be prompted with username/password pop up. Enter the credentials as defined under admin-stats_credentials and you should see the following page:
+
+
+#### TEST GO ####
+
+```
+wget https://go.dev/dl/go1.17.6.linux-amd64.tar.gz -O /usr/src/go1.17.6.linux-amd64.tar.gz
+cd /usr/src
+tar xvf go1.17.6.linux-amd64.tar.gz
+chown -R root:root ./go
+mv go /usr/local
+echo "export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin" >> /root/.profile
+```
+
+```
+go mod init testDB
+go get -v
+go build -o testDB
+./testDB
+#go run testDB
+```
