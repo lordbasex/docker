@@ -139,32 +139,60 @@ SELECT rule_id, active, match_pattern, match_digest, destination_hostgroup, cach
 ### CHECK QUERY BY HOSTGROUP
 
 ```
-SELECT hostgroup hg, username, sum_time, count_star, digest_text FROM stats_mysql_query_digest  WHERE  digest_text LIKE '% FROM calls%' ORDER BY sum_time DESC LIMIT 200;
-+----+----------+----------+------------+--------------------------+
-| hg | username | sum_time | count_star | digest_text              |
-+----+----------+----------+------------+--------------------------+
-| 2  | sysadmin | 653159   | 1          | SELECT callid FROM calls |
-+----+----------+----------+------------+--------------------------+
+SELECT hostgroup hg, username, sum_time, count_star, digest_text FROM stats_mysql_query_digest  ORDER BY sum_time DESC LIMIT 200;
++----+----------+-------------+------------+------------------------------------------------------------+
+| hg | username | sum_time    | count_star | digest_text                                                |
++----+----------+-------------+------------+------------------------------------------------------------+
+| 10 | root     | 33400739205 | 916637     | UPDATE proxysql_test SET status=? WHERE id=?               |
+| 10 | root     | 8569841676  | 1064261    | INSERT INTO proxysql_test (app,datetime) VALUES (?,NOW() ) |
+| 20 | root     | 3050691     | 2          | SELECT * FROM proxysql_test                                |
+| 20 | root     | 2222916     | 24         | select * from proxysql_test                                |
+| 20 | root     | 718427      | 2          | SELECT id FROM proxysql_test                               |
+| 10 | root     | 441601      | 7          | show databases                                             |
+| 20 | root     | 171313      | 1          | select count(*) from proxysql_test                         |
+| 20 | root     | 61949       | 7          | SELECT * FROM `users` WHERE ?=?                            |
+| 20 | root     | 22277       | 7          | SELECT * FROM `proxysql_test` WHERE ?=?                    |
+| 10 | root     | 16166       | 8          | show tables                                                |
+| 10 | root     | 0           | 2          | KILL QUERY ?                                               |
+| 10 | root     | 0           | 6          | select @@version_comment limit ?                           |
++----+----------+-------------+------------+------------------------------------------------------------+
+12 rows in set (0.212 sec)
+```
+
+
+```
+ProxySQL Admin>SELECT hostgroup hg, username, sum_time, count_star, digest_text FROM stats_mysql_query_digest  WHERE  digest_text LIKE '% FROM proxysql_test%' ORDER BY sum_time DESC LIMIT 200;
++----+----------+----------+------------+------------------------------------+
+| hg | username | sum_time | count_star | digest_text                        |
++----+----------+----------+------------+------------------------------------+
+| 20 | root     | 3050691  | 2          | SELECT * FROM proxysql_test        |
+| 20 | root     | 2222916  | 24         | select * from proxysql_test        |
+| 20 | root     | 718427   | 2          | SELECT id FROM proxysql_test       |
+| 20 | root     | 171313   | 1          | select count(*) from proxysql_test |
++----+----------+----------+------------+------------------------------------+
+4 rows in set (0.261 sec)
 ```
 
 ```
-SELECT hostgroup hg, username, sum_time, count_star, digest_text FROM stats_mysql_query_digest  WHERE  digest_text LIKE 'UPDATE calls%' ORDER BY sum_time DESC LIMIT 200;
-+----+----------+-----------+------------+--------------------------------------------+
-| hg | username | sum_time  | count_star | digest_text                                |
-+----+----------+-----------+------------+--------------------------------------------+
-| 1  | sysadmin | 483655930 | 1114881    | UPDATE calls SET recalled=? WHERE callid=? |
+SELECT hostgroup hg, username, sum_time, count_star, digest_text FROM stats_mysql_query_digest  WHERE  digest_text LIKE 'UPDATE proxysql_test%' ORDER BY sum_time DESC LIMIT 200;
++----+----------+-------------+------------+----------------------------------------------+
+| hg | username | sum_time    | count_star | digest_text                                  |
++----+----------+-------------+------------+----------------------------------------------+
+| 10 | root     | 33400739205 | 916637     | UPDATE proxysql_test SET status=? WHERE id=? |
++----+----------+-------------+------------+----------------------------------------------+
+1 row in set (0.005 sec)
 +----+----------+-----------+------------+--------------------------------------------+
 ```
 
 ```
 SELECT hostgroup, count(*) AS C FROM stats_mysql_query_digest GROUP BY hostgroup;
-+-----------+-----+
-| hostgroup | C   |
-+-----------+-----+
-| 1         | 18  |
-| 2         | 391 |
-+-----------+-----+
-2 rows in set (0.00 sec)
++-----------+---+
+| hostgroup | C |
++-----------+---+
+| 10        | 6 |
+| 20        | 6 |
++-----------+---+
+2 rows in set (0.004 sec)
 ```
 
 
