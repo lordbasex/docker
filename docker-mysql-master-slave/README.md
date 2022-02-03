@@ -249,7 +249,11 @@ cd /usr/src
 tar xvf go1.17.6.linux-amd64.tar.gz
 chown -R root:root ./go
 mv go /usr/local
+
+echo "export GOPATH=$HOME/work">> /root/.profile
 echo "export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin" >> /root/.profile
+echo "export GOROOT=/usr/local/go" >> /root/.profile
+
 source /root/.profile
 ```
 
