@@ -221,6 +221,21 @@ SELECT * FROM stats_mysql_connection_pool;
 7 rows in set (0.005 sec)
 ```
 
+```
+SELECT * FROM stats_mysql_commands_counters WHERE Total_cnt;
++---------+---------------+-----------+-----------+-----------+---------+---------+----------+----------+-----------+-----------+--------+--------+---------+----------+
+| Command | Total_Time_us | Total_cnt | cnt_100us | cnt_500us | cnt_1ms | cnt_5ms | cnt_10ms | cnt_50ms | cnt_100ms | cnt_500ms | cnt_1s | cnt_5s | cnt_10s | cnt_INFs |
++---------+---------------+-----------+-----------+-----------+---------+---------+----------+----------+-----------+-----------+--------+--------+---------+----------+
+| INSERT  | 8569841676    | 1064261   | 55        | 0         | 6       | 192391  | 657736   | 212913   | 743       | 409       | 8      | 0      | 0       | 0        |
+| KILL    | 0             | 2         | 2         | 0         | 0       | 0       | 0        | 0        | 0         | 0         | 0      | 0      | 0       | 0        |
+| SELECT  | 6247573       | 49        | 19        | 1         | 10      | 7       | 0        | 2        | 2         | 3         | 2      | 3      | 0       | 0        |
+| UPDATE  | 33400739205   | 916637    | 14        | 0         | 19      | 267810  | 579766   | 68546    | 159       | 299       | 13     | 10     | 0       | 1        |
+| SHOW    | 457767        | 15        | 5         | 3         | 1       | 3       | 0        | 1        | 0         | 2         | 0      | 0      | 0       | 0        |
++---------+---------------+-----------+-----------+-----------+---------+---------+----------+----------+-----------+-----------+--------+--------+---------+----------+
+5 rows in set (0.005 sec)
+```
+
+
 #### ProxySQL UI ####
 
 We have also enabled the web stats UI with admin-web_enabled=true.To access the web UI, simply go to the Docker host in port **6080**, for example: **http://ip_server_docker:6080** and you will be prompted with username/password pop up. Enter the credentials as defined under admin-stats_credentials and you should see the following page:
