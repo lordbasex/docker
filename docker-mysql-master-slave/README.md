@@ -161,7 +161,7 @@ SELECT hostgroup hg, username, sum_time, count_star, digest_text FROM stats_mysq
 
 
 ```
-ProxySQL Admin>SELECT hostgroup hg, username, sum_time, count_star, digest_text FROM stats_mysql_query_digest  WHERE  digest_text LIKE '% FROM proxysql_test%' ORDER BY sum_time DESC LIMIT 200;
+SELECT hostgroup hg, username, sum_time, count_star, digest_text FROM stats_mysql_query_digest  WHERE  digest_text LIKE '% FROM proxysql_test%' ORDER BY sum_time DESC LIMIT 200;
 +----+----------+----------+------------+------------------------------------+
 | hg | username | sum_time | count_star | digest_text                        |
 +----+----------+----------+------------+------------------------------------+
@@ -238,7 +238,7 @@ SELECT * FROM stats_mysql_commands_counters WHERE Total_cnt;
 
 #### ProxySQL UI ####
 
-We have also enabled the web stats UI with admin-web_enabled=true.To access the web UI, simply go to the Docker host in port **6080**, for example: **http://ip_server_docker:6080** and you will be prompted with username/password pop up. Enter the credentials as defined under admin-stats_credentials and you should see the following page:
+We have also enabled the web stats UI with (admin-web_enabled=true or web_enabled=true).To access the web UI, simply go to the Docker host in port **6080**, for example: **https://ip_server_docker:6080** and you will be prompted with username/password pop up. Enter the credentials as defined under admin-stats_credentials and you should see the following page:
 
 
 #### TEST GO ####
