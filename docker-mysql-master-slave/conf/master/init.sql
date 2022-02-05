@@ -22,3 +22,13 @@ create table users
 
 INSERT INTO users VALUES (1, 'dipanjal'), (2, 'shohan');
 
+CREATE TABLE `proxysql_test` (
+  `id` bigint(63) NOT NULL AUTO_INCREMENT,
+  `app` varchar(50) CHARACTER SET utf8 DEFAULT '',
+  `status` int(2) NOT NULL DEFAULT '0',
+  `datetime` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `app` (`app`) USING BTREE
+ ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+
+
