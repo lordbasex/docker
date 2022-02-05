@@ -263,5 +263,5 @@ go mod init testDB
 go get -v
 go build -o testDB
 ./testDB
-#go run testDB
+#go run testDB.go
 ```
