@@ -1,0 +1,30 @@
+version: '3.6'
+services:
+
+  fastagi:
+    image: cnsoluciones/fastagi
+    container_name: fastagi
+    hostname: fastagi
+    restart: always
+    ports:
+      - 8000:8000
+      - 8011:8011
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+
+  voip:
+    image: cnsoluciones/asterisk-iax2
+    container_name: voip
+    hostname: voip
+    restart: always
+    privileged: true
+    ports:
+      - 4569:4569/udp
+    working_dir: /etc/asterisk
+    depends_on:
+      - fastagi 
+    links:
+      - fastagi
+
+
+
