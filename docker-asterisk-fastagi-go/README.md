@@ -85,7 +85,27 @@ exten => 12345,n,AGI(agi://fastagi:8000, ivrdemo1,es)
 exten => 12345,n,Hangup()
 ```
 
+## Docker-compose
 
+### RUN
+```
+docker-compose up -d
+```
+
+### PS
+```
+docker-compose ps
+```
+
+### DOWN
+```
+docker-compose down
+```
+
+### CLI ASTERISK
+```
+docker-compose exec voip asterisk -rvvvvvvvvvv
+```
 
 ## Asterisk IAX2
 
