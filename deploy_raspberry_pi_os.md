@@ -9,6 +9,7 @@ Safely remove or eject the card from the computer and insert it again in your Ra
 
 Boot up Raspberry Pi.
 
+More info: **https://phoenixnap.com/kb/enable-ssh-raspberry-pi**
 
 # Install
 ```bash
