@@ -25,6 +25,3 @@ services:
       - fastagi 
     links:
       - fastagi
-
-
-
