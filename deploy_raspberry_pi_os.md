@@ -11,6 +11,38 @@ Boot up Raspberry Pi.
 
 More info: **https://phoenixnap.com/kb/enable-ssh-raspberry-pi**
 
+# WARNING: No memory limit support && WARNING: No swap limit support
+
+```
+docker info
+.
+..
+...
+WARNING: No memory limit support
+WARNING: No swap limit support
+...
+..
+.
+```
+
+Since RPI doesn't use traditional bootloaders like Grub or extlinux, the approach of modifying kernel parameters is as follows;
+
+You need to edit file **vim /boot/cmdline.txt**
+And append
+
+```
+cgroup_enable=memory cgroup_memory=1 swapaccount=1
+```
+
+To the end of the only line, so it becomes something like this:
+
+```
+cat /boot/cmdline.txt
+console=serial0,115200 console=tty1 root=PARTUUID=0f5def0d-02 rootfstype=ext4 fsck.repair=yes rootwait cgroup_enable=memory cgroup_memory=1 swapaccount=1
+```
+
+Boot up Raspberry Pi.
+
 # Install
 
 ```
