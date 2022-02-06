@@ -2,10 +2,11 @@ DOCKER ?= docker
 
 
 all:
-	@echo "Building Multi-Arch Images"
+    @echo "Building Multi-Arch Images"
   
     #docker manifest inspect node
     #docker buildx ls
+    @echo "Building Multi-Arch Images"
     
     #init
     $(DOCKER) buildx create --name multiarchitecture
