@@ -1,4 +1,5 @@
-FROM alpine:latest
+ARG architectures=""
+FROM ${architectures}alpine:latest
 
 LABEL maintainer="Federico Pereira <fpereira@cnsoluciones.com>"
 LABEL github="https://github.com/lordbasex/docker/docker-asterisk-fastagi-go"
