@@ -1,8 +1,7 @@
 ##################################
 # STEP 1 build executable binary
 ##################################
-ARG architectures=""
-FROM ${architectures}alpine AS builder
+FROM alpine:latest AS builder
 
 LABEL maintainer="Federico Pereira <fpereira@cnsoluciones.com>"
 LABEL github="https://github.com/lordbasex/docker/docker-asterisk-fastagi-go"
@@ -23,8 +22,7 @@ RUN go build -o /go/bin/fastagi
 ##################################
 # STEP 2 build a small image
 ##################################
-ARG architectures=""
-FROM ${architectures}alpine:latest
+FROM alpine:latest
 
 LABEL maintainer="Federico Pereira <fpereira@cnsoluciones.com>"
 LABEL github="https://github.com/lordbasex/docker/docker-asterisk-fastagi-go"
