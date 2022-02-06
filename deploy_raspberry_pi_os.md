@@ -12,6 +12,13 @@ Boot up Raspberry Pi.
 More info: **https://phoenixnap.com/kb/enable-ssh-raspberry-pi**
 
 # Install
+
+```
+sudo su
+apt update
+apt -y install vim curl screen mc git unzip net-tools links2 sudo nmap make mycli
+```
+
 ```bash
 curl -fsSL get.docker.com -o get-docker.sh
 sh get-docker.sh
@@ -35,3 +42,4 @@ systemctl start docker
 curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 chmod +x /usr/bin/docker-compose
 ```
+
