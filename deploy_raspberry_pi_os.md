@@ -23,6 +23,7 @@ apt -y install vim curl screen mc git unzip net-tools links2 sudo nmap make mycl
 ```bash
 curl -fsSL get.docker.com -o get-docker.sh
 sh get-docker.sh
+rm -fr get-docker.sh
 ```
 
 ## Custom Docker
