@@ -16,6 +16,7 @@ More info: **https://phoenixnap.com/kb/enable-ssh-raspberry-pi**
 ```
 sudo su
 apt update
+apt -y upgrade
 apt -y install vim curl screen mc git unzip net-tools links2 sudo nmap make mycli
 ```
 
