@@ -25,7 +25,7 @@ curl -fsSL get.docker.com -o get-docker.sh
 sh get-docker.sh
 ```
 
-* Custom Docker
+## Custom Docker
 ```
 mkdir -p /etc/docker
 cat > /etc/docker/daemon.json <<ENDLINE
@@ -38,7 +38,7 @@ systemctl enable docker
 systemctl start docker
 ```
 
-# Docker Compose
+## Docker Compose
 ```bash
 curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 chmod +x /usr/bin/docker-compose
