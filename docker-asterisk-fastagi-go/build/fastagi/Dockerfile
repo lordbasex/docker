@@ -17,7 +17,7 @@ WORKDIR /home/go/src/fastagi
 COPY ./fastagi.go .
 RUN go mod init fastagi 
 RUN go get -v
-RUN go build -o /go/bin/fastagi.go
+RUN go build -o /go/bin/fastagi
 
 ##################################
 # STEP 2 build a small image
@@ -27,11 +27,11 @@ FROM alpine:latest
 LABEL maintainer="Federico Pereira <fpereira@cnsoluciones.com>"
 LABEL github="https://github.com/lordbasex/docker/docker-asterisk-fastagi-go"
 
-COPY --from=builder /go/bin/fastagi.go /go/bin/fastagi.go
+COPY --from=builder /go/bin/fastagi /go/bin/fastagi
 COPY ./audios /audios
 
 ENV FASTAGI_PORT=8000 \
     SERVER_MEDIA="http://fastagi:8011/" \
     SERVER_MEDIA_DIR="/audios"
     
-ENTRYPOINT ["/go/bin/fastagi.go"]
+ENTRYPOINT ["/go/bin/fastagi"]
