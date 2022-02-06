@@ -1,6 +1,7 @@
 ##################################
 # STEP 1 build executable binary
 ##################################
+ARG architectures
 FROM alpine AS builder
 
 LABEL maintainer="Federico Pereira <fpereira@cnsoluciones.com>"
@@ -22,6 +23,7 @@ RUN go build -o /go/bin/fastagi
 ##################################
 # STEP 2 build a small image
 ##################################
+ARG architectures
 FROM alpine:latest
 
 LABEL maintainer="Federico Pereira <fpereira@cnsoluciones.com>"
