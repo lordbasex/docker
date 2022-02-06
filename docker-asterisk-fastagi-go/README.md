@@ -105,9 +105,12 @@ docker-compose down
 ### CLI ASTERISK
 ```
 docker-compose exec voip asterisk -rvvvvvvvvvv
+agi set debug on
 ```
 
-## Asterisk IAX2
+## Asterisk IAX2 (Use Zoiper client) 
+
+Download: **https://www.zoiper.com/en/voip-softphone/download/current**
 
 user: 100
 
