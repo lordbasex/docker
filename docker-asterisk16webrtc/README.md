@@ -115,7 +115,7 @@ wget https://raw.githubusercontent.com/lordbasex/docker/master/docker-asterisk16
 wget https://raw.githubusercontent.com/lordbasex/docker/master/docker-asterisk16webrtc/db/asteriskdb.sql -O /root/asterisk16webrtc/db/asteriskdb.sql
 wget https://raw.githubusercontent.com/lordbasex/docker/master/docker-asterisk16webrtc/db/docker-entrypoint.sh -O /root/asterisk16webrtc/db/docker-entrypoint.sh
 wget https://raw.githubusercontent.com/lordbasex/docker/master/docker-asterisk16webrtc/createextension -O /root/asterisk16webrtc/createextension
-toich /root/asterisk16webrtc/fop2.cfg
+touch /root/asterisk16webrtc/fop2.cfg
 touch /root/asterisk16webrtc/buttons_custom_webrtc.cfg
 chmod 777 /root/asterisk16webrtc/db/docker-entrypoint.sh /root/asterisk16webrtc/createextension
 cd /root/asterisk16webrtc
