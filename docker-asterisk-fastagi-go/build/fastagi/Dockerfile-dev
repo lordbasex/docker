@@ -1,11 +1,10 @@
 ##################################
 # STEP 1 build executable binary
 ##################################
+FROM alpine:latest
 
 LABEL maintainer="Federico Pereira <fpereira@cnsoluciones.com>"
 LABEL github="https://github.com/lordbasex/docker/docker-asterisk-fastagi-go"
-
-FROM alpine:latest
 
 ENV GO111MODULE=on \
     GOPATH=/home/go \
