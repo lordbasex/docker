@@ -2,6 +2,7 @@ version: '3.6'
 services:
 
   fastagi:
+    #image: cnsoluciones/fastagi-dev
     image: cnsoluciones/fastagi
     container_name: fastagi
     hostname: fastagi
@@ -11,6 +12,8 @@ services:
       - 8011:8011
     volumes:
       - /etc/localtime:/etc/localtime:ro
+      #- ./code:/home/go/src/fastagi
+      #- ./build/fastagi/audios:/audios
 
   voip:
     image: cnsoluciones/asterisk-iax2
