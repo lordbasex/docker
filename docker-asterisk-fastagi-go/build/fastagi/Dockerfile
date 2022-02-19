@@ -11,7 +11,7 @@ ENV GO111MODULE=on \
     PATH=/home/go/bin:$PATH \
     GOBIN=/home/go/bin
 
-RUN apk update && apk add --no-cache git go bash ca-certificates
+RUN apk update && apk add --update-cache git go bash ca-certificates
 RUN mkdir -p /home/go/src /home/go/bin /home/go/src/fastagi && chmod -R 777 /home/go /home/go/src/fastagi && cp -fr /usr/bin/go /home/go/bin/
 WORKDIR /home/go/src/fastagi
 COPY ./fastagi.go .
@@ -26,6 +26,8 @@ FROM alpine:latest
 
 LABEL maintainer="Federico Pereira <fpereira@cnsoluciones.com>"
 LABEL github="https://github.com/lordbasex/docker/docker-asterisk-fastagi-go"
+
+RUN apk update && apk add --update-cache bash
 
 COPY --from=builder /go/bin/fastagi /go/bin/fastagi
 COPY ./audios /audios
