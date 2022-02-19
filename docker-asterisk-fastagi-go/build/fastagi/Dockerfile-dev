@@ -26,4 +26,4 @@ WORKDIR /home/go/src/fastagi
 
 COPY ./audios /audios
 
-ENTRYPOINT ["/bin/bash"]
+CMD ["/bin/bash"]
