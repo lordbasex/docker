@@ -2,8 +2,8 @@ version: '3.6'
 services:
 
   fastagi:
-    #image: cnsoluciones/fastagi-dev
     image: cnsoluciones/fastagi
+    #image: cnsoluciones/fastagi-dev
     container_name: fastagi
     hostname: fastagi
     restart: always
@@ -14,6 +14,8 @@ services:
       - /etc/localtime:/etc/localtime:ro
       #- ./code:/home/go/src/fastagi
       #- ./build/fastagi/audios:/audios
+    stdin_open: true
+    tty: true
 
   voip:
     image: cnsoluciones/asterisk-iax2
@@ -28,3 +30,4 @@ services:
       - fastagi 
     links:
       - fastagi
+
