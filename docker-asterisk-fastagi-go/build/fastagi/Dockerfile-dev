@@ -15,7 +15,7 @@ ENV FASTAGI_PORT=8000 \
     SERVER_MEDIA="http://fastagi:8011/" \
     SERVER_MEDIA_DIR="/audios"
 
-RUN apk update && apk add --no-cache git go bash ca-certificates
+RUN apk update && apk add --update-cache git go bash ca-certificates
 RUN mkdir -p /home/go/src /home/go/bin /home/go/src/fastagi && chmod -R 777 /home/go /home/go/src/fastagi && cp -fr /usr/bin/go /home/go/bin/
 WORKDIR /home/go/src/fastagi
 
