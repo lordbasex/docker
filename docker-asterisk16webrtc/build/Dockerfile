@@ -1,14 +1,13 @@
 #####################################
 # STEP 1 build executable binary    #
 #####################################
-FROM debian:buster-slim AS builder
+FROM debian:bullseye-slim AS builder
 
 LABEL maintainer="Federico Pereira <fpereira@cnsoluciones.com>"
-LABEL github="https://github.com/lordbasex/docker/tree/master/docker-asterisk16webrtc"
 
-ENV MSMTP='false' \ 
+ENV MSMTP='false' \
         DEBIAN_FRONTEND=noninteractive \
-        ASTERISK_VERSION=16
+        ASTERISK_VERSION=18
 
 RUN apt update
 
@@ -48,7 +47,6 @@ RUN apt install -y --no-install-recommends --no-install-suggests \
         procps \
         portaudio19-dev \
         unixodbc \
-        unixodbc-bin \
         unixodbc-dev \
         odbcinst \
         sngrep \
@@ -59,13 +57,13 @@ RUN apt install -y --no-install-recommends --no-install-suggests \
         unzip \
         xmlstarlet \
         wget \
-        && rm -rf /var/lib/{apt,dpkg,cache,log}/ 
+        && rm -rf /var/lib/{apt,dpkg,cache,log}/
 
 RUN cd /usr/src \
         && wget http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-${ASTERISK_VERSION}-current.tar.gz \
         && tar xfz asterisk-* \
         && rm -f asterisk-*.tar.gz \
-	&& mv asterisk-* asterisk \
+        && mv asterisk-* asterisk \
         && cd asterisk \
         && contrib/scripts/get_mp3_source.sh \
         && contrib/scripts/install_prereq install \
@@ -74,14 +72,14 @@ RUN cd /usr/src \
         && menuselect/menuselect --disable BUILD_NATIVE --enable app_confbridge --disable app_fax --enable app_macro --enable codec_silk --enable format_mp3 --enable BETTER_BACKTRACES \
         && make \
         && make install \
-	&& make samples \
+        && make samples \
         && make config \
-	&& cp -fra contrib/scripts/ast_tls_cert /usr/local/sbin/ast_tls_cert && mkdir -p /etc/asterisk/keys \
+        && cp -fra contrib/scripts/ast_tls_cert /usr/local/sbin/ast_tls_cert && mkdir -p /etc/asterisk/keys \
         && echo "asterisk -rvvvvvvvvvv" > /usr/local/sbin/a \
-	&& chmod 777 -R /usr/local/sbin/ \
+        && chmod 777 -R /usr/local/sbin/ \
         && ldconfig \
-	&& rm -fr /etc/asterisk/res_odbc.conf \
-	&& rm -fr /etc/asterisk/manager.conf
+        && rm -fr /etc/asterisk/res_odbc.conf \
+        && rm -fr /etc/asterisk/manager.conf
 
 #### Add G729 Codecs
 RUN cd /usr/src \
@@ -94,7 +92,7 @@ RUN cd /usr/src \
         && make install \
         && rm -fr /usr/src/bcg729*
 
-#### Add G72X Codecs  
+#### Add G72X Codecs
 RUN cd /usr/src \
         && git clone https://bitbucket.org/arkadi/asterisk-g72x.git \
         && cd /usr/src/asterisk-g72x \
@@ -118,8 +116,8 @@ RUN cd /usr/src \
 ### CLIENT BROWSER PHONE
 RUN cd /usr/src \
         && git clone https://github.com/InnovateAsterisk/Browser-Phone.git \
-        && cp -fra Browser-Phone/Phone/* /var/lib/asterisk/static-http/ \ 
-        && chmod 744 /var/lib/asterisk/static-http/* 
+        && cp -fra Browser-Phone/Phone/* /var/lib/asterisk/static-http/ \
+        && chmod 744 /var/lib/asterisk/static-http/*
 
 ### CLIENT VOSK SERVER ASR
 RUN cd /usr/src \
@@ -132,8 +130,8 @@ RUN cd /usr/src \
         && make \
         && make install \
         && cp conf/res-speech-vosk.conf /etc/asterisk/res-speech-vosk.conf \
-        && cp /usr/lib/lib/asterisk/modules/res_speech_vosk.so /usr/lib/asterisk/modules \ 
-        && rm -fr /usr/lib/etc/asterisk/res-speech-vosk.conf 	\
+        && cp /usr/lib/lib/asterisk/modules/res_speech_vosk.so /usr/lib/asterisk/modules \
+        && rm -fr /usr/lib/etc/asterisk/res-speech-vosk.conf    \
         && rm -fr /usr/src/vosk-asterisk-vosk-asterisk \
         && rm -fr /usr/lib/lib/asterisk/modules \
         && rm -r /usr/src/asterisk
@@ -141,12 +139,11 @@ RUN cd /usr/src \
 #####################################
 # STEP 2 build a buster slim image  #
 #####################################
-FROM debian:buster-slim as asteriskwebrtc
+FROM debian:bullseye-slim as asteriskwebrtc
 
 LABEL maintainer="Federico Pereira <fpereira@cnsoluciones.com>"
-LABEL github="https://github.com/lordbasex/docker/tree/master/docker-asterisk16webrtc"
 
-ENV MSMTP='false' \ 
+ENV MSMTP='false' \
         DEBIAN_FRONTEND=noninteractive
 
 RUN apt update
@@ -169,14 +166,14 @@ RUN apt install -y --no-install-recommends --no-install-suggests \
         libosptk4 \
         libportaudio-ocaml-dev \
         libresample1-dev \
-        libsnmp30 \
+        libsnmp40 \
         libspandsp-dev \
         libspeexdsp-dev \
         libsqlite3-dev \
         libsrtp2-dev \
         libssl-dev \
         libunbound-dev \
-        liburiparser-dev \ 
+        liburiparser-dev \
         libuuid1 \
         libvorbis-dev \
         libxml2-dev \
@@ -191,12 +188,12 @@ RUN apt install -y --no-install-recommends --no-install-suggests \
         unixodbc \
         unixodbc-dev \
         uuid-dev \
-        && rm -rf /var/lib/{apt,dpkg,cache,log}/ 
+        && rm -rf /var/lib/{apt,dpkg,cache,log}/
 
 ### Add users
 RUN addgroup --gid 500 asterisk \
         && adduser --uid 500 --gid 500 --gecos "Asterisk User" --disabled-password asterisk \
-	&& rm -fr /etc/odbcinst.ini /etc/odbc.ini
+        && rm -fr /etc/odbcinst.ini /etc/odbc.ini
 
 COPY ./config/etc /etc
 
@@ -236,8 +233,7 @@ WORKDIR /etc/asterisk
 
 #RUN DOCKER SCRIPT
 COPY docker-entrypoint.sh /
-RUN chmod +x /docker-entrypoint.sh
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
+ENTRYPOINT ["/usr/bin/sh", "/docker-entrypoint.sh"]
 
 CMD ["/usr/sbin/asterisk", "-f", "-U", "asterisk", "-G", "asterisk"]
