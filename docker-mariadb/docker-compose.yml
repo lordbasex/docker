@@ -1,0 +1,17 @@
+version: '3.3'
+services:
+
+  #mycli -uuser -puserpassword -h127.0.0.1 test
+  mariadb:
+    container_name: mariadb
+    image: mariadb
+    volumes:
+       - ./user-data/database:/var/lib/mysql
+       - /etc/localtime:/etc/localtime:ro
+    environment:
+        - "MYSQL_USER=user"
+        - "MYSQL_PASSWORD=userpassword"
+        - "MYSQL_ROOT_PASSWORD=rootpassword"
+        - "MYSQL_DATABASE=test"
+    restart: always
+    network_mode: host
