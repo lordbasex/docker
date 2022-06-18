@@ -1,0 +1,13 @@
+version: "2.1"
+services:
+  smokeping:
+    image: lscr.io/linuxserver/smokeping:latest
+    container_name: smokeping
+    environment:
+      - TZ=America/Argentina/Buenos_Aires
+    volumes:
+      - ./user-data/config:/config
+      - ./user-data/data:/data
+    ports:
+      - 8080:80
+    restart: always
