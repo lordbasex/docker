@@ -38,8 +38,55 @@ curl -X GET "localhost:9200" | jq
 ```
 curl -X GET "localhost:9200/_cat/nodes?v=true&pretty"
 ```
+```
+ip         heap.percent ram.percent cpu load_1m load_5m load_15m node.role   master name
+172.20.0.2           60          14   6    1.51    1.90     1.88 cdfhilmrstw *      es02
+172.20.0.4           34          14   6    1.51    1.90     1.88 cdfhilmrstw -      es01
+172.20.0.3           71          14   6    1.51    1.90     1.88 cdfhilmrstw -      es03
+```
 
 ## Show Endpoints
 ```
 curl -X GET "localhost:9200/_cat"
+```
+
+```
+=^.^=
+/_cat/allocation
+/_cat/shards
+/_cat/shards/{index}
+/_cat/master
+/_cat/nodes
+/_cat/tasks
+/_cat/indices
+/_cat/indices/{index}
+/_cat/segments
+/_cat/segments/{index}
+/_cat/count
+/_cat/count/{index}
+/_cat/recovery
+/_cat/recovery/{index}
+/_cat/health
+/_cat/pending_tasks
+/_cat/aliases
+/_cat/aliases/{alias}
+/_cat/thread_pool
+/_cat/thread_pool/{thread_pools}
+/_cat/plugins
+/_cat/fielddata
+/_cat/fielddata/{fields}
+/_cat/nodeattrs
+/_cat/repositories
+/_cat/snapshots/{repository}
+/_cat/templates
+/_cat/ml/anomaly_detectors
+/_cat/ml/anomaly_detectors/{job_id}
+/_cat/ml/trained_models
+/_cat/ml/trained_models/{model_id}
+/_cat/ml/datafeeds
+/_cat/ml/datafeeds/{datafeed_id}
+/_cat/ml/data_frame/analytics
+/_cat/ml/data_frame/analytics/{id}
+/_cat/transforms
+/_cat/transforms/{transform_id}
 ```
