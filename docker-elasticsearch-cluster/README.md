@@ -90,3 +90,12 @@ curl -X GET "localhost:9200/_cat"
 /_cat/transforms
 /_cat/transforms/{transform_id}
 ```
+
+## Show Health (cluster state)
+```
+curl -X GET "localhost:9200/_cat/health?v"
+```
+```
+epoch      timestamp cluster           status node.total node.data shards pri relo init unassign pending_tasks max_task_wait_time active_shards_percent
+1657555267 16:01:07  es-docker-cluster green           3         3     16   8    0    0        0             0                  -                100.0%
+```
