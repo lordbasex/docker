@@ -7,10 +7,9 @@ The following requirements and recommendations apply when running Elasticsearch 
   
 ```
 sudo sysctl -w vm.max_map_count=262144
-
 ```
 
-# HelloWorld
+## HelloWorld
 ```
 curl -X GET "localhost:9200" | jq
 ```
