@@ -34,7 +34,12 @@ curl -X GET "localhost:9200" | jq
 }
 ```
 
-
+##  Show Nodes
 ```
 curl -X GET "localhost:9200/_cat/nodes?v=true&pretty"
+```
+
+## Show Endpoints
+```
+curl -X GET "localhost:9200/_cat"
 ```
