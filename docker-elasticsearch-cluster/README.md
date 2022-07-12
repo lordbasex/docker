@@ -99,3 +99,19 @@ curl -X GET "localhost:9200/_cat/health?v"
 epoch      timestamp cluster           status node.total node.data shards pri relo init unassign pending_tasks max_task_wait_time active_shards_percent
 1657555267 16:01:07  es-docker-cluster green           3         3     16   8    0    0        0             0                  -                100.0%
 ```
+
+
+## Show Indices
+
+```
+curl -X GET "localhost:9200/_cat/indices?v"
+```
+
+```
+health status index                           uuid                   pri rep docs.count docs.deleted store.size pri.store.size
+green  open   .geoip_databases                HkDaPw1FT46QPrsBcv6xwg   1   1         40            0     75.4mb         37.7mb
+green  open   .kibana_7.17.5_001              aHS11RI9Seu4fT1JOqKMOA   1   1         16            0      4.7mb          2.3mb
+green  open   .apm-custom-link                5aHgaZ8TRPa6nR-QLYlAvQ   1   1          0            0       452b           226b
+green  open   .apm-agent-configuration        s9__Fw1oRAamwQ8c4rfptw   1   1          0            0       452b           226b
+green  open   .kibana_task_manager_7.17.5_001 bcMMJPAcQLeQxnXjIPhqQw   1   1         17        78912       15mb          7.5mb
+```
