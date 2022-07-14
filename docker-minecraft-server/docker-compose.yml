@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  minecraft-server:
+    image: itzg/minecraft-server
+    ports:
+      - 25565:25565
+    environment:
+      EULA: "TRUE"
+      MODE: "creative"
+      ONLINE_MODE: "FALSE"
+      VERSION: "1.18.2"
+      SERVER_NAME: "TNT FAMILIA PEREIRA"
+      MOTD: "TNT FAMILIA PEREIRA"
+      ICON: "https://cdn.icon-icons.com/icons2/224/PNG/512/tnt_25747.png"
+      OVERRIDE_ICON: "TRUE"
+      ENABLE_COMMAND_BLOCK: "true"
+    tty: true
+    stdin_open: true
+    restart: always
+    volumes:
+      - ./user-data:/data
