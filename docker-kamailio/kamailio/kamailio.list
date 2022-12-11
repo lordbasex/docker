@@ -1,0 +1,2 @@
+deb http://deb.kamailio.org/kamailio bullseye main
+deb-src http://deb.kamailio.org/kamailio bullseye main

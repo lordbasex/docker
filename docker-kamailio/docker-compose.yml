@@ -1,0 +1,33 @@
+version: '3.3'
+services:
+
+  kamailio:
+    container_name: kamailio
+    image: cnsoluciones/kamailio:latest
+    volumes:
+      - ./conf/kamailio.cfg:/etc/kamailio/kamailio.cfg
+      - ./conf/kamctlrc:/etc/kamailio/kamctlrc
+    restart: always
+    network_mode: host
+    depends_on:
+     - rtpproxy
+     - database
+
+  rtpproxy:
+    container_name: rtpproxy
+    image: cnsoluciones/rtpproxy:latest
+    hostname: rtpproxy
+    network_mode: host
+    restart: always
+
+  database:
+    container_name: database
+    image: mariadb:10.5.18
+    hostname: kamailio_database
+    environment:
+      - MYSQL_ROOT_PASSWORD=kamailio
+    volumes:
+      - ./user-data/mysql:/var/lib/mysql
+      - ./conf/mysql_scripts:/docker-entrypoint-initdb.d
+    restart: always
+    network_mode: host
