@@ -128,6 +128,7 @@ ufw default deny incoming
 ufw allow ssh
 ufw allow 5060/udp
 ufw allow 5060/tcp
+ufw allow 10000:20000/udp
 ufw status
 ```
 
