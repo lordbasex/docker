@@ -105,6 +105,47 @@ export PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin
 source /root/.bashrc
 ```
 
+## Clone Repository 
+```
+cd /root
+git clone https://github.com/lordbasex/docker.git
+mv /root/docker/docker-kamailio /root
+rm -fr /root/docker
+```
+
+
+## Docker run
+
+```
+cd /root/docker-kamailio
+docker-compose up -d
+```
+
+## Firewall
+```bash
+ufw  --force enable
+ufw default deny incoming
+ufw allow ssh
+ufw allow 5060/udp
+ufw allow 5060/tcp
+ufw status
+```
+
+## Build images - OPTIONAL
+
+### KAMAILIO 
+```
+cd /root/docker-kamailio/kamailio/
+make
+```
+
+### RTPPROXY
+```
+cd /root/docker-kamailio/rtpproxy/
+make
+```
+
+## KAMAILIO 
 
 ### KAMCTL ADD USER
 ```bash
@@ -116,3 +157,5 @@ docker-compose exec kamailio kamctl add 101 PASS101OKAkcklas33dS22
 ```
 docker-compose exec kamailio kamctl ul show
 ```
+
+
