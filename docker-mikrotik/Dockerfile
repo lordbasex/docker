@@ -1,43 +1,41 @@
 FROM alpine:latest
 
-MAINTAINER Federico Pereira <fpereira@cnsoluciones.com>
+LABEL maintainer="Federico Pereira <fpereira@cnsoluciones.com>"
 
-ARG VERSON
-ENV ROUTEROS_VERSON=$VERSON
-ENV ROUTEROS_IMAGE="chr-$ROUTEROS_VERSON.vdi"
+# Environments which may be change
 ENV KEYBOARD=en-us
-ENV VNCPASSWORD='false'
+ENV VNCPASSWORD="false"
+ENV ROUTEROS_VERSION="6.49.7"
+ENV ROUTEROS_IMAGE="chr-${ROUTEROS_VERSION}.vdi"
+ENV ROUTEROS_URL="https://download.mikrotik.com/routeros/${ROUTEROS_VERSION}/$ROUTEROS_IMAGE.zip"
 
-RUN apk add --no-cache --update netcat-openbsd busybox-extras python git bash qemu-system-x86_64 supervisor
+RUN set -xe \
+    && apk add --no-cache --update \
+        wget \
+        netcat-openbsd \
+        qemu-x86_64 \
+        qemu-system-x86_64 \
+        busybox-extras \
+        iproute2 \
+        iputils \
+        bridge-utils \
+        iptables \
+        jq \
+        bash \
+        python3 \
+        curl
 
-RUN git clone https://github.com/novnc/noVNC.git /opt/noVNC \
-  && git clone https://github.com/kanaka/websockify /opt/noVNC/utils/websockify \
-  && rm -rf /opt/noVNC/.git \
-  && rm -rf /opt/noVNC/utils/websockify/.git \
-  && rm -fr /opt/noVNC/vnc_lite.html \
-  && apk del git
+WORKDIR /routeros
 
-# For access via VNC
-EXPOSE 5900
+RUN mkdir /routeros/bin
+COPY ./bin/* /routeros/bin/
+RUN ls -l /routeros/bin
+RUN ip link show
 
-# For access via noVNC
-EXPOSE 8080
+RUN wget ${ROUTEROS_URL} -O /routeros/${ROUTEROS_IMAGE}.zip && unzip ${ROUTEROS_IMAGE}.zip && rm -fr ${ROUTEROS_IMAGE}.zip && ls -la
 
 # Default ports of RouterOS
-EXPOSE 21
-EXPOSE 22
-EXPOSE 23
-EXPOSE 80
-EXPOSE 443
-EXPOSE 8291
-EXPOSE 8728
-EXPOSE 8729
-
-# IPSec
-EXPOSE 50
-EXPOSE 51
-EXPOSE 500/udp
-EXPOSE 4500/udp
+EXPOSE 21 22 23 80 443 8291 8728 8729
 
 # OpenVPN
 EXPOSE 1194
@@ -48,23 +46,4 @@ EXPOSE 1701
 # PPTP
 EXPOSE 1723
 
-# Run
-RUN mkdir /routeros
-
-COPY $ROUTEROS_IMAGE /routeros
-WORKDIR /routeros
-
-COPY cli /usr/local/sbin/cli
-RUN chmod 775 /usr/local/sbin/cli
-
-COPY qemu.sh /usr/local/sbin/qemu.sh
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
-RUN chmod 777 /usr/local/sbin/qemu.sh /usr/local/sbin/cli
-
-COPY routeros.png /opt/noVNC 
-COPY winbox.png /opt/noVNC 
-COPY index.html /opt/noVNC
-COPY vnc.html /opt/noVNC
-
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+ENTRYPOINT [ "/routeros/bin/entrypoint.sh" ]

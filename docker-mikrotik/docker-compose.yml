@@ -1,45 +1,16 @@
-version: "3.3"
+version: "3"
 
 services:
-
-  mkt01:
-    image: cnsoluciones/mikrotik:latest
-    container_name: mkt01
-    restart: always
-    ports:
-      - "121:21"
-      - "122:22"
-      - "123:23"
-      - "150:50"
-      - "151:51"
-      - "180:80"
-      - "1443:443"
-      - "1500:500"
-      - "11194:1194"
-      - "11701:1701"
-      - "11723:1723"
-      - "14500:4500"
-      - "15900:5900"
-      - "18080:8080"
-      - "18291:8291"
-      - "18728:8728"
-      - "18729:8729"
-    environment:
-      - "VNCPASSWORD=false"
-    network_mode: bridge
-    privileged: true
-
-
-  winbox:
-    image: cnsoluciones/novnc-winbox:latest
-    container_name: winbox
-    hostname: winbox
-    restart: always
-    #volumes:
-    #  - ./user-data/.wine:/home/alpine/.wine
-    links:
-      - "mkt01"
-    ports:
-      - "5901:5900"
-      - "18081:8080"
-    network_mode: bridge
+    routeros:
+        container_name: "mkt"
+        image: cnsoluciones/mikrotik:6.49.7
+        privileged: true
+        ports: 
+            - "8291:8291"
+            - "8729:8729"
+            - "8728:8728"
+            - "2222:22"
+        cap_add: 
+            - NET_ADMIN
+        devices: 
+            - /dev/net/tun
