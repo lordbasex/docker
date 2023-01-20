@@ -1,7 +1,31 @@
 # docker-whisper
 
 ### Step 0
+
 ```
+sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+/etc/init.d/ssh restart
+apt update
+apt -y upgrade
+apt install vim screen mc
+lspci |grep -E "VGA|3D"
+wget https://us.download.nvidia.com/XFree86/Linux-x86_64/525.78.01/NVIDIA-Linux-x86_64-525.78.01.run
+chmod +x NVIDIA-Linux-*.run
+apt autoremove $(dpkg -l nvidia-driver* |grep ii |awk '{print $2}')
+apt install linux-headers-$(uname -r) gcc make acpid dkms libglvnd-core-dev libglvnd0 libglvnd-dev dracut
+echo "blacklist nouveau" >> /etc/modprobe.d/blacklist.conf
+sed -i 's#^\(GRUB_CMDLINE_LINUX_DEFAULT="quiet\)"$#\1 rd.driver.blacklist=nouveau"#' <<<'GRUB_CMDLINE_LINUX_DEFAULT="quiet"' /etc/default/grub
+update-grub2
+mv /boot/initrd.img-$(uname -r) /boot/initrd.img-$(uname -r)-nouveau
+dracut -q /boot/initrd.img-$(uname -r) $(uname -r)
+systemctl set-default multi-user.target
+reboot
+```
+
+
+```
+./NVIDIA-Linux-x86_64-525.78.01.run
+
 curl -fsSL https://get.docker.com -o get-docker.sh
 sh get-docker.sh
 
