@@ -1,0 +1,71 @@
+{
+  "text": " En general, ¿cómo calificaría su reciente experiencia con el servicio de Contact Center? Marque 1 si considera como bueno o marque 2 si considera como malo.",
+  "segments": [
+    {
+      "id": 0,
+      "seek": 0,
+      "start": 0,
+      "end": 6.2,
+      "text": " En general, ¿cómo calificaría su reciente experiencia con el servicio de Contact Center?",
+      "tokens": [
+        2193,
+        2674,
+        11,
+        3841,
+        46614,
+        2104,
+        1089,
+        21178,
+        459,
+        4214,
+        1576,
+        36489,
+        416,
+        806,
+        43078,
+        368,
+        30683,
+        5169,
+        30
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.19564167658487955,
+      "compression_ratio": 1.2619047619047619,
+      "no_speech_prob": 0.11103466898202896
+    },
+    {
+      "id": 1,
+      "seek": 620,
+      "start": 6.2,
+      "end": 34.2,
+      "text": " Marque 1 si considera como bueno o marque 2 si considera como malo.",
+      "tokens": [
+        50364,
+        2039,
+        1077,
+        502,
+        1511,
+        1949,
+        64,
+        2617,
+        11974,
+        277,
+        41024,
+        568,
+        1511,
+        1949,
+        64,
+        2617,
+        2806,
+        78,
+        13,
+        51764
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.28677020754132954,
+      "compression_ratio": 1.2641509433962264,
+      "no_speech_prob": 0.00012523507757578045
+    }
+  ],
+  "language": "es"
+}
