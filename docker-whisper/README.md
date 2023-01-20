@@ -1,6 +1,6 @@
 # docker-whisper
 
-### 0
+### Step 0
 ```
 curl -fsSL https://get.docker.com -o get-docker.sh
 sh get-docker.sh
@@ -16,29 +16,29 @@ apt-get install -y nvidia-docker2
 systemctl restart docker
 ```
 
-### 1
+### Step 1
 
 ```
 git clone https://github.com/lordbasex/docker.git
 cd docker/docker-whisper
 ```
 
-### 2
+### Step 2
 ```
  docker-compose up -d
 ```
 
-### 3
+### Step 3
 ```
 docker-compose exec whisper bash
 ```
 
-### 4
+### Step 4
 ```
 ./test.py demo0.wav
 ```
 
-### 5
+### Step 5
 ```
 cat demo0.wav_transcription.json | jq
 ```
