@@ -42,3 +42,10 @@ docker-compose exec whisper bash
 ```
 cat demo0.wav_transcription.json | jq
 ```
+
+### tools
+```
+nvidia-smi -l 2 
+time  whisper demo0.wav --model medium --language es --device cuda:0
+time  whisper demo1.wav --model medium --language es --device cuda:1
+```
