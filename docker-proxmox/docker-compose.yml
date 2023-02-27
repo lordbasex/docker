@@ -4,7 +4,7 @@ services:
     build:
       context: .
       shm_size: '4gb'
-    image: proxmox:latest
+    image: lordbasex/proxmox:7.3-1
     container_name: pve
     hostname: pve.lab.io
     privileged: true
