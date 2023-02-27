@@ -1,0 +1,14 @@
+auto lo
+iface lo inet loopback
+
+iface eth0 inet manual
+
+auto vmbr0
+iface vmbr0 inet static
+	address 172.16.0.91/16
+	gateway 172.16.0.1
+	dns-nameservers 1.1.1.1 1.0.0.1 8.8.8.8
+  dns-domain lab.io
+	bridge-ports eth0
+	bridge-stp off
+	bridge-fd 0
