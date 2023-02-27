@@ -6,7 +6,7 @@ services:
       shm_size: '4gb'
     image: proxmox:latest
     container_name: pve
-    hostname: pve.io
+    hostname: pve.lab.io
     privileged: true
     restart: always
     shm_size: '4gb'
