@@ -7,7 +7,7 @@ sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd
 /etc/init.d/ssh restart
 apt update
 apt -y upgrade
-apt install vim screen mc
+apt install -y vim screen mc curl
 lspci |grep -E "VGA|3D"
 wget https://us.download.nvidia.com/XFree86/Linux-x86_64/525.78.01/NVIDIA-Linux-x86_64-525.78.01.run
 chmod +x NVIDIA-Linux-*.run
@@ -36,7 +36,7 @@ distribution=$(. /etc/os-release;echo $ID$VERSION_ID) \
             sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
 
 apt-get update
-apt-get install -y nvidia-docker2
+apt-get -y install -y nvidia-docker2
 systemctl restart docker
 ```
 
