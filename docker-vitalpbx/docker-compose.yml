@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+
+  vitalpbx:
+    build:
+      context: .
+    image: lordbasex/vitalpbx:4
+    container_name: vitalpbx
+    cap_add:
+      - ALL
+    security_opt:
+      - seccomp:unconfined
+    privileged: true
+    network_mode: host
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./user-data/database:/var/lib/mysql
+      - ./user-data/etc/asterisk:/etc/asterisk
+      - ./user-data/var/lib/asterisk/sounds:/var/lib/asterisk/sounds
+      - ./user-data/backup:/backup
+      - ./user-data/rec:/var/spool/asterisk/monitor
+      - ./user-data/certificates:/usr/share/vitalpbx/certificates/
+      - /lib/modules:/lib/modules
+      - /dev:/dev
