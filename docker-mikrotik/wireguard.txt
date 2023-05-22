@@ -1,0 +1,3 @@
+/ip firewall filter
+add action=accept chain=input comment="allow WireGuard" dst-port=1444 protocol=udp place-before=1
+add action=accept chain=input comment="allow WireGuard traffic" src-address=10.10.10.0/24 place-before=1
