@@ -1,6 +1,6 @@
 # Mikrotik RouterOS in Docker
 
-Lord BaseX (c) 2014-2022
+Lord BaseX (c) 2014-2023
  Federico Pereira <fpereira@cnsoluciones.com>
 
 This docker image is made for laboratory use and testing only. We are not responsible if you use it for commercial purposes or if you use it in production.
@@ -18,20 +18,25 @@ docker pull cnsoluciones/mikrotik
 Example is [here](docker-compose.yml).
 
 ```yml
-version: "3"
-
 services:
     routeros:
-        container_name: "mkt"
-        image: cnsoluciones/mikrotik:6.49.7
+        container_name: "mikrotik"
+        image: cnsoluciones/mikrotik:7.6
         privileged: true
         ports:
-            - "8291:8291"
-            - "8729:8729"
-            - "8728:8728"
-            - "2222:22"
-        cap_add:
+            - "21:21" #ftp
+            - "22:22" #ssh
+            - "23:23" #telnet
+            - "80:80" #www
+            - "443:443" #www-ssl
+            - "1194:1194" #OVPN
+            - "1450:1450" #L2TP
+            - "8291:8291" #winbox
+            - "8728:8728" #api
+            - "8729:8729" #api-ssl
+            - "13231:13231" #WireGuard
+        cap_add: 
             - NET_ADMIN
-        devices:
+        devices: 
             - /dev/net/tun
 ```
