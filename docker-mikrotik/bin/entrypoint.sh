@@ -78,3 +78,4 @@ exec qemu-system-x86_64 \
     -device e1000,netdev=net10 \
     -netdev user,id=net10,hostfwd=tcp::21-:21,hostfwd=tcp::22-:22,hostfwd=tcp::23-:23,hostfwd=tcp::80-:80,hostfwd=tcp::443-:443,hostfwd=tcp::8291-:8291,hostfwd=tcp::8728-:8728,hostfwd=tcp::8729-:8729,hostfwd=tcp::1194-:1194,hostfwd=tcp::1701-:1701,hostfwd=tcp::1723-:1723 \
     -nic tap,id=qemu0,script=$QEMU_IFUP,downscript=$QEMU_IFDOWN 
+
