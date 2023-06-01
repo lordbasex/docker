@@ -7,6 +7,11 @@ This docker image is made for laboratory use and testing only. We are not respon
 
 Note: Winbox on MacOS M1 https://github.com/Gcenx/macOS_Wine_builds/releases/download/8.7/wine-devel-8.7-osx86.tar.xz
 
+![WinBox](./WinBox.png)
+![RouterOS Running Intel/Amd](./RouterOS-running-amd64.png)
+![RouterOS running ARM](./RouterOS-running-arm64.jpeg)
+
+
 ### Use image from docker hub
 
 ```bash
