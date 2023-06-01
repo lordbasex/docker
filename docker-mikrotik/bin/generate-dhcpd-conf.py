@@ -71,3 +71,5 @@ if __name__ == '__main__':
         dns_ips = DEFAULT_DNS_IPS
 
     print(generate_conf(args.intf_name, dns_ips))
+
+    
