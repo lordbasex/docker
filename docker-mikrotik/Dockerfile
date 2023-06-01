@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM --platform=$BUILDPLATFORM alpine AS build
 
 LABEL maintainer="Federico Pereira <fpereira@cnsoluciones.com>"
 
