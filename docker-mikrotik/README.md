@@ -5,6 +5,7 @@ Lord BaseX (c) 2014-2023
 
 This docker image is made for laboratory use and testing only. We are not responsible if you use it for commercial purposes or if you use it in production.
 
+Note: Winbox on MacOS M1 https://github.com/Gcenx/macOS_Wine_builds/releases/download/8.7/wine-devel-8.7-osx86.tar.xz
 
 ### Use image from docker hub
 
