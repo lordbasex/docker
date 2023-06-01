@@ -2,13 +2,14 @@ FROM alpine:latest
 
 LABEL maintainer="Federico Pereira <fpereira@cnsoluciones.com>"
 
-# Environments which may be change
+# Configuración de variables de entorno
+ENV ROUTEROS_URL=https://download.mikrotik.com/routeros/7.6/chr-7.6.vdi.zip
+ENV ROUTEROS_IMAGE=chr-7.6.vdi
+ENV ROUTEROS_VERSION=7.6
+ENV VNCPASSWORD=false
 ENV KEYBOARD=en-us
-ENV VNCPASSWORD="false"
-ENV ROUTEROS_VERSION="6.49.7"
-ENV ROUTEROS_IMAGE="chr-${ROUTEROS_VERSION}.vdi"
-ENV ROUTEROS_URL="https://download.mikrotik.com/routeros/${ROUTEROS_VERSION}/$ROUTEROS_IMAGE.zip"
 
+# Instalación de dependencias
 RUN set -xe \
     && apk add --no-cache --update \
         wget \
@@ -25,25 +26,35 @@ RUN set -xe \
         python3 \
         curl
 
+# Descarga y descompresión del archivo de imagen de RouterOS
+RUN mkdir /routeros && wget ${ROUTEROS_URL} -O /routeros/${ROUTEROS_IMAGE}.zip \
+    && unzip /routeros/${ROUTEROS_IMAGE}.zip -d /routeros \
+    && rm -fr /routeros/${ROUTEROS_IMAGE}.zip
+
+# Configuración de directorio de trabajo
 WORKDIR /routeros
 
-RUN mkdir /routeros/bin
-COPY ./bin/* /routeros/bin/
-RUN ls -l /routeros/bin
-RUN ip link show
+# Copia de archivos y directorios
+COPY bin /routeros/bin
 
-RUN wget ${ROUTEROS_URL} -O /routeros/${ROUTEROS_IMAGE}.zip && unzip ${ROUTEROS_IMAGE}.zip && rm -fr ${ROUTEROS_IMAGE}.zip && ls -la
-
-# Default ports of RouterOS
-EXPOSE 21 22 23 80 443 8291 8728 8729
-
-# OpenVPN
-EXPOSE 1194
-
-# L2TP
-EXPOSE 1701
-
-# PPTP
+# Exposición de puertos
 EXPOSE 1723
+EXPOSE 1701
+EXPOSE 1194
+EXPOSE 21
+EXPOSE 22
+EXPOSE 23
+EXPOSE 443
+EXPOSE 80
+EXPOSE 8291
+EXPOSE 8728
+EXPOSE 8729
 
-ENTRYPOINT [ "/routeros/bin/entrypoint.sh" ]
+# Dar permisos de ejecución a los archivos necesarios
+RUN chmod +x /routeros/bin/entrypoint.sh
+RUN chmod +x /routeros/bin/generate-dhcpd-conf.py
+RUN chmod +x /routeros/bin/qemu-ifup
+RUN chmod +x /routeros/bin/qemu-ifdown
+
+# Punto de entrada
+ENTRYPOINT ["/routeros/bin/entrypoint.sh"]
