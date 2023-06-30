@@ -1,3 +1,19 @@
+/ip address
+add address=10.10.10.1/24 comment="VPN WireGuard" interface=VPN network=10.10.10.0
+
 /ip firewall filter
 add action=accept chain=input comment="allow WireGuard" dst-port=1444 protocol=udp place-before=1
 add action=accept chain=input comment="allow WireGuard traffic" src-address=10.10.10.0/24 place-before=1
+
+#Config Client
+
+[Interface]
+PrivateKey = _PRIVATE_KEY_CLIENT
+Address = 10.10.10.2/32
+DNS = 8.8.8.8
+
+[Peer]
+PublicKey = _PUBLIC_KEY_SERVER
+AllowedIPs = 0.0.0.0/0
+Endpoint = _IP_ADDRESS:1444
+PersistentKeepalive = 10
