@@ -1,0 +1,65 @@
+/var/log/asterisk/queue_log {
+        daily
+        missingok
+        # log retention time is 7 days
+        rotate 7
+        notifempty
+        sharedscripts
+}
+
+/var/log/asterisk/full {
+        daily
+        missingok
+        rotate 90
+        #compress log files to save disk space
+        compress
+        notifempty
+        sharedscripts
+        postrotate
+        /usr/sbin/asterisk -rx 'logger reload' > /dev/null 2> /dev/null
+        endscript
+}
+
+/var/log/asterisk/messages {
+        daily
+        missingok
+        rotate 90
+        #compress log files to save disk space
+        compress
+        notifempty
+        sharedscripts
+        postrotate
+        /usr/sbin/asterisk -rx 'logger reload' > /dev/null 2> /dev/null
+        endscript
+}
+/var/log/asterisk/security {
+        daily
+        missingok
+        rotate 90
+        #compress log files to save disk space
+        compress
+        notifempty
+        sharedscripts
+        postrotate
+        /usr/sbin/asterisk -rx 'logger reload' > /dev/null 2> /dev/null
+        endscript
+}
+
+/var/log/asterisk/dtmf {
+        daily
+        missingok
+        rotate 7
+        #compress log files to save disk space
+        compress
+        notifempty
+        sharedscripts
+        postrotate
+        /usr/sbin/asterisk -rx 'logger reload' > /dev/null 2> /dev/null
+        endscript
+}
+
+/var/log/asterisk/cdr-csv/*csv {
+        missingok
+        rotate 5
+        monthly
+}
