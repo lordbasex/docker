@@ -15,6 +15,7 @@ RUN apt install -y --no-install-recommends --no-install-suggests \
         asterisk-dev \
         autoconf \
         automake \
+	bash \
         binutils-dev \
         build-essential \
         ca-certificates \
@@ -40,6 +41,7 @@ RUN apt install -y --no-install-recommends --no-install-suggests \
         libvorbis-dev \
         libxml2-dev \
         libxslt1-dev \
+	liburiparser1 \
         m4 \
         make \
         msmtp \
@@ -78,24 +80,6 @@ RUN apt install -y --no-install-recommends --no-install-suggests \
         && echo "asterisk -rvvvvvvvvvv" > /usr/local/sbin/a \
         && chmod 777 -R /usr/local/sbin/ \
         && ldconfig \
-        && rm -fr /etc/asterisk/res_odbc.conf \
-        && rm -fr /etc/asterisk/manager.conf \
-        && devpackages=`dpkg -l|grep '\-dev'|awk '{print $2}'|xargs` \
-        && DEBIAN_FRONTEND=noninteractive apt-get --yes purge --auto-remove \
-        autoconf \
-        build-essential \
-        git \
-        subversion \
-        bzip2 \
-        cpp \
-        m4 \
-        make \
-        patch \
-        perl \
-        perl-modules \
-        pkg-config \
-        xz-utils \
-        ${devpackages} \
         && rm -rf /var/lib/apt/lists/*
 
 ### Add Opus codecs
@@ -113,9 +97,17 @@ RUN cd /usr/src \
 RUN addgroup --gid 500 asterisk \
         && adduser --uid 500 --gid 500 --gecos "Asterisk User" --disabled-password asterisk
 
+COPY ./config/etc /etc
+
+RUN chown -R asterisk:asterisk /usr/lib/libasterisk*
+RUN chown -R asterisk:asterisk /usr/lib/asterisk/
+RUN chown -R asterisk:asterisk /var/spool/asterisk/
+RUN chown -R asterisk:asterisk /var/log/asterisk/
+RUN chown -R asterisk:asterisk /usr/sbin/asterisk
+RUN chown -R asterisk:asterisk /etc/asterisk/
+RUN chown -R asterisk:asterisk /var/lib/asterisk/ 
 
 EXPOSE 5038 5060 5061 5160 5161 4569 8080 8089 10000-20000/udp 10000-20000/tcp
-
 
 #asterisk etc
 VOLUME [ "/etc/asterisk" ]
@@ -138,6 +130,6 @@ WORKDIR /etc/asterisk
 #RUN DOCKER SCRIPT
 COPY docker-entrypoint.sh /
 
-ENTRYPOINT ["/usr/bin/sh", "/docker-entrypoint.sh"]
+ENTRYPOINT ["/bin/bash", "/docker-entrypoint.sh"]
 
 CMD ["/usr/sbin/asterisk", "-f", "-U", "asterisk", "-G", "asterisk"]
