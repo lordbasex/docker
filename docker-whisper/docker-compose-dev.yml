@@ -1,0 +1,17 @@
+version: "2"
+services:
+
+  whisper:
+    container_name: whisper
+    build: ./src
+    image: whisper
+    tty: true
+    volumes:
+       - ./user-data:/app
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [ gpu ]

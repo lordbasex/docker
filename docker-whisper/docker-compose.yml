@@ -1,17 +1,18 @@
-version: "2"
-services:
+version: '3'
 
+services:
   whisper:
     container_name: whisper
-    build: ./src
-    image: whisper
-    tty: true
+    ports:
+        - '9000:9000'
+    environment:
+        - ASR_MODEL=medium
+        - ASR_ENGINE=openai_whisper
+        - ASR_MODEL_PATH=/data/whisper/model
+        - MODEL_IDLE_TIMEOUT=300
+        - SAMPLE_RATE=16000
+    image:  onerahmet/openai-whisper-asr-webservice:latest
+    #image:  onerahmet/openai-whisper-asr-webservice:latest-gpu
     volumes:
-       - ./user-data:/app
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities: [ gpu ]
+        - ./user-data/model:/data/whisper/model
+    restart: always
