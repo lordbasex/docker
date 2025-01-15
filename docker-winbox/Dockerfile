@@ -1,6 +1,6 @@
-FROM alpine:latest
+FROM alpine:3.11.5
 
-MAINTAINER Federico Pereira <fpereira@cnsoluciones.com>
+LABEL maintainer="Federico Pereira <fpereira@cnsoluciones.com>"
 
 ENV DISPLAY=":1"
 

@@ -1,6 +1,6 @@
 #!make
 
-ROUTEROS_VERSION := 7.6
+ROUTEROS_VERSION := 7.16.2
 TARGET := cnsoluciones/mikrotik
 
 all: build latest

@@ -10,4 +10,4 @@ docker run -itd \
     --volume="/tmp/.X11-unix:/tmp/.X11-unix" \
     --volume="${WINEPREFIX}:/root/.wine" \
     --env="DISPLAY=${IP}:0" \
-    cnsoluciones/winbox64:3.22
+    cnsoluciones/winbox64:3.41

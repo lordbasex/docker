@@ -2,13 +2,15 @@
 
 ## Build
 ```bash
-cd 3.22 && make all
+cd 3.41 && make all
 ```
 ## Push
 ```bash
 docker logout
 docker login
-docker push cnsoluciones/winbox64:3.22
+docker push cnsoluciones/winbox64:3.41
+docker tag cnsoluciones/winbox64:3.41 cnsoluciones/winbox64
+docker push cnsoluciones/winbox64
 ```
 ## Env
 
@@ -31,5 +33,5 @@ docker run -itd \
     --volume="/tmp/.X11-unix:/tmp/.X11-unix" \
     --volume="${WINEPREFIX}:/root/.wine" \
     --env="DISPLAY=${IP}:0" \
-    cnsoluciones/winbox64:3.22
+    cnsoluciones/winbox64:3.41
 ```

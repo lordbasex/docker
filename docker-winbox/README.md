@@ -1,6 +1,6 @@
-# noVNC Winbox
+# noVNC Winbox v 3.41
 
-Lord BaseX (c) 2014-2020
+Lord BaseX (c) 2014-2025
  Federico Pereira <fpereira@cnsoluciones.com>
 
 <img src="https://raw.githubusercontent.com/lordbasex/docker/master/docker-winbox/screenshot/novnc-winbox-01.png" width="400" /><img src="https://raw.githubusercontent.com/lordbasex/docker/master/docker-winbox/screenshot/novnc-winbox-02.png" width="400" />
@@ -8,6 +8,8 @@ Lord BaseX (c) 2014-2020
 This docker image is made for laboratory use and testing only. We are not responsible if you use it for commercial purposes or if you use it in production.
 
 ## How to use
+
+
 
 
 ### Use image from docker hub
