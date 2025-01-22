@@ -2,12 +2,12 @@
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/cnsoluciones/docker-qemu-arm64.svg)](https://hub.docker.com/r/cnsoluciones/docker-qemu-arm64/)
 [![Docker Stars](https://img.shields.io/docker/stars/cnsoluciones/docker-qemu-arm64.svg)](https://hub.docker.com/r/cnsoluciones/docker-qemu-arm64/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/lordbasex/docker/docker-qemu-arm64/blob/main/LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/lordbasex/docker/blob/master/docker-qemu-arm64/LICENSE)
 
 This project is a modified fork of [qemus/qemu-docker](https://github.com/qemus/qemu-docker) with specific support for ARM64 architecture.
 
 🔗 **Repository**: [github.com/lordbasex/docker](https://github.com/lordbasex/docker)  
-📦 **Project**: [docker/docker-qemu-arm64](https://github.com/lordbasex/docker/tree/main/docker-qemu-arm64)
+📦 **Project**: [docker/docker-qemu-arm64](https://github.com/lordbasex/docker/tree/master/docker-qemu-arm64)
 
 ## Features 🔄
 
@@ -81,7 +81,7 @@ docker run -it --rm \
 | `DISK_TYPE` | "scsi" | Type: ide, sata, nvme, usb, scsi, blk, auto |
 | `DISK_ALLOC` | "off" | Allocation: off = dynamic, on = pre-allocated |
 
-For more detailed documentation and advanced configuration options, visit our [GitHub Repository](https://github.com/lordbasex/docker/docker-qemu-arm64).
+For more detailed documentation and advanced configuration options, visit our [GitHub Repository](https://github.com/lordbasex/docker/tree/master/docker-qemu-arm64).
 
 ## Support & Issues 💡
 
@@ -98,4 +98,4 @@ Federico Pereira <fpereira@cnsoluciones.com>
 
 ## License 📄
 
-This project is released under the [MIT License](https://github.com/lordbasex/docker/blob/main/docker-qemu-arm64/LICENSE). 
+This project is released under the [MIT License](https://github.com/lordbasex/docker/blob/master/docker-qemu-arm64/LICENSE). 
