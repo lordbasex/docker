@@ -1,5 +1,5 @@
 # Image name and version
-NAME = cnsoluciones/docker-qemu-arm64
+NAME = cnsoluciones/docker-qemu
 VERSION = 1.0.0
 
 # Docker commands

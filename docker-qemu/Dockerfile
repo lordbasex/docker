@@ -29,6 +29,7 @@ RUN set -eu && \
         ca-certificates \
         netcat-openbsd \
         qemu-system-arm \
+        qemu-system-x86 \
         qemu-efi-aarch64 && \
     apt-get clean && \
     mkdir -p /usr/share/novnc && \
@@ -66,5 +67,8 @@ ENV RAM_SIZE="1G"
 ENV DISK_SIZE="16G"
 ENV DISK_FORMAT="qcow2"
 ENV BOOT="https://deb.debian.org/debian/dists/bookworm/main/installer-arm64/current/images/netboot/mini.iso"
+
+# Definir la arquitectura por defecto
+ENV ARCH="amd64"
 
 ENTRYPOINT ["/usr/bin/tini", "-s", "/run/entry.sh"]

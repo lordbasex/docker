@@ -8,6 +8,7 @@ set -Eeuo pipefail
 : "${CPU_FLAGS:=""}"
 : "${CPU_MODEL:=""}"
 : "${DEF_MODEL:="neoverse-n1"}"
+: "${DEF_MODEL_AMD64:="qemu64"}"  # Modelo por defecto para AMD64
 
 if [[ "$CPU" == "Cortex A53" ]] && [[ "$CORES" == "6" ]]; then
   # Pin to performance cores on Rockchip Orange Pi 4
@@ -80,6 +81,11 @@ else
     MACHINE+=",virtualization=on"
   fi
 
+fi
+
+# Establecer el modelo de CPU según la arquitectura
+if [[ "${ARCH,,}" == "amd64" ]]; then
+    DEF_MODEL="$DEF_MODEL_AMD64"
 fi
 
 if [ -z "$CPU_FLAGS" ]; then
