@@ -3,12 +3,23 @@ set -Eeuo pipefail
 
 # Docker environment variables
 
+: "${DEBUG:="no"}"           # Debug mode (yes/no)
 : "${KVM:="Y"}"
 : "${CPU_PIN:=""}"
 : "${CPU_FLAGS:=""}"
 : "${CPU_MODEL:=""}"
-: "${DEF_MODEL:="neoverse-n1"}"
-: "${DEF_MODEL_AMD64:="qemu64"}"  # Modelo por defecto para AMD64
+: "${DEF_MODEL_ARM64:="neoverse-n1"}"    # Default model for ARM64
+: "${DEF_MODEL_AMD64:="qemu64"}"         # Default model for AMD64
+: "${MACHINE:=""}"                        # Machine type
+
+# Set machine type based on architecture
+if [[ "${ARCH,,}" == "amd64" ]]; then
+    MACHINE="pc-q35-7.2"          # Standard machine for AMD64
+    DEF_MODEL="$DEF_MODEL_AMD64"  # CPU model for AMD64
+else
+    MACHINE="virt"                # Machine for ARM64
+    DEF_MODEL="$DEF_MODEL_ARM64"  # CPU model for ARM64
+fi
 
 if [[ "$CPU" == "Cortex A53" ]] && [[ "$CORES" == "6" ]]; then
   # Pin to performance cores on Rockchip Orange Pi 4
@@ -25,9 +36,15 @@ if [[ "$CPU" == "Rockchip RK3588"* ]] && [[ "$CORES" == "8" ]]; then
   [ -z "$CPU_PIN" ] && CPU_PIN="4,5,6,7"
 fi
 
- if [[ "${ARCH,,}" != "arm64" ]]; then
-  KVM="N"
-  warn "your CPU architecture is ${ARCH^^} and cannot provide KVM acceleration for ARM64 instructions, this will cause a major loss of performance."
+# Verify KVM compatibility based on architecture
+if [[ "${ARCH,,}" == "amd64" ]]; then
+    if [[ "$OSTYPE" =~ ^darwin ]]; then
+        KVM="N"
+        warn "macOS does not support KVM, this may cause performance loss."
+    fi
+else
+    KVM="N"
+    warn "Architecture ${ARCH^^} cannot provide KVM acceleration on this system, this may cause performance loss."
 fi
 
 if [[ "$KVM" != [Nn]* ]]; then
@@ -81,11 +98,6 @@ else
     MACHINE+=",virtualization=on"
   fi
 
-fi
-
-# Establecer el modelo de CPU según la arquitectura
-if [[ "${ARCH,,}" == "amd64" ]]; then
-    DEF_MODEL="$DEF_MODEL_AMD64"
 fi
 
 if [ -z "$CPU_FLAGS" ]; then

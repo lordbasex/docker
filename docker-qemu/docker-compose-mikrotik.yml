@@ -1,4 +1,4 @@
-#version: '3.8' #deprecated in newer docker compose versions
+#version: '3.8' #deprecated versiones nuevas de docker compose
 
 services:
   qemu:
@@ -6,17 +6,16 @@ services:
     image: cnsoluciones/docker-qemu
     privileged: true
     environment:
-      # Architecture selection: 'amd64' (default) or 'arm64'
       - DEBUG=yes
+      # Architecture selection: 'amd64' (default) or 'arm64'
       - ARCH=amd64
       - USE_UEFI=no  # Force non-UEFI mode
       # Boot variables
-      - BOOT=https://deb.debian.org/debian/dists/bookworm/main/installer-amd64/current/images/netboot/mini.iso
-      
+      - BOOT=
       # Basic configuration
       - CPU_CORES=2            # Number of cores
       - RAM_SIZE=2G            # Amount of RAM
-      
+
       # Main disk configuration
       - DISK_NAME=disk         # Base name for disk files
       - DISK_SIZE=32G          # Maximum disk size
@@ -27,26 +26,26 @@ services:
       #- DISK_CACHE=none        # Cache: none, writeback (better performance)
       #- DISK_DISCARD=unmap     # TRIM/Discard: unmap, ignore
       #- DISK_FLAGS=""          # Additional options for qcow2
-      
+
       # CPU (optional)
-      #- CPU_PIN=""            # Optional: Pin CPU to specific cores (e.g., "0,1,2")
-      
+      #- CPU_PIN=""            # Optional: Pin CPU to specific cores (e.g. "0,1,2")
+
       # Additional disks (optional)
       #- DISK2_SIZE=""         # Size of second disk (if needed)
       #- DISK3_SIZE=""         # Size of third disk
       #- DISK4_SIZE=""         # Size of fourth disk
-      
+
       # Block devices (optional)
-      #- DEVICE=""             # Main block device (e.g., /dev/sda)
+      #- DEVICE=""             # Main block device (e.g. /dev/sda)
       #- DEVICE2=""            # Second device
       #- DEVICE3=""            # Third device
       #- DEVICE4=""            # Fourth device
-      
+
       # Network configuration (optional)
       #- NET_DEVICE=""         # Network device to use
       #- NET_DRIVER=""         # Network driver
       #- NET_MODEL=""          # Network card model
-      
+
     devices:
       - /dev/kvm
       - /dev/net/tun
@@ -56,9 +55,18 @@ services:
     security_opt:
       - seccomp=unconfined
     ports:
-      - "8006:8006"
-      - "5900:5900"
-      - "22:22"
+      - "8006:8006" #noVNC
+      - "121:21" #ftp
+      - "122:22" #ssh
+      - "123:23" #telnet
+      - "180:80" #www
+      - "1443:443" #www-ssl
+      - "11194:1194" #OVPN
+      - "11450:1450" #L2TP
+      - "18291:8291" #winbox
+      - "18728:8728" #api
+      - "18729:8729" #api-ssl
+      - "13231:13231" #WireGuard
     stop_grace_period: 2m
     volumes:
       - ./storage:/storage

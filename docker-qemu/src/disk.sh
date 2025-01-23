@@ -575,17 +575,17 @@ case "${MEDIA_TYPE,,}" in
   * ) error "Invalid MEDIA_TYPE specified, value \"$MEDIA_TYPE\" is not recognized!" && exit 80 ;;
 esac
 
-if [ -f "$BOOT" ] && [ -s "$BOOT" ]; then
-  case "${BOOT,,}" in
-    *".iso" )
-        DISK_OPTS+=$(addMedia "$BOOT" "$MEDIA_TYPE" "$BOOT_INDEX" "0x5") ;;
-    *".img" | *".raw" )
-        DISK_OPTS+=$(createDevice "$BOOT" "$DISK_TYPE" "$BOOT_INDEX" "0x5" "raw" "$DISK_IO" "$DISK_CACHE") ;;
-    *".qcow2" )
-        DISK_OPTS+=$(createDevice "$BOOT" "$DISK_TYPE" "$BOOT_INDEX" "0x5" "qcow2" "$DISK_IO" "$DISK_CACHE") ;;
-    * )
-        error "Invalid BOOT image specified, extension \".${BOOT/*./}\" is not recognized!" && exit 80 ;;
-  esac
+if [ -n "$BOOT" ] && [ -f "$BOOT" ] && [ -s "$BOOT" ]; then
+    case "${BOOT,,}" in
+        *".iso" )
+            DISK_OPTS+=$(addMedia "$BOOT" "$MEDIA_TYPE" "$BOOT_INDEX" "0x5") ;;
+        *".img" | *".raw" )
+            DISK_OPTS+=$(createDevice "$BOOT" "$DISK_TYPE" "$BOOT_INDEX" "0x5" "raw" "$DISK_IO" "$DISK_CACHE") ;;
+        *".qcow2" )
+            DISK_OPTS+=$(createDevice "$BOOT" "$DISK_TYPE" "$BOOT_INDEX" "0x5" "qcow2" "$DISK_IO" "$DISK_CACHE") ;;
+        * )
+            error "Invalid BOOT image specified, extension \".${BOOT/*./}\" is not recognized!" && exit 80 ;;
+    esac
 fi
 
 DRIVERS="/drivers.iso"

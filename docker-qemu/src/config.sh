@@ -13,7 +13,14 @@ CPU_OPTS="-cpu $CPU_FLAGS -smp $SMP"
 RAM_OPTS=$(echo "-m ${RAM_SIZE^^}" | sed 's/MB/M/g;s/GB/G/g;s/TB/T/g')
 MON_OPTS="-monitor $MONITOR -name $PROCESS,process=$PROCESS,debug-threads=on"
 [ -n "$USB" ] && [[ "${USB,,}" != "no"* ]] && USB_OPTS="-device $USB -device usb-kbd -device usb-tablet"
-MAC_OPTS="-machine type=${MACHINE},secure=${SECURE},dump-guest-core=off${KVM_OPTS}"
+
+# Configurar opciones de máquina según la arquitectura
+if [[ "${ARCH,,}" == "amd64" ]]; then
+    MAC_OPTS="-machine ${MACHINE},acpi=on${KVM_OPTS}"
+else
+    MAC_OPTS="-machine type=${MACHINE},secure=${SECURE},dump-guest-core=off${KVM_OPTS}"
+fi
+
 [ -n "$UUID" ] && MAC_OPTS="$MAC_OPTS -uuid $UUID"
 DEV_OPTS="-object rng-random,id=objrng0,filename=/dev/urandom"
 DEV_OPTS+=" -device virtio-rng-pci,rng=objrng0,id=rng0,bus=pcie.0"
@@ -36,9 +43,7 @@ else
 fi
 
 # Check available memory as the very last step
-
 if [[ "$RAM_CHECK" != [Nn]* ]]; then
-
   RAM_AVAIL=$(free -b | grep -m 1 Mem: | awk '{print $7}')
   AVAIL_GB=$(( RAM_AVAIL/1073741824 ))
 
@@ -50,11 +55,13 @@ if [[ "$RAM_CHECK" != [Nn]* ]]; then
   if (( (RAM_WANTED + (RAM_SPARE * 3)) > RAM_AVAIL )); then
     warn "your configured RAM_SIZE of $WANTED_GB GB is very close to the $AVAIL_GB GB of memory available, please consider a lower value."
   fi
-
 fi
 
-if [[ "$DEBUG" == [Yy1]* ]]; then
-  printf "Arguments:\n\n%s" "${ARGS// -/$'\n-'}" && echo
+# Mostrar información de debug solo si está activado
+if [[ "${DEBUG,,}" == "yes" ]]; then
+    info "=== QEMU Command to Execute ==="
+    echo "$QEMU_BIN $ARGS"
+    echo "============================="
 fi
 
 return 0

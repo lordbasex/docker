@@ -63,6 +63,7 @@ Este proyecto es una bifurcación modificada de [qemus/qemu-docker](https://gith
 | DISK_SIZE | Tamaño del disco virtual | Ejemplo: "16G", "32G" | `16G` |
 | DISK_FORMAT | Formato del disco virtual | `qcow2`, `raw`, etc. | `qcow2` |
 | BOOT | URL de imagen de arranque | URL válida | URL de Debian mini.iso |
+| USE_UEFI | Habilitar/deshabilitar arranque UEFI | `yes`, `no` | `yes` |
 
 ### Variables Adicionales
 
@@ -78,53 +79,54 @@ Este proyecto es una bifurcación modificada de [qemus/qemu-docker](https://gith
 Vía Docker Compose:
 
 ```yaml
-#version: '3' #obsoleto en versiones más nuevas de docker compose
+#version: '3.8' #obsoleto en versiones más nuevas de docker compose
 
 services:
   qemu:
     container_name: qemu
-    image: cnsoluciones/docker-qemu-arm64:1.0.0
+    image: cnsoluciones/docker-qemu
     privileged: true
     environment:
-      # Selección de arquitectura
-      - ARCH: "amd64"          # Arquitectura: amd64 o arm64
-      
+      # Selección de arquitectura: 'amd64' (por defecto) o 'arm64'
+      - DEBUG=yes
+      - ARCH=amd64
+      - USE_UEFI=no  # Forzar modo no-UEFI
       # Variables de arranque
-      - BOOT: "https://deb.debian.org/debian/dists/bookworm/main/installer-arm64/current/images/netboot/mini.iso"
+      - BOOT=https://deb.debian.org/debian/dists/bookworm/main/installer-amd64/current/images/netboot/mini.iso
       
       # Configuración básica
-      - CPU_CORES: "2"            # Número de núcleos
-      - RAM_SIZE: "4G"            # Cantidad de RAM
+      - CPU_CORES=2            # Número de núcleos
+      - RAM_SIZE=2G            # Cantidad de RAM
       
-      # Configuración del disco principal
-      - DISK_NAME: "disk"         # Nombre base para archivos de disco
-      - DISK_SIZE: "50G"          # Tamaño máximo del disco
-      - DISK_FORMAT: "qcow2"      # Formato: raw, qcow2, vmdk, vdi, vpc, vhdx
-      - DISK_TYPE: "scsi"         # Tipo: ide, sata, nvme, usb, scsi, blk, auto
-      - DISK_ALLOC: "off"         # Asignación: off = dinámica, on = pre-asignada
-      #- DISK_IO: "native"         # Modo E/S: native, threads, io_uring
-      #- DISK_CACHE: "none"        # Caché: none, writeback (mejor rendimiento)
-      #- DISK_DISCARD: "unmap"     # TRIM/Discard: unmap, ignore
-      #- DISK_FLAGS: ""            # Opciones adicionales qcow2
+      # Configuración principal del disco
+      - DISK_NAME=disk         # Nombre base para los archivos de disco
+      - DISK_SIZE=32G          # Tamaño máximo del disco
+      - DISK_FORMAT=qcow2      # Formato: raw, qcow2, vmdk, vdi, vpc, vhdx
+      - DISK_TYPE=scsi         # Tipo: ide, sata, nvme, usb, scsi, blk, auto
+      - DISK_ALLOC=off         # Asignación: off = dinámica, on = pre-asignada
+      #- DISK_IO=native         # Modo de E/S: native, threads, io_uring
+      #- DISK_CACHE=none        # Caché: none, writeback (mejor rendimiento)
+      #- DISK_DISCARD=unmap     # TRIM/Descartar: unmap, ignore
+      #- DISK_FLAGS=""          # Opciones adicionales para qcow2
       
       # CPU (opcional)
-      #- CPU_PIN: ""              # Opcional: Fijar CPU a núcleos específicos (ej: "0,1,2")
+      #- CPU_PIN=""            # Opcional: Fijar CPU a núcleos específicos (ej., "0,1,2")
       
       # Discos adicionales (opcional)
-      #- DISK2_SIZE: ""           # Tamaño segundo disco (si es necesario)
-      #- DISK3_SIZE: ""           # Tamaño tercer disco
-      #- DISK4_SIZE: ""           # Tamaño cuarto disco
+      #- DISK2_SIZE=""         # Tamaño del segundo disco (si es necesario)
+      #- DISK3_SIZE=""         # Tamaño del tercer disco
+      #- DISK4_SIZE=""         # Tamaño del cuarto disco
       
       # Dispositivos de bloque (opcional)
-      #- DEVICE: ""               # Dispositivo de bloque principal (ej: /dev/sda)
-      #- DEVICE2: ""              # Segundo dispositivo
-      #- DEVICE3: ""              # Tercer dispositivo
-      #- DEVICE4: ""              # Cuarto dispositivo
+      #- DEVICE=""             # Dispositivo de bloque principal (ej., /dev/sda)
+      #- DEVICE2=""            # Segundo dispositivo
+      #- DEVICE3=""            # Tercer dispositivo
+      #- DEVICE4=""            # Cuarto dispositivo
       
       # Configuración de red (opcional)
-      #- NET_DEVICE: ""           # Dispositivo de red a usar
-      #- NET_DRIVER: ""           # Controlador de red
-      #- NET_MODEL: ""            # Modelo de tarjeta de red
+      #- NET_DEVICE=""         # Dispositivo de red a usar
+      #- NET_DRIVER=""         # Controlador de red
+      #- NET_MODEL=""          # Modelo de tarjeta de red
       
     devices:
       - /dev/kvm
@@ -135,10 +137,13 @@ services:
     security_opt:
       - seccomp=unconfined
     ports:
-      - 8006:8006
+      - "8006:8006"
+      - "5900:5900"
+      - "22:22"
     stop_grace_period: 2m
     volumes:
       - ./storage:/storage
+    restart: unless-stopped
 ```
 
 Vía Docker CLI:
@@ -153,22 +158,24 @@ docker run -it --rm \
   --cap-add NET_ADMIN \
   --cap-add SYS_ADMIN \
   --security-opt seccomp=unconfined \
-  cnsoluciones/docker-qemu-arm64:1.0.0
+  cnsoluciones/docker-qemu:1.0.0
 ```
 
 ## Solución de Problemas
 
-Solución: Asegúrese de especificar correctamente la variable ARCH
+Si experimenta problemas con el arranque UEFI:
+1. Intente configurar `USE_UEFI=no` para deshabilitar el arranque UEFI
+2. Esto es especialmente útil cuando se ejecuta ARM64 en hosts AMD64
 
-2. Problemas de rendimiento:
+Problemas de rendimiento:
 - Para AMD64: Verificar la virtualización del host
 - Para ARM64: Esperar tiempos de emulación más lentos en hosts x86
 
 ## Soporte
 
 Para soporte y reportes de errores, por favor abra un issue en el repositorio:
-[https://github.com/lordbasex/docker/docker-qemu-arm64](https://github.com/lordbasex/docker/docker-qemu)
+[https://github.com/lordbasex/docker/docker-qemu](https://github.com/lordbasex/docker/docker-qemu)
 
 ## Licencia
 
-[Incluir información de licencia] 
+Este proyecto es una bifurcación modificada de [qemus/qemu-docker](https://github.com/qemus/qemu-docker) y está liberado bajo la [Licencia MIT](LICENSE). Consulte el archivo LICENSE para más detalles. 

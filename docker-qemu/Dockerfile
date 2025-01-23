@@ -1,6 +1,10 @@
 FROM debian:bookworm-slim
 
-LABEL maintainer="Federico Pereira <fpereira@cnsoluciones.com>"
+# Metadata and labels
+LABEL maintainer="Federico Pereira <fpereira@cnsoluciones.com>" \
+      version="1.0" \
+      description="QEMU system emulator with web interface" \
+      org.opencontainers.image.source="https://github.com/lordbasex/docker/docker-qemu"
 
 ARG VERSION_ARG="0.0"
 ARG VERSION_VNC="1.5.0"
@@ -15,6 +19,7 @@ RUN set -eu && \
         tini \
         wget \
         7zip \
+        p7zip-full \
         nginx \
         procps \
         seabios \
@@ -31,28 +36,26 @@ RUN set -eu && \
         qemu-system-arm \
         qemu-system-x86 \
         qemu-efi-aarch64 && \
+    # Clean up apt cache to reduce image size
     apt-get clean && \
-    mkdir -p /usr/share/novnc && \
+    rm -rf /var/lib/apt/lists/*
+
+# Setup noVNC
+RUN mkdir -p /usr/share/novnc && \
     wget "https://github.com/novnc/noVNC/archive/refs/tags/v${VERSION_VNC}.tar.gz" -O /tmp/novnc.tar.gz -q --timeout=10 && \
     tar -xf /tmp/novnc.tar.gz -C /tmp/ && \
     cd "/tmp/noVNC-${VERSION_VNC}" && \
     mv app core vendor package.json *.html /usr/share/novnc && \
     sed -i "s|UI\.initSetting('path', 'websockify')|UI.initSetting('path', window.location.pathname.replace(/[^/]*$/, '').substring(1) + 'websockify')|" /usr/share/novnc/app/ui.js && \
-    unlink /etc/nginx/sites-enabled/default && \
-    sed -i 's/^worker_processes.*/worker_processes 1;/' /etc/nginx/nginx.conf && \
-    echo "$VERSION_ARG" > /run/version && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    # Clean up temporary files
+    rm -rf /tmp/*
 
+# Configure nginx
+RUN unlink /etc/nginx/sites-enabled/default && \
+    sed -i 's/^worker_processes.*/worker_processes 1;/' /etc/nginx/nginx.conf
+
+# Copy configuration files and scripts with appropriate permissions
 COPY --chmod=755 ./src /run/
-
-# Remote files (commented out)
-#ADD --chmod=664 https://raw.githubusercontent.com/qemus/qemu-docker/master/web/index.html /var/www/index.html
-#ADD --chmod=664 https://raw.githubusercontent.com/qemus/qemu-docker/master/web/js/script.js /var/www/js/script.js
-#ADD --chmod=664 https://raw.githubusercontent.com/qemus/qemu-docker/master/web/css/style.css /var/www/css/style.css
-#ADD --chmod=664 https://raw.githubusercontent.com/qemus/qemu-docker/master/web/img/favicon.svg /var/www/img/favicon.svg
-#ADD --chmod=744 https://raw.githubusercontent.com/qemus/qemu-docker/master/web/nginx.conf /etc/nginx/sites-enabled/web.conf
-
-# Local files
 COPY --chmod=664 ./web/index.html /var/www/index.html
 COPY --chmod=664 ./web/js/script.js /var/www/js/script.js
 COPY --chmod=664 ./web/css/style.css /var/www/css/style.css
@@ -62,13 +65,14 @@ COPY --chmod=744 ./web/nginx.conf /etc/nginx/sites-enabled/web.conf
 VOLUME /storage
 EXPOSE 22 5900 8006
 
-ENV CPU_CORES="1"
-ENV RAM_SIZE="1G"
-ENV DISK_SIZE="16G"
-ENV DISK_FORMAT="qcow2"
-ENV BOOT="https://deb.debian.org/debian/dists/bookworm/main/installer-arm64/current/images/netboot/mini.iso"
+# Set default environment variables
+ENV CPU_CORES="1" \
+    RAM_SIZE="1G" \
+    DISK_SIZE="16G" \
+    DISK_FORMAT="qcow2" \
+    ARCH="amd64" \
+    BOOT="" \
+    DEBUG="no"
 
-# Definir la arquitectura por defecto
-ENV ARCH="amd64"
-
+# Use tini as init system
 ENTRYPOINT ["/usr/bin/tini", "-s", "/run/entry.sh"]

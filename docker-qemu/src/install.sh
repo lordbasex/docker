@@ -180,9 +180,15 @@ findFile "img" && return 0
 findFile "raw" && return 0
 findFile "qcow2" && return 0
 
-if [ -z "$BOOT" ] || [[ "$BOOT" == *"example.com/image.iso" ]]; then
-  hasDisk && return 0
-  error "No boot disk specified, set BOOT= to the URL of a disk image file." && exit 64
+# Verificar si BOOT está vacío
+if [ -z "$BOOT" ]; then
+    info "No boot media specified, will try to boot from disk"
+    return 0
+fi
+
+# Si BOOT está especificado, continuar con la lógica existente
+if [[ "$BOOT" =~ ^https?:// ]]; then
+    # ... resto del código existente para descargar ISO
 fi
 
 base=$(basename "${BOOT%%\?*}")

@@ -1,0 +1,36 @@
+# 1. Download MikroTik RouterOS CHR image
+# Download the Cloud Hosted Router (CHR) image in VMDK format from MikroTik's website
+
+wget https://download.mikrotik.com/routeros/7.17/chr-7.17.vmdk.zip
+
+# 2. Extract the VMDK file
+# Use 7zip inside Docker container to extract the downloaded zip file
+
+docker run --rm \
+  --entrypoint 7z \
+  -v $(pwd):/storage \
+  cnsoluciones/docker-qemu:1.0.0 \
+  x /storage/chr-7.17.vmdk.zip -o/storage/
+
+# 3. Convert VMDK to QCOW2 format
+# Use QEMU image converter to transform the VMDK file into QCOW2 format
+# QCOW2 is the preferred format for QEMU virtualization
+
+docker run --rm \
+  --privileged \
+  --entrypoint qemu-img \
+  -v $(pwd):/storage \
+  cnsoluciones/docker-qemu:1.0.0 \
+  convert -f vmdk -O qcow2 /storage/chr-7.17.vmdk /storage/disk.qcow2
+
+# 4. Clean up and organize files
+# Remove temporary files and organize the converted image
+
+rm -rf chr-7.17.*          # Remove original file
+mkdir -p storage           # Create storage directory if it doesn't exist
+mv disk.qcow2 storage      # Move converted image to storage directory
+
+# 5. Launch with Docker Compose
+# Start the MikroTik RouterOS container using the converted image
+
+docker-compose -f docker-compose-mikrotik.yml up -d
