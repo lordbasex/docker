@@ -1,0 +1,6 @@
+.gitignore
+.env
+data/
+init/initdb.sql
+drive/
+record/
