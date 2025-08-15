@@ -22,7 +22,12 @@ dnf install -y docker-ce
 mkdir -p /etc/docker
 cat > /etc/docker/daemon.json <<ENDLINE
 {
-  "bip": "172.17.0.1/24"
+  "bip": "172.17.0.1/24",
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "50m",
+    "max-file": "3"
+  }
 }
 ENDLINE
 
