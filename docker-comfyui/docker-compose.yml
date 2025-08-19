@@ -20,7 +20,24 @@ services:
               count: all
               capabilities: [gpu]
     volumes:
-      - ./user-data/models:/app/comfyui/models
+      - ./user-data/models/checkpoints:/app/comfyui/models/checkpoints
+      - ./user-data/models/clip:/app/comfyui/models/clip
+      - ./user-data/models/clip_vision:/app/comfyui/models/clip_vision
+      - ./user-data/models/configs:/app/comfyui/models/configs
+      - ./user-data/models/controlnet:/app/comfyui/models/controlnet
+      - ./user-data/models/diffusers:/app/comfyui/models/diffusers
+      - ./user-data/models/diffusion_models:/app/comfyui/models/diffusion_models
+      - ./user-data/models/embeddings:/app/comfyui/models/embeddings
+      - ./user-data/models/gligen:/app/comfyui/models/gligen
+      - ./user-data/models/hypernetworks:/app/comfyui/models/hypernetworks
+      - ./user-data/models/loras:/app/comfyui/models/loras
+      - ./user-data/models/photomaker:/app/comfyui/models/photomaker
+      - ./user-data/models/style_models:/app/comfyui/models/style_models
+      - ./user-data/models/text_encoders:/app/comfyui/models/text_encoders
+      - ./user-data/models/unet:/app/comfyui/models/unet
+      - ./user-data/models/upscale_models:/app/comfyui/models/upscale_models
+      - ./user-data/models/vae:/app/comfyui/models/vae
+      - ./user-data/models/vae_approx:/app/comfyui/models/vae_approx
       - ./user-data/input:/app/comfyui/input
       - ./user-data/output:/app/comfyui/output
     runtime: nvidia
