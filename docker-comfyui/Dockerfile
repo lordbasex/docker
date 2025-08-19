@@ -49,4 +49,27 @@ EXPOSE 8188
 HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=5 \
   CMD wget -qO- http://127.0.0.1:8188 || exit 1
 
+# Volumes
+VOLUME /app/comfyui/models/checkpoints
+VOLUME /app/comfyui/models/clip
+VOLUME /app/comfyui/models/clip_vision
+VOLUME /app/comfyui/models/configs
+VOLUME /app/comfyui/models/controlnet
+VOLUME /app/comfyui/models/diffusers
+VOLUME /app/comfyui/models/diffusion_models
+VOLUME /app/comfyui/models/embeddings
+VOLUME /app/comfyui/models/gligen
+VOLUME /app/comfyui/models/hypernetworks
+VOLUME /app/comfyui/models/loras
+VOLUME /app/comfyui/models/photomaker
+VOLUME /app/comfyui/models/style_models
+VOLUME /app/comfyui/models/text_encoders
+VOLUME /app/comfyui/models/unet
+VOLUME /app/comfyui/models/upscale_models
+VOLUME /app/comfyui/models/vae
+VOLUME /app/comfyui/models/vae_approx
+VOLUME /app/comfyui/input
+VOLUME /app/comfyui/output
+
+# Entrypoint
 ENTRYPOINT ["/app/entrypoint.sh"]
