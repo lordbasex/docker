@@ -1,0 +1,66 @@
+docker compose exec comfyui nvidia-smi
+Tue Aug 19 11:25:11 2025
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 560.35.05              Driver Version: 560.35.05      CUDA Version: 12.6     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce RTX 3070        Off |   00000000:01:00.0 Off |                  N/A |
+|  0%   43C    P8             18W /  270W |     161MiB /   8192MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
++-----------------------------------------------------------------------------------------+
+
+docker compose logs -f
+comfyui  | Checkpoint files will always be loaded safely.
+comfyui  | Total VRAM 7872 MB, total RAM 31805 MB
+comfyui  | pytorch version: 2.5.1+cu124
+comfyui  | Set vram state to: NORMAL_VRAM
+comfyui  | Device: cuda:0 NVIDIA GeForce RTX 3070 : cudaMallocAsync
+comfyui  | Torch version too old to set sdpa backend priority.
+comfyui  | Using pytorch attention
+comfyui  | Python version: 3.10.12 (main, May 27 2025, 17:12:29) [GCC 11.4.0]
+comfyui  | ComfyUI version: 0.3.50
+comfyui  | ****** User settings have been changed to be stored on the server instead of browser storage. ******
+comfyui  | ****** For multi-user setups add the --multi-user CLI argument to enable multiple user profiles. ******
+comfyui  | ComfyUI frontend version: 1.25.9
+comfyui  | [Prompt Server] web root: /app/venv/lib/python3.10/site-packages/comfyui_frontend_package/static
+comfyui  |
+comfyui  | Import times for custom nodes:
+comfyui  |    0.0 seconds: /app/comfyui/custom_nodes/websocket_image_save.py
+comfyui  |
+comfyui  | Context impl SQLiteImpl.
+comfyui  | Will assume non-transactional DDL.
+comfyui  | No target revision found.
+comfyui  | Starting server
+comfyui  |
+comfyui  | To see the GUI go to: http://0.0.0.0:8188
+comfyui  | Checkpoint files will always be loaded safely.
+comfyui  | Total VRAM 7872 MB, total RAM 31805 MB
+comfyui  | pytorch version: 2.5.1+cu124
+comfyui  | Set vram state to: NORMAL_VRAM
+comfyui  | Device: cuda:0 NVIDIA GeForce RTX 3070 : cudaMallocAsync
+comfyui  | Torch version too old to set sdpa backend priority.
+comfyui  | Using pytorch attention
+comfyui  | Python version: 3.10.12 (main, May 27 2025, 17:12:29) [GCC 11.4.0]
+comfyui  | ComfyUI version: 0.3.50
+comfyui  | ComfyUI frontend version: 1.25.9
+comfyui  | [Prompt Server] web root: /app/venv/lib/python3.10/site-packages/comfyui_frontend_package/static
+comfyui  |
+comfyui  | Import times for custom nodes:
+comfyui  |    0.0 seconds: /app/comfyui/custom_nodes/websocket_image_save.py
+comfyui  |
+comfyui  | Context impl SQLiteImpl.
+comfyui  | Will assume non-transactional DDL.
+comfyui  | No target revision found.
+comfyui  | Starting server
+comfyui  |
+comfyui  | To see the GUI go to: http://0.0.0.0:8188
