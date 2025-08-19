@@ -1,0 +1,26 @@
+services:
+  comfyui:
+    container_name: comfyui
+    hostname: comfyui
+    image: cnsoluciones/comfyui:latest
+    restart: unless-stopped
+    user: "1000:1000"
+    ports:
+      - "8188:8188"
+    environment:
+      - TZ=America/Argentina/Buenos_Aires
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+      - CUDA_VISIBLE_DEVICES=0
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    volumes:
+      - ./user-data/models:/app/comfyui/models
+      - ./user-data/input:/app/comfyui/input
+      - ./user-data/output:/app/comfyui/output
+    runtime: nvidia
