@@ -1,24 +1,27 @@
 # Deploy Amazon AWS - EC2 - Install Docker - Amazon Linux 2 AMI
-```
-
-       __|  __|_  )
-       _|  (     /   Amazon Linux 2 AMI
-      ___|\___|___|
-
-https://aws.amazon.com/amazon-linux-2/
+```   ,     #_
+   ~\_  ####_        Amazon Linux 2023
+  ~~  \_#####\
+  ~~     \###|
+  ~~       \#/ ___   https://aws.amazon.com/linux/amazon-linux-2023
+   ~~       V~' '->
+    ~~~         /
+      ~~._.   _/
+         _/ _/
+       _/m/'
 ```
 ## Install
 ```
 sudo su
-yum -y update
-yum -y install docker
-yum -y install git wget mc screen htop
+dnf -y update
+dnf -y install docker
+dnf -y install git wget mc screen htop
 ```
 
 ## Install Repo
 ```
 amazon-linux-extras install epel
-yum -y install p7zip
+dnf -y install p7zip
 ```
 
 * Custom Docker
@@ -46,7 +49,7 @@ sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-c
 
 * Install Firewall
 ```
-yum -y install firewalld
+dnf -y install firewalld
 systemctl start firewalld
 systemctl enable firewalld
 systemctl status firewalld
