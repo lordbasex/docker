@@ -78,7 +78,6 @@ openssl pkey -in /opt/turn/certs/turn.key -noout
 ```yaml
 services:
   coturn:
-    user: "0:0"
     image: coturn/coturn
     container_name: coturn
     restart: unless-stopped
