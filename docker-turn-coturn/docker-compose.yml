@@ -1,0 +1,13 @@
+services:
+  coturn:
+    image: coturn/coturn
+    container_name: coturn
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - ./turnserver.conf:/etc/coturn/turnserver.conf:ro,Z
+      - ./certs:/etc/coturn/certs:ro,Z
+    command: >
+      turnserver
+      -c /etc/coturn/turnserver.conf
+      --log-file=stdout
